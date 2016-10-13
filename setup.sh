@@ -162,4 +162,47 @@ function update() {
 	custom_plugin_configuration
 }
 
-install
+function usage() {
+	echo ""
+	echo "  Install my development environment (vim + tmux)."
+	echo ""
+	echo "  Usage: $0 [OPTIONS]"
+	echo ""
+	echo "  Options:"
+	echo "    -h  Print this help message."
+	echo "    -i  Backup the current configuration and create a new one."
+	echo "    -u  Update the current configuration."
+	echo ""
+}
+
+opt_install=0
+opt_update=0
+
+while getopts "hiu" opt; do
+	case $opt in
+		h)
+			usage
+			exit 0
+			;;
+		i)
+			opt_install=1
+			;;
+		u)
+			opt_update=1
+			;;
+		*)
+			usage
+			exit 1
+			;;
+	esac
+done
+
+if [ $opt_install -eq 1 ]; then
+	install
+elif [ $opt_update -eq 1 ]; then
+	update
+else
+	usage
+	exit 1
+fi
+
