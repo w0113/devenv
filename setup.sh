@@ -1,14 +1,20 @@
 #!/bin/bash
 
+# Get the directory this script is located in.
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# All config files which should be linked into $HOME.
 CONFIG_FILES=(
 	"tmux.conf"
 	"vimrc"
 	)
 
+# The vim configuration folder.
 VIM_FOLDER="${HOME}/.vim"
+# The vim plugin folder.
 VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
+# Put each plugin git repository here. All this plugins will be installed,
+# when updating/installing.
 VIM_PLUGIN_REPOS=(
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/bling/vim-airline"
@@ -31,6 +37,9 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/xolox/vim-misc.git"
 	)
 
+#
+# Configure/compile installed plugins.
+#
 function custom_plugin_configuration() {
 	echo -n "Configuring fonts... "
 	if ${VIM_PLUGIN_FOLDER}/fonts/install.sh &> /dev/null; then
@@ -47,6 +56,9 @@ function custom_plugin_configuration() {
 	fi
 }
 
+#
+# Install all plugins from VIM_PLUGIN_REPOS, which are not already installed.
+#
 function install_new_vim_plugins() {
 	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
 		local wd="$(pwd)"
@@ -63,6 +75,9 @@ function install_new_vim_plugins() {
 	fi
 }
 
+#
+# Echo all installed vim plugin repositories.
+#
 function installed_vim_plugins() {
 	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
 		local wd="$(pwd)"
@@ -71,6 +86,9 @@ function installed_vim_plugins() {
 	fi
 }
 
+#
+# Link all config files listed in CONFIG_FILES to $HOME.
+#
 function link_config_files() {
 	for c in ${CONFIG_FILES[@]}; do
 		target="${DIR}/${c}"
@@ -101,6 +119,9 @@ function link_config_files() {
 	done
 }
 
+#
+# Echo all plugins from VIM_PLUGIN_REPOS which are not already installed.
+#
 function not_installed_vim_plugins() {
 	ip="$(installed_vim_plugins)"
 	for p in ${VIM_PLUGIN_REPOS[@]}; do
@@ -110,6 +131,9 @@ function not_installed_vim_plugins() {
 	done
 }
 
+#
+# Git pull all plugins and their submodules.
+#
 function update_vim_plugins() {
 	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
 		local wd="$(pwd)"
@@ -127,6 +151,10 @@ function update_vim_plugins() {
 	fi
 }
 
+#
+# Make a fresh install.
+# Backups all old folders and configuration files and installs them new.
+#
 function install() {
 	if [ -d "$VIM_FOLDER" ]; then
 		local old="${VIM_FOLDER}.old"
@@ -156,12 +184,18 @@ function install() {
 	link_config_files
 }
 
+#
+# Update plugins/configuration.
+#
 function update() {
 	install_new_vim_plugins
 	update_vim_plugins
 	custom_plugin_configuration
 }
 
+#
+# Print usage information.
+#
 function usage() {
 	echo ""
 	echo "  Install my development environment (vim + tmux)."
@@ -175,9 +209,11 @@ function usage() {
 	echo ""
 }
 
+# Store the user set options.
 opt_install=0
 opt_update=0
 
+# Parse all user arguments.
 while getopts "hiu" opt; do
 	case $opt in
 		h)
@@ -197,6 +233,7 @@ while getopts "hiu" opt; do
 	esac
 done
 
+# Execute...
 if [ $opt_install -eq 1 ]; then
 	install
 elif [ $opt_update -eq 1 ]; then
