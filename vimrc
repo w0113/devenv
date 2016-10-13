@@ -70,6 +70,7 @@ let g:airline_powerline_fonts=1
 let g:ctrlp_max_files=0
 let g:ctrlp_max_depth=128
 let g:ctrlp_map='<leader>p'
+let g:ctrlp_working_path_mode='rw'  " Needed for CtrlP to change root accordingly.
 nnoremap <leader>o :CtrlPBuffer<CR>
 nnoremap <leader><leader>o :b#<CR>
 nnoremap <leader>l :CtrlPLine<CR>
@@ -84,6 +85,7 @@ vmap <C-v> <Plug>(expand_region_shrink)
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
+let g:NERDTreeChDirMode=2  " Needed for CtrlP to change root accordingly.
 
 " Settings for syntastic:
 let g:syntastic_ruby_mri_exec="~/.rbenv/shims/ruby"
