@@ -18,6 +18,7 @@ VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
 VIM_PLUGIN_REPOS=(
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/bling/vim-airline"
+	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/ctrlpvim/ctrlp.vim.git"
 	"https://github.com/Lokaltog/vim-easymotion"
 	"https://github.com/majutsushi/tagbar"

@@ -28,7 +28,7 @@ let mapleader="\<Space>"
 
 " vim settings:
 set encoding=utf-8   " Use UTF-8 as file encoding.
-set t_Co=256         " Vim needs this setting to use colors.
+set t_Co=256         " Enable vim colors.
 set timeout          " Enable timeouts.
 set timeoutlen=750   " Timeout for key combinations (in ms).
 set ttimeoutlen=10   " Timeout for <ESC> key (in ms).
@@ -44,8 +44,8 @@ set noexpandtab
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
 
 " Highlight settings:
-highlight LineNr ctermfg=Black ctermbg=Grey
-highlight CursorLineNr cterm=bold ctermfg=Black ctermbg=Grey
+highlight LineNr ctermfg=Grey ctermbg=Black
+highlight CursorLineNr cterm=bold ctermfg=Grey ctermbg=Black
 
 " General bindings:
 imap jj <ESC>
@@ -53,10 +53,11 @@ nnoremap <silent> ä :m .+1<CR>==
 nnoremap <silent> ü :m .-2<CR>==
 vnoremap <silent> ä :m '>+1<CR>gv=gv
 vnoremap <silent> ü :m '<-2<CR>gv=gv
-map <silent> <A-h> <C-w><
-map <silent> <A-j> <C-w>-
-map <silent> <A-k> <C-w>+
-map <silent> <A-l> <C-w>> 
+" TODO: Not working correctly:
+"map <silent> <C-Left> <C-w><
+"map <silent> <C-Down> <C-w>-
+"map <silent> <C-Up> <C-w>+
+"map <silent> <C-Right> <C-w>>
 
 " Settings for airline
 set noshowmode
