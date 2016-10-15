@@ -100,8 +100,13 @@ let g:tagbar_autoclose=1
 nmap <leader><leader>t :TagbarToggle<CR>
 
 " Settings for vimux:
-nmap <Leader>r :call VimuxPromptCommand()<CR>
-nmap <Leader>rc :call VimuxCloseRunner()<CR>
-nmap <Leader>rs :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
-nmap <Leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
+nmap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
+nmap <leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
+nmap <leader>rc :call VimuxPromptCommand()<CR>
+nmap <leader>rcz :call VimuxPromptCommand()<CR>:call VimuxZoomRunner()<CR>
+nmap <leader>rl :call VimuxRunLastCommand()<CR>
+nmap <leader>rlz :call VimuxRunLastCommand()<CR>:call VimuxZoomRunner()<CR>
+nmap <leader>rr :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>
+nmap <leader>rrz :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>:call VimuxZoomRunner()<CR>
+nmap <leader>rq :call VimuxCloseRunner()<CR>
 
