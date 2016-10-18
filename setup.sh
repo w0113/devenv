@@ -17,7 +17,6 @@ VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
 # when updating/installing.
 VIM_PLUGIN_REPOS=(
 	"https://github.com/benmills/vimux.git"
-	"https://github.com/bling/vim-airline"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/ctrlpvim/ctrlp.vim.git"
 	"https://github.com/Lokaltog/vim-easymotion"
@@ -33,6 +32,8 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/tpope/vim-pathogen.git"
 	"https://github.com/tpope/vim-rails"
 	"https://github.com/Valloric/YouCompleteMe.git"
+	"https://github.com/vim-airline/vim-airline.git"
+	"https://github.com/vim-airline/vim-airline-themes.git"
 	"https://github.com/vim-ruby/vim-ruby"
 	"https://github.com/xolox/vim-easytags"
 	"https://github.com/xolox/vim-misc.git"

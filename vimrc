@@ -62,6 +62,7 @@ vnoremap <silent> ü :m '<-2<CR>gv=gv
 " Settings for airline
 set noshowmode
 set laststatus=2
+let g:airline_theme='luna'
 let g:airline#extensions#syntastic#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
