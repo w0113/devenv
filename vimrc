@@ -48,16 +48,25 @@ highlight LineNr ctermfg=Grey ctermbg=Black
 highlight CursorLineNr cterm=bold ctermfg=Grey ctermbg=Black
 
 " General bindings:
+" Use jj as alternative for escape.
 imap jj <ESC>
+" Move current or selected lines up and down.
 nnoremap <silent> ä :m .+1<CR>==
 nnoremap <silent> ü :m .-2<CR>==
 vnoremap <silent> ä :m '>+1<CR>gv=gv
 vnoremap <silent> ü :m '<-2<CR>gv=gv
+
 " TODO: Not working correctly:
 "map <silent> <C-Left> <C-w><
 "map <silent> <C-Down> <C-w>-
 "map <silent> <C-Up> <C-w>+
 "map <silent> <C-Right> <C-w>>
+
+" Yank current line without leading and trailing whitespaces.
+nnoremap <leader>yy ^yg_
+" Delete current line without leading and trailing whitespaces,
+" then delete the complete line without writing into a register.
+nnoremap <leader>dd ^dg_"_dd
 
 " Settings for airline
 set noshowmode
