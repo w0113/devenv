@@ -68,6 +68,10 @@ nnoremap <leader>yy ^yg_
 " then delete the complete line without writing into a register.
 nnoremap <leader>dd ^dg_"_dd
 
+" Run the current line through bash/ruby
+nnoremap !b !!bash<CR>
+nnoremap !r !!ruby<CR>
+
 " Settings for airline
 set noshowmode
 set laststatus=2
