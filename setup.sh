@@ -24,6 +24,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/powerline/fonts.git"
 	"https://github.com/scrooloose/nerdtree.git"
 	"https://github.com/scrooloose/syntastic.git"
+	"https://github.com/sjl/gundo.vim.git"
 	"https://github.com/terryma/vim-expand-region.git"
 	"https://github.com/terryma/vim-multiple-cursors"
 	"https://github.com/tpope/vim-bundler.git"

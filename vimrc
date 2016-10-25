@@ -97,6 +97,10 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 " Settings for Expand-Region:
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+call expand_region#custom_text_objects('ruby', {'im':0, 'am':0})
+
+" Settings for Gundo:
+nnoremap <leader><leader>u :GundoToggle<CR>
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
