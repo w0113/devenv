@@ -11,7 +11,7 @@ syntax on
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
-if has("autocmd")
+if has('autocmd')
   filetype plugin indent on
 endif
 
@@ -20,6 +20,8 @@ if has('persistent_undo')
 	call system('mkdir -p "${HOME}/.vimundo/"')
 	set undodir=~/.vimundo/
 	set undofile
+	" Remove all undo files which were not accessed in the last 180 days.
+	call system('find "${HOME}/.vimundo/" -type f -atime +180 -print0 | xargs -0 rm -f')
 endif
 
 " Vim suggested options.
