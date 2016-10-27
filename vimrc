@@ -1,3 +1,10 @@
+" Disable Vi compatibility
+set nocompatible
+
+" This is used for easy plugin installation:
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
 syntax on
@@ -8,8 +15,14 @@ if has("autocmd")
   filetype plugin indent on
 endif
 
-" The following are commented out as they cause vim to behave a lot
-" differently from regular Vi. They are highly recommended though.
+" Keep undo history between restarts.
+if has('persistent_undo')
+	call system('mkdir -p "${HOME}/.vimundo/"')
+	set undodir=~/.vimundo/
+	set undofile
+endif
+
+" Vim suggested options.
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
 set ignorecase      " Do case insensitive matching
@@ -18,10 +31,6 @@ set incsearch       " Incremental search
 set autowrite       " Automatically save before commands like :next and :make
 set hidden          " Hide buffers when they are abandoned
 set mouse=a         " Enable mouse usage (all modes)
-
-" This is used for easy plugin installation:
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
 
 " Change leader to space key:
 let mapleader="\<Space>"
@@ -42,6 +51,9 @@ set noexpandtab
 
 " Settings per filetype:
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
+
+" Enable matchit plugin:
+runtime macros/matchit.vim
 
 " Highlight settings:
 highlight LineNr ctermfg=Grey ctermbg=Black
@@ -97,10 +109,8 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 " Settings for Expand-Region:
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-call expand_region#custom_text_objects('ruby', {'im':0, 'am':0})
-
-" Settings for Gundo:
-nnoremap <leader><leader>u :GundoToggle<CR>
+call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
+call expand_region#custom_text_objects('ruby', {'im':0, 'am':0, 'iM':0, 'aM':0})
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
@@ -116,6 +126,9 @@ let g:syntastic_check_on_wq=0
 " Settings for Tagbar:
 let g:tagbar_autoclose=1
 nmap <leader><leader>t :TagbarToggle<CR>
+
+" Settings for Undotree:
+nnoremap <leader><leader>u :UndotreeToggle<CR>
 
 " Settings for vimux:
 nmap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>

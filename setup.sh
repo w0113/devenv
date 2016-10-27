@@ -19,12 +19,15 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/ctrlpvim/ctrlp.vim.git"
+	"https://github.com/kana/vim-textobj-entire.git"
+	"https://github.com/kana/vim-textobj-line.git"
+	"https://github.com/kana/vim-textobj-user.git"
 	"https://github.com/Lokaltog/vim-easymotion"
 	"https://github.com/majutsushi/tagbar"
+	"https://github.com/mbbill/undotree.git"
 	"https://github.com/powerline/fonts.git"
 	"https://github.com/scrooloose/nerdtree.git"
 	"https://github.com/scrooloose/syntastic.git"
-	"https://github.com/sjl/gundo.vim.git"
 	"https://github.com/terryma/vim-expand-region.git"
 	"https://github.com/terryma/vim-multiple-cursors"
 	"https://github.com/tpope/vim-bundler.git"
@@ -208,16 +211,18 @@ function usage() {
 	echo "  Options:"
 	echo "    -h  Print this help message."
 	echo "    -i  Backup the current configuration and create a new one."
+	echo "    -n  Only install new plugins."
 	echo "    -u  Update the current configuration."
 	echo ""
 }
 
 # Store the user set options.
 opt_install=0
+opt_new=0
 opt_update=0
 
 # Parse all user arguments.
-while getopts "hiu" opt; do
+while getopts "hinu" opt; do
 	case $opt in
 		h)
 			usage
@@ -228,6 +233,9 @@ while getopts "hiu" opt; do
 			;;
 		u)
 			opt_update=1
+			;;
+		n)
+			opt_new=1
 			;;
 		*)
 			usage
@@ -241,6 +249,8 @@ if [ $opt_install -eq 1 ]; then
 	install
 elif [ $opt_update -eq 1 ]; then
 	update
+elif [ $opt_new -eq 1 ]; then
+	install_new_vim_plugins
 else
 	usage
 	exit 1
