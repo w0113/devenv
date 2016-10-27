@@ -12,7 +12,7 @@ syntax on
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
 if has('autocmd')
-  filetype plugin indent on
+	filetype plugin indent on
 endif
 
 " Keep undo history between restarts.
@@ -38,11 +38,11 @@ set mouse=a         " Enable mouse usage (all modes)
 let mapleader="\<Space>"
 
 " vim settings:
-set encoding=utf-8   " Use UTF-8 as file encoding.
-set t_Co=256         " Enable vim colors.
-set timeout          " Enable timeouts.
-set timeoutlen=750   " Timeout for key combinations (in ms).
-set ttimeoutlen=10   " Timeout for <ESC> key (in ms).
+set encoding=utf-8  " Use UTF-8 as file encoding.
+set t_Co=256        " Enable vim colors.
+set timeout         " Enable timeouts.
+set timeoutlen=750  " Timeout for key combinations (in ms).
+set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
 
 " General filetype settings:
 set nu
