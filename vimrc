@@ -50,9 +50,10 @@ set rnu
 set tabstop=4
 set shiftwidth=4
 set noexpandtab
+set colorcolumn=81
 
 " Settings per filetype:
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab textwidth=120 colorcolumn=81,121
 
 " Enable matchit plugin:
 runtime macros/matchit.vim
@@ -60,6 +61,7 @@ runtime macros/matchit.vim
 " Highlight settings:
 highlight LineNr ctermfg=Grey ctermbg=Black
 highlight CursorLineNr cterm=bold ctermfg=Grey ctermbg=Black
+highlight ColorColumn ctermbg=Black
 
 " General bindings:
 " Use jj as alternative for escape.
@@ -112,7 +114,8 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
-call expand_region#custom_text_objects('ruby', {'im':0, 'am':0, 'iM':0, 'aM':0})
+"call expand_region#custom_text_objects('ruby', {'im':0, 'am':0, 'iM':0, 'aM':0})
+call expand_region#custom_text_objects('ruby', {'ar':1})
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
