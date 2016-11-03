@@ -43,6 +43,7 @@ set t_Co=256        " Enable vim colors.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
+set wildmenu        " Show all options when using tab-complete.
 
 " General filetype settings:
 set nu
