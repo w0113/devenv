@@ -218,6 +218,12 @@ function usage() {
 	echo "    -n  Only install new plugins."
 	echo "    -u  Update the current configuration."
 	echo ""
+	echo "  Don't forget to install those packages:"
+	echo "    build-essential cmake python-dev python3-dev exuberant-ctags"
+	echo ""
+	echo "  Set your terminal to use this font (size 12):"
+	echo "    Liberation Mono for Powerline Regular"
+	echo ""
 }
 
 # Store the user set options.
