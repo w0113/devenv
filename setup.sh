@@ -21,6 +21,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/ctrlpvim/ctrlp.vim.git"
+	"https://github.com/gregsexton/gitv.git"
 	"https://github.com/jiangmiao/auto-pairs.git"
 	"https://github.com/kana/vim-textobj-entire.git"
 	"https://github.com/kana/vim-textobj-line.git"
