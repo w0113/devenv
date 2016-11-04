@@ -54,7 +54,7 @@ set noexpandtab
 set colorcolumn=81
 
 " Settings per filetype:
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab textwidth=120 colorcolumn=81,121
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab textwidth=120 colorcolumn=121
 
 " Enable matchit plugin:
 runtime macros/matchit.vim
