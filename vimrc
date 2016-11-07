@@ -115,8 +115,7 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
-"call expand_region#custom_text_objects('ruby', {'im':0, 'am':0, 'iM':0, 'aM':0})
-call expand_region#custom_text_objects('ruby', {'ar':1})
+call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
