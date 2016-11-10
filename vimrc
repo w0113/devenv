@@ -108,7 +108,22 @@ nnoremap <leader><leader>o :b#<CR>
 nnoremap <leader>l :CtrlPLine<CR>
 
 " Settings for EasyMotion
-map <Leader> <Plug>(easymotion-prefix)
+"map <leader> <Plug>(easymotion-prefix)
+map <leader>s <Plug>(easymotion-s)
+map <leader>f <Plug>(easymotion-s)
+map <leader>F <Plug>(easymotion-s)
+map <leader>t <Plug>(easymotion-bd-t)
+map <leader>T <Plug>(easymotion-bd-t)
+map <leader>w <Plug>(easymotion-bd-w)
+map <leader>b <Plug>(easymotion-bd-w)
+map <leader>W <Plug>(easymotion-bd-W)
+map <leader>B <Plug>(easymotion-bd-W)
+map <leader>e <Plug>(easymotion-bd-e)
+map <leader>E <Plug>(easymotion-bd-E)
+map <leader>j <Plug>(easymotion-bd-jk)
+map <leader>k <Plug>(easymotion-bd-jk)
+map <leader>n <Plug>(easymotion-bd-n>)
+map <leader>N <Plug>(easymotion-bd-n>)
 let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
 " Settings for Expand-Region:
