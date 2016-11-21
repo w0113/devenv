@@ -59,10 +59,16 @@ autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 " Enable matchit plugin:
 runtime macros/matchit.vim
 
-" Highlight settings:
-highlight LineNr ctermfg=Grey ctermbg=Black
+" Color settings:
+colorscheme default
+highlight LineNr ctermfg=LightGrey ctermbg=Black
 highlight CursorLineNr cterm=bold ctermfg=Grey ctermbg=Black
 highlight ColorColumn ctermbg=Black
+highlight Search ctermfg=LightGrey ctermbg=Black
+highlight SyntasticError ctermfg=White ctermbg=DarkRed
+highlight SyntasticWarning ctermfg=White ctermbg=DarkRed
+highlight SyntasticStyleError ctermfg=White ctermbg=DarkRed
+highlight SyntasticStyleWarning ctermfg=White ctermbg=DarkRed
 
 " General bindings:
 " Use jj as alternative for escape.
