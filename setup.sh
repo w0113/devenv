@@ -5,6 +5,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # All config files which should be linked into $HOME.
 CONFIG_FILES=(
+	"gitconfig"
 	"tmux.conf"
 	"vimrc"
 	)

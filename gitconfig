@@ -1,0 +1,14 @@
+[user]
+	name = Wolfgang Holoch
+	email = wolfgang.holoch@gmail.com
+[merge]
+	tool = vimdiff
+[diff]
+	tool = vimdiff
+[core]
+	editor = vim
+[push]
+	default = matching
+[alias]
+	tree = log --graph --oneline --decorate --all
+
