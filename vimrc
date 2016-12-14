@@ -55,6 +55,7 @@ set colorcolumn=81
 
 " Settings per filetype:
 autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 
 " Enable matchit plugin:
 runtime macros/matchit.vim
