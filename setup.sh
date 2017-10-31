@@ -17,7 +17,6 @@ VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
 # Put each plugin git repository here. All this plugins will be installed,
 # when updating/installing.
 VIM_PLUGIN_REPOS=(
-	"https://github.com/w0113/vim-textobj-rubyblock.git"
 	"https://github.com/airblade/vim-gitgutter.git"
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
@@ -45,6 +44,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/vim-airline/vim-airline.git"
 	"https://github.com/vim-airline/vim-airline-themes.git"
 	"https://github.com/vim-ruby/vim-ruby"
+	"https://github.com/w0113/vim-textobj-rubyblock.git"
 	"https://github.com/xolox/vim-easytags"
 	"https://github.com/xolox/vim-misc.git"
 	)
