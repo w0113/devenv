@@ -55,7 +55,7 @@ set colorcolumn=81
 
 " Settings per filetype:
 autocmd FileType html   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-autocmd FileType python setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+autocmd FileType python setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121 foldmethod=indent
 autocmd FileType ruby   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 
@@ -101,13 +101,12 @@ nnoremap !r !!ruby<CR>
 " Folding settings
 set foldclose=all     " Close folds if you leave them in any way
 set foldcolumn=1      " Show the foldcolumn
-set foldlevel=1       " Autofold everything by default
+set nofoldenable      " Turn on folding
+set foldlevel=0       " Autofold everything by default
 set foldmethod=syntax " Fold on the syntax
-set foldnestmax=1     " I only like to fold outer functions
 set foldopen=all      " Open folds if you touch them in any way
-set nofoldenable      " Turn off folding
-" Toggle folding:
-nnoremap <leader>z :set foldenable!<CR>
+" Toggle folding
+nnoremap <silent> <leader>z :set foldenable!<CR>
 
 " Settings for airline
 set noshowmode
