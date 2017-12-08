@@ -108,6 +108,11 @@ set foldopen=all      " Open folds if you touch them in any way
 " Toggle folding
 nnoremap <silent> <leader>z :set foldenable!<CR>
 
+" Custom search commands                                                         
+command! -bar -nargs=1 Grep silent execute "grep -iIR --exclude-dir=.git '<args>' *" | redraw! | copen
+command! -bar -nargs=1 Fgrep silent execute "grep -FiIR --exclude-dir=.git '<args>' *" | redraw! | copen
+nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
+
 " Settings for airline
 set noshowmode
 set laststatus=2
