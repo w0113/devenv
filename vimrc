@@ -82,11 +82,11 @@ nnoremap <silent> ü :m .-2<CR>==
 vnoremap <silent> ä :m '>+1<CR>gv=gv
 vnoremap <silent> ü :m '<-2<CR>gv=gv
 
-" TODO: Not working correctly:
-"map <silent> <C-Left> <C-w><
-"map <silent> <C-Down> <C-w>-
-"map <silent> <C-Up> <C-w>+
-"map <silent> <C-Right> <C-w>>
+" Not working correctly:
+map <silent> <C-Left> <C-w><
+map <silent> <C-Down> <C-w>-
+map <silent> <C-Up> <C-w>+
+map <silent> <C-Right> <C-w>>
 
 " Yank current line without leading and trailing whitespaces.
 nnoremap <leader>yy ^yg_
