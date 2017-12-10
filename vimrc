@@ -17,11 +17,12 @@ endif
 
 " Keep undo history between restarts.
 if has('persistent_undo')
+	" Make sure that the undo directory exists.
 	call system('mkdir -p "${HOME}/.vimundo/"')
-	set undodir=~/.vimundo/
-	set undofile
 	" Remove all undo files which were not accessed in the last 180 days.
 	call system('find "${HOME}/.vimundo/" -type f -atime +180 -print0 | xargs -0 rm -f')
+	set undodir=~/.vimundo/
+	set undofile
 endif
 
 " Vim suggested options.
@@ -53,12 +54,6 @@ set shiftwidth=4
 set noexpandtab
 set colorcolumn=81
 
-" Settings per filetype:
-autocmd FileType html   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-autocmd FileType python setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121 foldmethod=indent
-autocmd FileType ruby   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-
 " Enable matchit plugin:
 runtime macros/matchit.vim
 
@@ -82,7 +77,7 @@ nnoremap <silent> ü :m .-2<CR>==
 vnoremap <silent> ä :m '>+1<CR>gv=gv
 vnoremap <silent> ü :m '<-2<CR>gv=gv
 
-" Not working correctly:
+" Mappings for window resizing
 map <silent> <C-Left> <C-w><
 map <silent> <C-Down> <C-w>-
 map <silent> <C-Up> <C-w>+
@@ -113,6 +108,12 @@ command! -bar -nargs=1 Grep silent execute "grep -iIR --exclude-dir=.git '<args>
 command! -bar -nargs=1 Fgrep silent execute "grep -FiIR --exclude-dir=.git '<args>' *" | redraw! | copen
 nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
 
+" Settings per filetype:
+autocmd FileType html   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+autocmd FileType python setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121 foldmethod=indent
+autocmd FileType ruby   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+
 " Settings for airline
 set noshowmode
 set laststatus=2
@@ -133,7 +134,6 @@ nnoremap <leader>l :CtrlPLine<CR>
 
 " Settings for EasyMotion
 "map <leader> <Plug>(easymotion-prefix)
-map <leader>s <Plug>(easymotion-s)
 map <leader>f <Plug>(easymotion-s)
 map <leader>F <Plug>(easymotion-s)
 map <leader>t <Plug>(easymotion-bd-t)
@@ -146,8 +146,6 @@ map <leader>e <Plug>(easymotion-bd-e)
 map <leader>E <Plug>(easymotion-bd-E)
 map <leader>j <Plug>(easymotion-bd-jk)
 map <leader>k <Plug>(easymotion-bd-jk)
-map <leader>n <Plug>(easymotion-bd-n>)
-map <leader>N <Plug>(easymotion-bd-n>)
 let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
 " Settings for Expand-Region:
