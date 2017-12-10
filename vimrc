@@ -57,6 +57,11 @@ set colorcolumn=81
 " Enable matchit plugin:
 runtime macros/matchit.vim
 
+" Enable spell checking:
+set nospell
+set spelllang=en_us,de_20
+nnoremap <silent> <leader>s :set spell!<CR>
+
 " Color settings:
 colorscheme default
 highlight LineNr ctermfg=LightGrey ctermbg=Black
