@@ -59,8 +59,8 @@ runtime macros/matchit.vim
 
 " Enable spell checking:
 set nospell
-set spelllang=en_us,de_20
-nnoremap <silent> <leader>s :set spell!<CR>
+set spelllang=en_us
+nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 " Color settings:
 colorscheme default
@@ -106,7 +106,7 @@ set foldlevel=0       " Autofold everything by default
 set foldmethod=syntax " Fold on the syntax
 set foldopen=all      " Open folds if you touch them in any way
 set foldminlines=8    " Only close folds with more then 8 lines
-set foldnestmax=5     " Max level to which folds are closed
+set foldnestmax=3     " Max level to which folds are closed
 " Toggle folding
 nnoremap <silent> <leader>z :set foldenable!<CR>
 " Increment local foldnestmax by 1
