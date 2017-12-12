@@ -88,12 +88,6 @@ map <silent> <C-Down> <C-w>-
 map <silent> <C-Up> <C-w>+
 map <silent> <C-Right> <C-w>>
 
-" Yank current line without leading and trailing whitespaces.
-nnoremap <leader>yy ^yg_
-" Delete current line without leading and trailing whitespaces,
-" then delete the complete line without writing into a register.
-nnoremap <leader>dd ^dg_"_dd
-
 " Run the current line through bash/ruby
 nnoremap !b !!bash<CR>
 nnoremap !r !!ruby<CR>
