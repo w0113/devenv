@@ -101,12 +101,18 @@ nnoremap !r !!ruby<CR>
 " Folding settings
 set foldclose=all     " Close folds if you leave them in any way
 set foldcolumn=1      " Show the foldcolumn
-set nofoldenable      " Turn on folding
+set nofoldenable      " Turn off folding
 set foldlevel=0       " Autofold everything by default
 set foldmethod=syntax " Fold on the syntax
 set foldopen=all      " Open folds if you touch them in any way
+set foldminlines=8    " Only close folds with more then 8 lines
+set foldnestmax=5     " Max level to which folds are closed
 " Toggle folding
 nnoremap <silent> <leader>z :set foldenable!<CR>
+" Increment local foldnestmax by 1
+nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldnestmax?<CR>
+" Decrement local foldnestmax by 1
+nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
 " Custom search commands                                                         
 command! -bar -nargs=1 Grep silent execute "grep -iIR --exclude-dir=.git '<args>' *" | redraw! | copen
