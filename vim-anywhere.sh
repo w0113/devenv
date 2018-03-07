@@ -18,7 +18,8 @@ for i in $(seq 1 3); do
 	sleep 1
 done
 
-# Copy content of file into clipboard.
+# Paste content of file.
 xclip -selection c -i "$file"
 rm "$file"
+xdotool key ctrl+v
 
