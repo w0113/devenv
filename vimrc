@@ -40,7 +40,7 @@ let mapleader="\<Space>"
 
 " vim settings:
 set encoding=utf-8  " Use UTF-8 as file encoding.
-set t_Co=256        " Enable vim colors.
+set t_Co=256        " Set vim colorspace to 256 colors.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
@@ -63,15 +63,10 @@ set spelllang=en_us
 nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 " Color settings:
-colorscheme default
-highlight LineNr ctermfg=LightGrey ctermbg=Black
-highlight CursorLineNr cterm=bold ctermfg=Grey ctermbg=Black
-highlight ColorColumn ctermbg=Black
-highlight Search ctermfg=LightGrey ctermbg=Black
-highlight SyntasticError ctermfg=White ctermbg=DarkRed
-highlight SyntasticWarning ctermfg=White ctermbg=DarkRed
-highlight SyntasticStyleError ctermfg=White ctermbg=DarkRed
-highlight SyntasticStyleWarning ctermfg=White ctermbg=DarkRed
+set background=dark
+colorscheme solarized
+" Toggle between dark and light colorscheme.
+call togglebg#map("<F5>")
 
 " General bindings:
 " Use jj as alternative for escape.
@@ -109,8 +104,8 @@ nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldne
 nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
 " Custom search commands                                                         
-command! -bar -nargs=1 Grep silent execute "grep -iIR --exclude-dir=.git '<args>' *" | redraw! | copen
-command! -bar -nargs=1 Fgrep silent execute "grep -FiIR --exclude-dir=.git '<args>' *" | redraw! | copen
+command! -bar -nargs=1 Grep silent execute "grep -IR --exclude-dir=.git '<args>' *" | redraw! | copen
+command! -bar -nargs=1 Fgrep silent execute "grep -FIR --exclude-dir=.git '<args>' *" | redraw! | copen
 nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
 
 " Settings per filetype:
@@ -122,7 +117,8 @@ autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=12
 " Settings for airline
 set noshowmode
 set laststatus=2
-let g:airline_theme='luna'
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
 let g:airline#extensions#syntastic#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
@@ -158,6 +154,13 @@ vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
+
+" Settings for Indent-Guides:
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>

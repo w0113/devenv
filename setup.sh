@@ -6,6 +6,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # All config files which should be linked into $HOME.
 CONFIG_FILES=(
 	"gitconfig"
+	"inputrc"
 	"tmux.conf"
 	"vimrc"
 	)
@@ -18,6 +19,8 @@ VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
 # when updating/installing.
 VIM_PLUGIN_REPOS=(
 	"https://github.com/airblade/vim-gitgutter.git"
+	"https://github.com/altercation/vim-colors-solarized.git"
+	"https://github.com/Anthony25/gnome-terminal-colors-solarized.git"
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/ctrlpvim/ctrlp.vim.git"
@@ -29,6 +32,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/Lokaltog/vim-easymotion"
 	"https://github.com/majutsushi/tagbar"
 	"https://github.com/mbbill/undotree.git"
+	"https://github.com/nathanaelkane/vim-indent-guides"
 	"https://github.com/powerline/fonts.git"
 	"https://github.com/scrooloose/nerdtree.git"
 	"https://github.com/scrooloose/syntastic.git"
@@ -210,7 +214,7 @@ function update() {
 #
 function usage() {
 	echo ""
-	echo "  Install my development environment (vim + tmux)."
+	echo "  Install my development environment."
 	echo ""
 	echo "  Usage: $0 [OPTIONS]"
 	echo ""
@@ -223,8 +227,11 @@ function usage() {
 	echo "  Don't forget to install those packages:"
 	echo "    build-essential cmake python-dev python3-dev exuberant-ctags xclip xdotool"
 	echo ""
-	echo "  Set your terminal to use this font (size 12):"
-	echo "    Liberation Mono for Powerline Regular"
+	echo "  Execute '~/.vim/bundle/gnome-terminal-colors-solarized/set_dark.sh' to set the"
+	echo "  gnome-terminal color scheme."
+	echo ""
+	echo "  Set your terminal to use this font (size 11):"
+	echo "    Source Code Pro for Powerline Regular"
 	echo ""
 }
 
