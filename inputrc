@@ -1,17 +1,16 @@
-set editing-mode vi
+# enable colors with tab completion
+set colored-stats on
 
+set editing-mode vi
 $if mode=vi
 	# show vi mode
 	set show-mode-in-prompt on
 	set vi-ins-mode-string INSERT>
 	set vi-cmd-mode-string NORMAL>
 	$if Bash
-		set vi-ins-mode-string \e[43m\e[97m INSERT \e[0m\e[103m\e[33m\e[0m\e[93m\e[0m
-		set vi-cmd-mode-string \e[106m\e[97m NORMAL \e[0m\e[103m\e[96m\e[0m\e[93m\e[0m
+		set vi-ins-mode-string \e[43m\e[97m\e[1m INSERT \e[0m\e[103m\e[33m \e[0m
+		set vi-cmd-mode-string \e[106m\e[97m\e[1m NORMAL \e[0m\e[103m\e[96m \e[0m
 	$endif
-
-	# enable colors with tab completion
-	set colored-stats on
 
 	# find the last command in history which matches the beginning of the
 	# current line:

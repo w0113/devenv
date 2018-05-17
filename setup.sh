@@ -229,10 +229,16 @@ function usage() {
 	echo "    build-essential cmake python-dev python3-dev exuberant-ctags xclip xdotool"
 	echo ""
 	echo "  Execute '~/.vim/bundle/gnome-terminal-colors-solarized/set_dark.sh' to set the"
-	echo "  gnome-terminal color scheme."
+	echo "  gnome-terminal color scheme. Also install the dircolors and make sure that"
+	echo "  those files are in the right place."
 	echo ""
 	echo "  Set your terminal to use this font (size 11):"
 	echo "    Source Code Pro for Powerline Regular"
+	echo ""
+	echo "  Use this prompt for a normal user:"
+	echo "    PS1='\[\e[1;37;103m\]\${debian_chroot:+($debian_chroot)}\u@\h  \w \[\e[0m\e[93m\]\[\e[0m\] '"
+	echo "  Use this prompt for root:"
+	echo "    PS1='\[\e[1;30;103m\]\${debian_chroot:+($debian_chroot)}\u@\h\[\e[37m\]  \w \[\e[0m\e[93m\]\[\e[0m\] '"
 	echo ""
 }
 
