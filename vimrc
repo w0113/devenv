@@ -109,7 +109,7 @@ nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldne
 " Decrement local foldnestmax by 1
 nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
-" Custom search commands                                                         
+" Custom search commands
 command! -bar -nargs=1 Grep silent execute "grep -IR --exclude-dir=.git '<args>' *" | redraw! | copen
 command! -bar -nargs=1 Fgrep silent execute "grep -FIR --exclude-dir=.git '<args>' *" | redraw! | copen
 nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
@@ -165,8 +165,8 @@ call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=8
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=0 ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=8 ctermbg=0
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
