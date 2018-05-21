@@ -87,6 +87,12 @@ map <silent> <C-Right> <C-w>>
 nnoremap !b !!bash<CR>
 nnoremap !r !!ruby<CR>
 
+" List settings
+set lcs=eol:¶,tab:‣\ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣
+autocmd VimEnter,Colorscheme * :hi NonText term=NONE cterm=NONE ctermfg=0 ctermbg=8
+autocmd VimEnter,Colorscheme * :hi SpecialKey term=NONE cterm=NONE ctermfg=0 ctermbg=8
+nnoremap <silent> <leader><leader>l :set list!<CR>
+
 " Folding settings
 set foldclose=all     " Close folds if you leave them in any way
 set foldcolumn=1      " Show the foldcolumn
