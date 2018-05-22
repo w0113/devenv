@@ -63,6 +63,24 @@ set spelllang=en_us
 nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 " Color settings:
+" Set some color details depending on light or dark colorscheme
+function! ColorschemeDetails() abort
+	if &background == "light"
+		highlight NonText term=NONE cterm=NONE ctermfg=7 ctermbg=15
+		highlight SpecialKey term=NONE cterm=NONE ctermfg=7 ctermbg=15
+		highlight IndentGuidesOdd ctermfg=7 ctermbg=15
+		highlight IndentGuidesEven ctermfg=15 ctermbg=7
+		let g:airline_solarized_bg='light'
+	else
+		highlight NonText term=NONE cterm=NONE ctermfg=0 ctermbg=8
+		highlight SpecialKey term=NONE cterm=NONE ctermfg=0 ctermbg=8
+		highlight IndentGuidesOdd ctermfg=0 ctermbg=8
+		highlight IndentGuidesEven ctermfg=8 ctermbg=0
+		let g:airline_solarized_bg='dark'
+	endif
+endfunction
+autocmd VimEnter,Colorscheme * call ColorschemeDetails()
+" Set colorscheme
 set background=dark
 colorscheme solarized
 " Toggle between dark and light colorscheme.
@@ -89,8 +107,6 @@ nnoremap !r !!ruby<CR>
 
 " List settings
 set lcs=eol:¶,tab:‣\ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣
-autocmd VimEnter,Colorscheme * :hi NonText term=NONE cterm=NONE ctermfg=0 ctermbg=8
-autocmd VimEnter,Colorscheme * :hi SpecialKey term=NONE cterm=NONE ctermfg=0 ctermbg=8
 nnoremap <silent> <leader><leader>l :set list!<CR>
 
 " Folding settings
@@ -165,8 +181,6 @@ call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=0 ctermbg=8
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=8 ctermbg=0
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
