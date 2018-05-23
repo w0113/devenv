@@ -95,11 +95,17 @@ nnoremap <silent> ü :m .-2<CR>==
 vnoremap <silent> ä :m '>+1<CR>gv=gv
 vnoremap <silent> ü :m '<-2<CR>gv=gv
 
-" Mappings for window resizing
-map <silent> <C-Left> <C-w><
-map <silent> <C-Down> <C-w>-
-map <silent> <C-Up> <C-w>+
-map <silent> <C-Right> <C-w>>
+" Mappings for resizing windows
+map <silent> <Left> <C-w><
+map <silent> <Down> <C-w>-
+map <silent> <Up> <C-w>+
+map <silent> <Right> <C-w>>
+
+" Mappings for moving windows
+map <silent> <leader><Left> <C-w>H
+map <silent> <leader><Down> <C-w>J
+map <silent> <leader><Up> <C-w>K
+map <silent> <leader><Right> <C-w>L
 
 " Run the current line through bash/ruby
 nnoremap !b !!bash<CR>
