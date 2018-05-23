@@ -39,12 +39,13 @@ set mouse=a         " Enable mouse usage (all modes)
 let mapleader="\<Space>"
 
 " vim settings:
-set encoding=utf-8  " Use UTF-8 as file encoding.
-set t_Co=256        " Set vim colorspace to 256 colors.
-set timeout         " Enable timeouts.
-set timeoutlen=750  " Timeout for key combinations (in ms).
-set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
-set wildmenu        " Show all options when using tab-complete.
+set encoding=utf-8      " Use UTF-8 as file encoding.
+set t_Co=256            " Set vim colorspace to 256 colors.
+set timeout             " Enable timeouts.
+set timeoutlen=750      " Timeout for key combinations (in ms).
+set ttimeoutlen=10      " Timeout for <ESC> key (in ms).
+set wildmenu            " Show all options when using tab-complete.
+set term=xterm-256color " Needed when vim is run inside tmux (ctrl + arrow keys).
 
 " General filetype settings:
 set nu
