@@ -66,16 +66,16 @@ nnoremap <silent> <leader>s :setlocal spell!<CR>
 " Set some color details depending on light or dark colorscheme
 function! ColorschemeDetails() abort
 	if &background == "light"
-		highlight NonText term=NONE cterm=NONE ctermfg=7 ctermbg=15
-		highlight SpecialKey term=NONE cterm=NONE ctermfg=7 ctermbg=15
-		highlight IndentGuidesOdd ctermfg=7 ctermbg=15
-		highlight IndentGuidesEven ctermfg=15 ctermbg=7
+		highlight NonText term=NONE cterm=NONE ctermfg=14 ctermbg=15
+		highlight SpecialKey term=NONE cterm=NONE ctermfg=14 ctermbg=15
+		highlight IndentGuidesOdd ctermfg=14 ctermbg=15
+		highlight IndentGuidesEven ctermfg=14 ctermbg=7
 		let g:airline_solarized_bg='light'
 	else
-		highlight NonText term=NONE cterm=NONE ctermfg=0 ctermbg=8
-		highlight SpecialKey term=NONE cterm=NONE ctermfg=0 ctermbg=8
-		highlight IndentGuidesOdd ctermfg=0 ctermbg=8
-		highlight IndentGuidesEven ctermfg=8 ctermbg=0
+		highlight NonText term=NONE cterm=NONE ctermfg=10 ctermbg=8
+		highlight SpecialKey term=NONE cterm=NONE ctermfg=10 ctermbg=8
+		highlight IndentGuidesOdd ctermfg=10 ctermbg=8
+		highlight IndentGuidesEven ctermfg=10 ctermbg=0
 		let g:airline_solarized_bg='dark'
 	endif
 endfunction
@@ -89,11 +89,12 @@ call togglebg#map("<F5>")
 " General bindings:
 " Use jj as alternative for escape.
 imap jj <ESC>
+
 " Move current or selected lines up and down.
-nnoremap <silent> ä :m .+1<CR>==
-nnoremap <silent> ü :m .-2<CR>==
-vnoremap <silent> ä :m '>+1<CR>gv=gv
-vnoremap <silent> ü :m '<-2<CR>gv=gv
+nnoremap <silent> <S-ä> :m .+1<CR>==
+nnoremap <silent> <S-ü> :m .-2<CR>==
+vnoremap <silent> <S-ä> :m '>+1<CR>gv=gv
+vnoremap <silent> <S-ü> :m '<-2<CR>gv=gv
 
 " Mappings for resizing windows
 map <silent> <Left> <C-w><
@@ -205,6 +206,12 @@ nmap <leader><leader>t :TagbarToggle<CR>
 
 " Settings for Undotree:
 nnoremap <leader><leader>u :UndotreeToggle<CR>
+
+" Settings for unimpaired:
+" Use ö and ä instead of [ and ].
+let g:nremap = {"[": "ö", "]": "ä"}
+let g:xremap = {"[": "ö", "]": "ä"}
+let g:oremap = {"[": "ö", "]": "ä"}
 
 " Settings for vimux:
 nmap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
