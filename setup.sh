@@ -37,7 +37,6 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/nathanaelkane/vim-indent-guides"
 	"https://github.com/powerline/fonts.git"
 	"https://github.com/scrooloose/nerdtree.git"
-	"https://github.com/scrooloose/syntastic.git"
 	"https://github.com/terryma/vim-expand-region.git"
 	"https://github.com/terryma/vim-multiple-cursors"
 	"https://github.com/tpope/vim-bundler.git"
@@ -52,6 +51,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/vim-airline/vim-airline-themes.git"
 	"https://github.com/vim-ruby/vim-ruby"
 	"https://github.com/w0113/vim-textobj-rubyblock.git"
+	"https://github.com/w0rp/ale.git"
 	"https://github.com/xolox/vim-easytags"
 	"https://github.com/xolox/vim-misc.git"
 	)
