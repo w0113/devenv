@@ -30,16 +30,14 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/kana/vim-textobj-line.git"
 	"https://github.com/kana/vim-textobj-user.git"
 	"https://github.com/Lokaltog/vim-easymotion"
-	"https://github.com/junegunn/fzf.git"
 	"https://github.com/majutsushi/tagbar"
 	"https://github.com/mbbill/undotree.git"
+	"https://github.com/junegunn/fzf.git"
 	"https://github.com/michaeljsmith/vim-indent-object.git"
 	"https://github.com/nathanaelkane/vim-indent-guides"
 	"https://github.com/powerline/fonts.git"
 	"https://github.com/scrooloose/nerdtree.git"
 	"https://github.com/terryma/vim-expand-region.git"
-	"https://github.com/terryma/vim-multiple-cursors"
-	"https://github.com/tpope/vim-bundler.git"
 	"https://github.com/tpope/vim-endwise"
 	"https://github.com/tpope/vim-fugitive"
 	"https://github.com/tpope/vim-pathogen.git"
@@ -52,8 +50,6 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/vim-ruby/vim-ruby"
 	"https://github.com/w0113/vim-textobj-rubyblock.git"
 	"https://github.com/w0rp/ale.git"
-	"https://github.com/xolox/vim-easytags"
-	"https://github.com/xolox/vim-misc.git"
 	)
 
 #
