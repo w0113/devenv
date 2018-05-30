@@ -146,12 +146,15 @@ autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=12
 " Settings for airline
 set noshowmode
 set laststatus=2
+let g:airline_powerline_fonts=1
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
-let g:airline#extensions#syntastic#enabled=1
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
-let g:airline_powerline_fonts=1
+
+" Settings for Ale
+let g:ale_sign_column_always = 1
 
 " Settings for CtrlP:
 let g:ctrlp_max_files=0
@@ -192,13 +195,6 @@ let g:indent_guides_auto_colors = 0
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
 let g:NERDTreeChDirMode=2  " Needed for CtrlP to change root accordingly.
-
-" Settings for syntastic:
-let g:syntastic_ruby_mri_exec="~/.rbenv/shims/ruby"
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
 
 " Settings for Tagbar:
 let g:tagbar_autoclose=1
