@@ -62,7 +62,7 @@ set cursorline
 set hlsearch
 
 " Toggle paste mode:
-set pastetoggle=<F6>
+set pastetoggle=<F9>
 
 " Enable matchit plugin:
 runtime macros/matchit.vim
@@ -70,7 +70,7 @@ runtime macros/matchit.vim
 " Enable spell checking:
 set nospell
 set spelllang=en_us
-nnoremap <silent> <leader>s :setlocal spell!<CR>
+nnoremap <silent> <leader><leader>s :setlocal spell!<CR>
 
 " Color settings:
 " Set some color details depending on light or dark colorscheme
@@ -106,20 +106,20 @@ nnoremap <ESC><ESC> :nohlsearch<CR>
 " Move current or selected lines up and down.
 nnoremap <silent> Ä :m .+1<CR>==
 nnoremap <silent> Ü :m .-2<CR>==
-vnoremap <silent> Ä :m '>+1<CR>gv=gv
-vnoremap <silent> Ü :m '<-2<CR>gv=gv
+xnoremap <silent> Ä :m '>+1<CR>gv=gv
+xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
 " Mappings for resizing windows
-map <silent> <Left> <C-w><
-map <silent> <Down> <C-w>-
-map <silent> <Up> <C-w>+
-map <silent> <Right> <C-w>>
+noremap <silent> <Left> <C-w><
+noremap <silent> <Down> <C-w>-
+noremap <silent> <Up> <C-w>+
+noremap <silent> <Right> <C-w>>
 
 " Mappings for moving windows
-map <silent> <leader><Left> <C-w>H
-map <silent> <leader><Down> <C-w>J
-map <silent> <leader><Up> <C-w>K
-map <silent> <leader><Right> <C-w>L
+noremap <silent> <leader><Left> <C-w>H
+noremap <silent> <leader><Down> <C-w>J
+noremap <silent> <leader><Up> <C-w>K
+noremap <silent> <leader><Right> <C-w>L
 
 " Run the current line through bash/ruby
 nnoremap !b !!bash<CR>
@@ -170,24 +170,23 @@ let g:airline#extensions#tagbar#enabled=1
 let g:ale_sign_column_always = 1
 
 " Settings for EasyMotion
-"map <leader> <Plug>(easymotion-prefix)
-map <leader>f <Plug>(easymotion-s)
-map <leader>F <Plug>(easymotion-s)
-map <leader>t <Plug>(easymotion-bd-t)
-map <leader>T <Plug>(easymotion-bd-t)
-map <leader>w <Plug>(easymotion-bd-w)
-map <leader>b <Plug>(easymotion-bd-w)
-map <leader>W <Plug>(easymotion-bd-W)
-map <leader>B <Plug>(easymotion-bd-W)
-map <leader>e <Plug>(easymotion-bd-e)
-map <leader>E <Plug>(easymotion-bd-E)
-map <leader>j <Plug>(easymotion-bd-jk)
-map <leader>k <Plug>(easymotion-bd-jk)
+nmap <leader>f <Plug>(easymotion-s)
+nmap <leader>F <Plug>(easymotion-s)
+nmap <leader>t <Plug>(easymotion-bd-t)
+nmap <leader>T <Plug>(easymotion-bd-t)
+nmap <leader>w <Plug>(easymotion-bd-w)
+nmap <leader>b <Plug>(easymotion-bd-w)
+nmap <leader>W <Plug>(easymotion-bd-W)
+nmap <leader>B <Plug>(easymotion-bd-W)
+nmap <leader>e <Plug>(easymotion-bd-e)
+nmap <leader>E <Plug>(easymotion-bd-E)
+nmap <leader>j <Plug>(easymotion-bd-jk)
+nmap <leader>k <Plug>(easymotion-bd-jk)
 let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
 " Settings for Expand-Region:
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
+xmap v <Plug>(expand_region_expand)
+xmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
@@ -211,12 +210,12 @@ let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
 
 " Settings for NERDTree:
-nmap <leader><leader>n :NERDTreeToggle<CR>
+nnoremap <leader><leader>n :NERDTreeToggle<CR>
 let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
 
 " Settings for Tagbar:
 let g:tagbar_autoclose=1
-nmap <leader><leader>t :TagbarToggle<CR>
+nnoremap <leader><leader>t :TagbarToggle<CR>
 
 " Settings for Undotree:
 nnoremap <leader><leader>u :UndotreeToggle<CR>
@@ -228,13 +227,13 @@ let g:xremap = {"[": "ö", "]": "ä"}
 let g:oremap = {"[": "ö", "]": "ä"}
 
 " Settings for vimux:
-nmap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
-nmap <leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
-nmap <leader>rc :call VimuxPromptCommand()<CR>
-nmap <leader>rcz :call VimuxPromptCommand()<CR>:call VimuxZoomRunner()<CR>
-nmap <leader>rl :call VimuxRunLastCommand()<CR>
-nmap <leader>rlz :call VimuxRunLastCommand()<CR>:call VimuxZoomRunner()<CR>
-nmap <leader>rr :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>
-nmap <leader>rrz :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>:call VimuxZoomRunner()<CR>
-nmap <leader>rq :call VimuxCloseRunner()<CR>
+nnoremap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
+nnoremap <leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
+nnoremap <leader>rc :call VimuxPromptCommand()<CR>
+nnoremap <leader>rcz :call VimuxPromptCommand()<CR>:call VimuxZoomRunner()<CR>
+nnoremap <leader>rl :call VimuxRunLastCommand()<CR>
+nnoremap <leader>rlz :call VimuxRunLastCommand()<CR>:call VimuxZoomRunner()<CR>
+nnoremap <leader>rr :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>
+nnoremap <leader>rrz :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>:call VimuxZoomRunner()<CR>
+nnoremap <leader>rq :call VimuxCloseRunner()<CR>
 
