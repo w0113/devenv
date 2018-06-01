@@ -66,8 +66,8 @@ function custom_plugin_configuration() {
 	fi
 
 	echo -n "Installing fzf... "
-	if ${VIM_PLUGIN_FOLDER}/fzf/install --no-key-bindings --completion \
-		--update-rc --no-zsh --no-fish &> /dev/null; then
+	if ${VIM_PLUGIN_FOLDER}/fzf/install --all --no-zsh --no-fish &> /dev/null
+   	then
 		echo "done"
 	else
 		echo "failed"
