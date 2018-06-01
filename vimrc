@@ -61,9 +61,6 @@ set colorcolumn=81
 set cursorline
 set hlsearch
 
-" Toggle paste mode:
-set pastetoggle=<F9>
-
 " Enable matchit plugin:
 runtime macros/matchit.vim
 
@@ -101,6 +98,15 @@ call togglebg#map("<F5>")
 " General bindings:
 " Use jj as alternative for escape.
 inoremap jj <ESC>
+
+" Toggle paste mode:
+nnoremap <silent> <leader><leader>p :set paste!<CR>
+
+" Use ß or leader+m for jumping to marks (easier on a german keyboard):
+nnoremap ß `
+xnoremap ß `
+nnoremap <leader>m `
+xnoremap <leader>m `
 
 " Clear search highlights:
 nnoremap <ESC><ESC> :nohlsearch<CR>
