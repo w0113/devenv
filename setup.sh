@@ -28,6 +28,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/jiangmiao/auto-pairs.git"
 	"https://github.com/junegunn/fzf.git"
 	"https://github.com/junegunn/fzf.vim.git"
+	"https://github.com/junegunn/limelight.vim.git"
 	"https://github.com/kana/vim-textobj-entire.git"
 	"https://github.com/kana/vim-textobj-line.git"
 	"https://github.com/kana/vim-textobj-user.git"

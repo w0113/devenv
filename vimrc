@@ -81,12 +81,14 @@ function! ColorschemeDetails() abort
 		highlight IndentGuidesOdd ctermfg=14 ctermbg=15
 		highlight IndentGuidesEven ctermfg=14 ctermbg=7
 		let g:airline_solarized_bg='light'
+		let g:limelight_conceal_ctermfg=14
 	else
 		highlight NonText term=NONE cterm=NONE ctermfg=10 ctermbg=8
 		highlight SpecialKey term=NONE cterm=NONE ctermfg=10 ctermbg=8
 		highlight IndentGuidesOdd ctermfg=10 ctermbg=8
 		highlight IndentGuidesEven ctermfg=10 ctermbg=0
 		let g:airline_solarized_bg='dark'
+		let g:limelight_conceal_ctermfg=10
 	endif
 endfunction
 autocmd VimEnter,Colorscheme * call ColorschemeDetails()
@@ -208,6 +210,11 @@ nnoremap sh :FzfHelptags<CR>
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
+
+" Settings for Limelight:
+nnoremap <silent> <F6> :Limelight!!<CR>
+inoremap <silent> <F6> <C-o>:Limelight!!<CR>
+xnoremap <silent> <F6> :Limelight!!<CR>gv
 
 " Settings for NERDTree:
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
