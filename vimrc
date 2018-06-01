@@ -39,6 +39,7 @@ set mouse=a         " Enable mouse usage (all modes)
 let mapleader="\<Space>"
 
 " vim settings:
+set autoread       " Automatically read files when changed on disk
 set encoding=utf-8 " Use UTF-8 as file encoding.
 set t_Co=256       " Set vim colorspace to 256 colors.
 set timeout        " Enable timeouts.
@@ -52,8 +53,16 @@ set rnu
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
+set smarttab
 set noexpandtab
+
+" Visual aids:
 set colorcolumn=81
+set cursorline
+set hlsearch
+
+" Toggle paste mode:
+set pastetoggle=<F6>
 
 " Enable matchit plugin:
 runtime macros/matchit.vim
@@ -89,13 +98,16 @@ call togglebg#map("<F5>")
 
 " General bindings:
 " Use jj as alternative for escape.
-imap jj <ESC>
+inoremap jj <ESC>
+
+" Clear search highlights:
+nnoremap <ESC><ESC> :nohlsearch<CR>
 
 " Move current or selected lines up and down.
-nnoremap <silent> <S-ä> :m .+1<CR>==
-nnoremap <silent> <S-ü> :m .-2<CR>==
-vnoremap <silent> <S-ä> :m '>+1<CR>gv=gv
-vnoremap <silent> <S-ü> :m '<-2<CR>gv=gv
+nnoremap <silent> Ä :m .+1<CR>==
+nnoremap <silent> Ü :m .-2<CR>==
+vnoremap <silent> Ä :m '>+1<CR>gv=gv
+vnoremap <silent> Ü :m '<-2<CR>gv=gv
 
 " Mappings for resizing windows
 map <silent> <Left> <C-w><
