@@ -169,15 +169,6 @@ let g:airline#extensions#tagbar#enabled=1
 " Settings for Ale
 let g:ale_sign_column_always = 1
 
-" Settings for CtrlP:
-let g:ctrlp_max_files=0
-let g:ctrlp_max_depth=128
-let g:ctrlp_map='<leader>p'
-let g:ctrlp_working_path_mode='rw'  " Needed for CtrlP to change root accordingly.
-nnoremap <leader>o :CtrlPBuffer<CR>
-nnoremap <leader><leader>o :b#<CR>
-nnoremap <leader>l :CtrlPLine<CR>
-
 " Settings for EasyMotion
 "map <leader> <Plug>(easymotion-prefix)
 map <leader>f <Plug>(easymotion-s)
@@ -200,6 +191,20 @@ vmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
+" Settings for fzf:
+let g:fzf_command_prefix = 'Fzf'
+nnoremap ss :FzfFiles<CR>
+nnoremap sg :FzfGFiles<CR>
+nnoremap sb :FzfBuffers<CR>
+nnoremap sa :FzfAg<CR>
+nnoremap sla :FzfLines<CR>
+nnoremap sl :FzfBLines<CR>
+nnoremap sm :FzfMarks<CR>
+nnoremap sh :FzfHistory:<CR>
+nnoremap sc :FzfCommits<CR>
+nnoremap s. :FzfCommands<CR>
+nnoremap sh :FzfHelptags<CR>
+
 " Settings for Indent-Guides:
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
@@ -207,7 +212,7 @@ let g:indent_guides_auto_colors = 0
 
 " Settings for NERDTree:
 nmap <leader><leader>n :NERDTreeToggle<CR>
-let g:NERDTreeChDirMode=2  " Needed for CtrlP to change root accordingly.
+let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
 
 " Settings for Tagbar:
 let g:tagbar_autoclose=1

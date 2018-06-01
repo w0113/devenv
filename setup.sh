@@ -26,13 +26,14 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/godlygeek/tabular.git"
 	"https://github.com/gregsexton/gitv.git"
 	"https://github.com/jiangmiao/auto-pairs.git"
+	"https://github.com/junegunn/fzf.git"
+	"https://github.com/junegunn/fzf.vim.git"
 	"https://github.com/kana/vim-textobj-entire.git"
 	"https://github.com/kana/vim-textobj-line.git"
 	"https://github.com/kana/vim-textobj-user.git"
 	"https://github.com/Lokaltog/vim-easymotion"
 	"https://github.com/majutsushi/tagbar"
 	"https://github.com/mbbill/undotree.git"
-	"https://github.com/junegunn/fzf.git"
 	"https://github.com/michaeljsmith/vim-indent-object.git"
 	"https://github.com/nathanaelkane/vim-indent-guides"
 	"https://github.com/powerline/fonts.git"
@@ -58,6 +59,14 @@ VIM_PLUGIN_REPOS=(
 function custom_plugin_configuration() {
 	echo -n "Configuring fonts... "
 	if ${VIM_PLUGIN_FOLDER}/fonts/install.sh &> /dev/null; then
+		echo "done"
+	else
+		echo "failed"
+	fi
+
+	echo -n "Installing fzf... "
+	if ${VIM_PLUGIN_FOLDER}/fzf/install --no-key-bindings --completion \
+		--update-rc --no-zsh --no-fish &> /dev/null; then
 		echo "done"
 	else
 		echo "failed"
@@ -224,7 +233,8 @@ function usage() {
 	echo "    -u  Update the current configuration."
 	echo ""
 	echo "  Don't forget to install those packages:"
-	echo "    build-essential cmake python-dev python3-dev exuberant-ctags xclip xdotool"
+	echo "    build-essential cmake exuberant-ctags python3-dev python-dev \\"
+	echo "    silversearcher-ag"
 	echo ""
 	echo "  Execute '~/.vim/bundle/gnome-terminal-colors-solarized/set_dark.sh' to set the"
 	echo "  gnome-terminal color scheme. Also install the dircolors and make sure that"
