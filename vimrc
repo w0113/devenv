@@ -100,6 +100,7 @@ call togglebg#map("<F5>")
 inoremap jj <ESC>
 
 " Toggle paste mode:
+set pastetoggle=<F9>
 nnoremap <silent> <leader><leader>p :set paste!<CR>
 
 " Use ß or leader+m for jumping to marks (easier on a german keyboard):
