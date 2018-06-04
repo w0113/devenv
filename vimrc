@@ -180,6 +180,11 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = 'E'
 let g:ale_sign_warning = 'W'
 let g:ale_sign_info = 'I'
+let g:ale_sign_style_error = 'e'
+let g:ale_sign_style_warning = 'w'
+
+" Settings for AutoPairs
+let g:AutoPairsFlyMode = 1
 
 " Settings for EasyMotion
 nmap <leader>f <Plug>(easymotion-s)
@@ -220,6 +225,8 @@ nnoremap sh :FzfHelptags<CR>
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
+let g:indent_guides_default_mapping = 0
+nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
 " Settings for Limelight:
 nnoremap <silent> <F6> :Limelight!!<CR>
