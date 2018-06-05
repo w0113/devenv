@@ -21,6 +21,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/airblade/vim-gitgutter.git"
 	"https://github.com/altercation/vim-colors-solarized.git"
 	"https://github.com/Anthony25/gnome-terminal-colors-solarized.git"
+	"https://github.com/autozimu/LanguageClient-neovim.git"
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/godlygeek/tabular.git"
@@ -46,7 +47,6 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/tpope/vim-rails"
 	"https://github.com/tpope/vim-surround.git"
 	"https://github.com/tpope/vim-unimpaired.git"
-	"https://github.com/Valloric/YouCompleteMe.git"
 	"https://github.com/vim-airline/vim-airline.git"
 	"https://github.com/vim-airline/vim-airline-themes.git"
 	"https://github.com/vim-ruby/vim-ruby"
@@ -73,8 +73,9 @@ function custom_plugin_configuration() {
 		echo "failed"
 	fi
 
-	echo -n "Compiling YouCompleteMe... "
-	if ${VIM_PLUGIN_FOLDER}/YouCompleteMe/install.py &> /dev/null; then
+	echo -n "Installing LanguageClient... "
+	if bash ${VIM_PLUGIN_FOLDER}/LanguageClient-neovim/install.sh &> /dev/null
+	then 
 		echo "done"
 	else
 		echo "failed"
@@ -234,8 +235,7 @@ function usage() {
 	echo "    -u  Update the current configuration."
 	echo ""
 	echo "  Don't forget to install those packages:"
-	echo "    build-essential cmake exuberant-ctags python3-dev python-dev \\"
-	echo "    silversearcher-ag"
+	echo "    exuberant-ctags silversearcher-ag"
 	echo ""
 	echo "  Execute '~/.vim/bundle/gnome-terminal-colors-solarized/set_dark.sh' to set the"
 	echo "  gnome-terminal color scheme. Also install the dircolors and make sure that"

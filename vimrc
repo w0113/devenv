@@ -77,6 +77,11 @@ function! ColorschemeDetails() abort
 		highlight SpecialKey term=NONE cterm=NONE ctermfg=14 ctermbg=15
 		highlight IndentGuidesOdd ctermfg=14 ctermbg=15
 		highlight IndentGuidesEven ctermfg=14 ctermbg=7
+		highlight ALEErrorSign ctermfg=9 ctermbg=7
+		highlight ALEWarningSign ctermfg=3 ctermbg=7
+		highlight ALEInfoSign ctermfg=2 ctermbg=7
+		highlight ALEStyleErrorSign ctermfg=9 ctermbg=7
+		highlight ALEStyleWarningSign ctermfg=3 ctermbg=7
 		let g:airline_solarized_bg='light'
 		let g:limelight_conceal_ctermfg=14
 	else
@@ -84,6 +89,11 @@ function! ColorschemeDetails() abort
 		highlight SpecialKey term=NONE cterm=NONE ctermfg=10 ctermbg=8
 		highlight IndentGuidesOdd ctermfg=10 ctermbg=8
 		highlight IndentGuidesEven ctermfg=10 ctermbg=0
+		highlight ALEErrorSign ctermfg=9 ctermbg=0
+		highlight ALEWarningSign ctermfg=3 ctermbg=0
+		highlight ALEInfoSign ctermfg=2 ctermbg=0
+		highlight ALEStyleErrorSign ctermfg=9 ctermbg=0
+		highlight ALEStyleWarningSign ctermfg=3 ctermbg=0
 		let g:airline_solarized_bg='dark'
 		let g:limelight_conceal_ctermfg=10
 	endif
@@ -110,7 +120,7 @@ nnoremap <leader>m `
 xnoremap <leader>m `
 
 " Clear search highlights:
-nnoremap <ESC><ESC> :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
 " Move current or selected lines up and down.
 nnoremap <silent> Ä :m .+1<CR>==
@@ -119,16 +129,16 @@ xnoremap <silent> Ä :m '>+1<CR>gv=gv
 xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
 " Mappings for resizing windows
-noremap <silent> <Left> <C-w><
-noremap <silent> <Down> <C-w>-
-noremap <silent> <Up> <C-w>+
-noremap <silent> <Right> <C-w>>
+noremap <Left> <C-w><
+noremap <Down> <C-w>-
+noremap <Up> <C-w>+
+noremap <Right> <C-w>>
 
 " Mappings for moving windows
-noremap <silent> <leader><Left> <C-w>H
-noremap <silent> <leader><Down> <C-w>J
-noremap <silent> <leader><Up> <C-w>K
-noremap <silent> <leader><Right> <C-w>L
+noremap <leader><Left> <C-w>H
+noremap <leader><Down> <C-w>J
+noremap <leader><Up> <C-w>K
+noremap <leader><Right> <C-w>L
 
 " Run the current line through bash/ruby
 nnoremap !b !!bash<CR>
@@ -222,11 +232,24 @@ nnoremap s. :FzfCommands<CR>
 nnoremap sh :FzfHelptags<CR>
 
 " Settings for Indent-Guides:
-let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar']
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_default_mapping = 0
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
+
+" Settings for LanguageClient:
+set completefunc=LanguageClient#complete
+let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_serverCommands = {
+			\ 'ruby': ['tcp://127.0.0.1:7658']
+			\ }
+
+nnoremap <F8> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " Settings for Limelight:
 nnoremap <silent> <F6> :Limelight!!<CR>
@@ -235,10 +258,10 @@ xnoremap <silent> <F6> :Limelight!!<CR>gv
 
 " Settings for NERDTree:
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
-let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
+let g:NERDTreeChDirMode = 2  " Needed for fzf to change root accordingly.
 
 " Settings for Tagbar:
-let g:tagbar_autoclose=1
+let g:tagbar_autoclose = 1
 nnoremap <leader><leader>t :TagbarToggle<CR>
 
 " Settings for Undotree:
