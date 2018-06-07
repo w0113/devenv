@@ -238,23 +238,20 @@ let g:indent_guides_auto_colors = 0
 let g:indent_guides_default_mapping = 0
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
-" Settings for LanguageClient:
-set completefunc=LanguageClient#complete
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-			\ 'ruby': ['tcp://127.0.0.1:7658']
-			\ }
-
-nnoremap <F8> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
 " Settings for Limelight:
 nnoremap <silent> <F6> :Limelight!!<CR>
 inoremap <silent> <F6> <C-o>:Limelight!!<CR>
 xnoremap <silent> <F6> :Limelight!!<CR>gv
+
+" Settings for lsp:
+if (executable('pyls'))
+	au User lsp_setup call lsp#register_server({
+	\ 'name': 'pyls',
+	\ 'cmd': {server_info->['pyls']},
+	\ 'whitelist': ['python']
+	\ })
+endif
+
 
 " Settings for NERDTree:
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
