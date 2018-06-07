@@ -82,6 +82,7 @@ function! ColorschemeDetails() abort
 		highlight ALEInfoSign ctermfg=2 ctermbg=7
 		highlight ALEStyleErrorSign ctermfg=9 ctermbg=7
 		highlight ALEStyleWarningSign ctermfg=3 ctermbg=7
+		highlight UndesiredCharacters ctermfg=14 ctermbg=9
 		let g:airline_solarized_bg='light'
 		let g:limelight_conceal_ctermfg=14
 	else
@@ -94,11 +95,15 @@ function! ColorschemeDetails() abort
 		highlight ALEInfoSign ctermfg=2 ctermbg=0
 		highlight ALEStyleErrorSign ctermfg=9 ctermbg=0
 		highlight ALEStyleWarningSign ctermfg=3 ctermbg=0
+		highlight UndesiredCharacters ctermfg=10 ctermbg=9
 		let g:airline_solarized_bg='dark'
 		let g:limelight_conceal_ctermfg=10
 	endif
 endfunction
-autocmd VimEnter,Colorscheme * call ColorschemeDetails()
+augroup colorscheme_settings
+	autocmd!
+	autocmd VimEnter,Colorscheme * call ColorschemeDetails()
+augroup END
 " Set colorscheme
 set background=dark
 colorscheme solarized
@@ -119,8 +124,11 @@ xnoremap ß `
 nnoremap <leader>m `
 xnoremap <leader>m `
 
+" Find tabs and trailing whitespaces:
+nnoremap <silent> <leader>s :2match UndesiredCharacters /\v(\t\|\s+$)/<CR>
+
 " Clear search highlights:
-nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none<CR>
 
 " Move current or selected lines up and down.
 nnoremap <silent> Ä :m .+1<CR>==
@@ -128,13 +136,13 @@ nnoremap <silent> Ü :m .-2<CR>==
 xnoremap <silent> Ä :m '>+1<CR>gv=gv
 xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
-" Mappings for resizing windows
+" Mappings for resizing windows:
 noremap <Left> <C-w><
 noremap <Down> <C-w>-
 noremap <Up> <C-w>+
 noremap <Right> <C-w>>
 
-" Mappings for moving windows
+" Mappings for moving windows:
 noremap <leader><Left> <C-w>H
 noremap <leader><Down> <C-w>J
 noremap <leader><Up> <C-w>K
@@ -170,10 +178,12 @@ command! -bar -nargs=1 Fgrep silent execute "grep -FIR --exclude-dir=.git '<args
 nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
 
 " Settings per filetype:
-autocmd FileType html   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-autocmd FileType python setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121 foldmethod=indent
-autocmd FileType ruby   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+augroup filetype_settings
+	autocmd!
+	autocmd FileType html,python,ruby,yaml
+		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+	autocmd FileType python setlocal foldmethod=indent
+augroup END
 
 " Settings for airline
 set noshowmode
@@ -192,9 +202,6 @@ let g:ale_sign_warning = 'W'
 let g:ale_sign_info = 'I'
 let g:ale_sign_style_error = 'e'
 let g:ale_sign_style_warning = 'w'
-
-" Settings for AutoPairs
-let g:AutoPairsFlyMode = 1
 
 " Settings for EasyMotion
 nmap <leader>f <Plug>(easymotion-s)
