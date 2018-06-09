@@ -251,13 +251,6 @@ inoremap <silent> <F6> <C-o>:Limelight!!<CR>
 xnoremap <silent> <F6> :Limelight!!<CR>gv
 
 " Settings for lsp:
-if (executable('pyls'))
-	au User lsp_setup call lsp#register_server({
-	\ 'name': 'pyls',
-	\ 'cmd': {server_info->['pyls']},
-	\ 'whitelist': ['python']
-	\ })
-endif
 
 
 " Settings for NERDTree:
