@@ -114,6 +114,9 @@ call togglebg#map("<F5>")
 " Use jj as alternative for escape.
 inoremap jj <ESC>
 
+" Switch to last buffer:
+nnoremap <silent> <leader><leader>b :bprevious<CR>
+
 " Toggle paste mode:
 set pastetoggle=<F9>
 nnoremap <silent> <leader><leader>p :set paste!<CR>
@@ -226,12 +229,21 @@ call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
 " Settings for fzf:
 let g:fzf_command_prefix = 'Fzf'
-nnoremap ss :FzfFiles<CR>
+
+command! -bang -nargs=? -complete=dir FzfHFiles call fzf#vim#files(<q-args>,
+	\ {'source': 'find . -type d -name .git -prune -o -print'}, <bang>0)
+
+command! -bang -nargs=* FzfHAg call fzf#vim#ag(<q-args>,
+	\ '--hidden --ignore .git', <bang>0)
+
+nnoremap ss :FzfHFiles<CR>
+nnoremap ssl :FzfFiles<CR>
 nnoremap sg :FzfGFiles<CR>
 nnoremap sb :FzfBuffers<CR>
-nnoremap sa :FzfAg<CR>
-nnoremap sla :FzfLines<CR>
-nnoremap sl :FzfBLines<CR>
+nnoremap sa :FzfHAg<CR>
+nnoremap sal :FzfAg<CR>
+nnoremap sl :FzfLines<CR>
+nnoremap sla :FzfBLines<CR>
 nnoremap sm :FzfMarks<CR>
 nnoremap sh :FzfHistory:<CR>
 nnoremap sc :FzfCommits<CR>
