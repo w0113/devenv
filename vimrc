@@ -31,6 +31,7 @@ set t_Co=256        " Set vim colorspace to 256 colors.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
+set updatetime=500  " Write swap file after this many milliseconds
 
 " Enhance usability.
 set autoread        " Automatically read files when changed on disk.
@@ -56,7 +57,6 @@ set smartindent
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set smarttab
 set noexpandtab
 
 " Visual aids.
@@ -72,6 +72,13 @@ let mapleader="\<Space>"
 
 " Enable matchit plugin.
 runtime macros/matchit.vim
+
+" Easy editing of the vimrc file.
+augroup vim_reload
+	autocmd!
+	autocmd BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
+augroup END
+nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 " Enable spell checking.
 set nospell
