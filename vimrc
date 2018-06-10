@@ -1,16 +1,16 @@
 " Disable Vi compatibility
 set nocompatible
 
-" This is used for easy plugin installation:
+" This is used for easy plugin installation.
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
-syntax on
+" Enable syntax highlighting.
+if has('syntax')
+	syntax on
+endif
 
-" Uncomment the following to have Vim load indentation rules and plugins
-" according to the detected filetype.
+" Load indentation rules and plugins according to the detected filetype.
 if has('autocmd')
 	filetype plugin indent on
 endif
@@ -25,52 +25,61 @@ if has('persistent_undo')
 	set undofile
 endif
 
-" Vim suggested options.
+" Basic settings.
+set encoding=utf-8  " Use UTF-8 as file encoding.
+set t_Co=256        " Set vim colorspace to 256 colors.
+set timeout         " Enable timeouts.
+set timeoutlen=750  " Timeout for key combinations (in ms).
+set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
+
+" Enhance usability.
+set autoread        " Automatically read files when changed on disk.
+set autowrite       " Automatically save before commands like :next and :make.
+set hidden          " Hide buffers when they are abandoned.
+set history=1000    " Remember more commands.
+set hlsearch        " Highlight all found matches.
+set ignorecase      " Do case insensitive matching.
+set incsearch       " Incremental search.
+set mouse=a         " Enable mouse usage (all modes).
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
-set ignorecase      " Do case insensitive matching
-set smartcase       " Do smart case matching
-set incsearch       " Incremental search
-set autowrite       " Automatically save before commands like :next and :make
-set hidden          " Hide buffers when they are abandoned
-set mouse=a         " Enable mouse usage (all modes)
+set smartcase       " Do smart case matching.
+set wildmenu        " Show all options when using tab-complete.
 
-" Change leader to space key:
-let mapleader="\<Space>"
+" Changes in insert mode.
+set backspace=indent,eol,start
+set formatoptions+=j
 
-" vim settings:
-set autoread       " Automatically read files when changed on disk
-set encoding=utf-8 " Use UTF-8 as file encoding.
-set t_Co=256       " Set vim colorspace to 256 colors.
-set timeout        " Enable timeouts.
-set timeoutlen=750 " Timeout for key combinations (in ms).
-set ttimeoutlen=10 " Timeout for <ESC> key (in ms).
-set wildmenu       " Show all options when using tab-complete.
-
-" General filetype settings:
-set nu
-set rnu
+" Indentation and tab options.
+set autoindent
+set smartindent
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set smarttab
 set noexpandtab
 
-" Visual aids:
+" Visual aids.
 set colorcolumn=81
 set cursorline
-set hlsearch
+set display+=lastline
+set nu
+set rnu
+set scrolloff=1
 
-" Enable matchit plugin:
+" Change leader to space key.
+let mapleader="\<Space>"
+
+" Enable matchit plugin.
 runtime macros/matchit.vim
 
-" Enable spell checking:
+" Enable spell checking.
 set nospell
 set spelllang=en_us
 nnoremap <silent> <leader><leader>s :setlocal spell!<CR>
 
-" Color settings:
-" Set some color details depending on light or dark colorscheme
+" Color settings.
+" Set some color details depending on light or dark colorscheme.
 function! ColorschemeDetails() abort
 	if &background == "light"
 		highlight NonText term=NONE cterm=NONE ctermfg=14 ctermbg=15
@@ -175,11 +184,6 @@ nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldne
 " Decrement local foldnestmax by 1
 nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
-" Custom search commands
-command! -bar -nargs=1 Grep silent execute "grep -IR --exclude-dir=.git '<args>' *" | redraw! | copen
-command! -bar -nargs=1 Fgrep silent execute "grep -FIR --exclude-dir=.git '<args>' *" | redraw! | copen
-nnoremap <leader>g :execute "Fgrep " . expand("<cword>")<CR>
-
 " Settings per filetype:
 augroup filetype_settings
 	autocmd!
@@ -194,17 +198,17 @@ set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
-let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
 
 " Settings for Ale
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = 'E'
-let g:ale_sign_warning = 'W'
-let g:ale_sign_info = 'I'
-let g:ale_sign_style_error = 'e'
-let g:ale_sign_style_warning = 'w'
+let g:ale_sign_column_always=1
+let g:ale_sign_error='E'
+let g:ale_sign_warning='W'
+let g:ale_sign_info='I'
+let g:ale_sign_style_error='e'
+let g:ale_sign_style_warning='w'
 
 " Settings for EasyMotion
 nmap <leader>f <Plug>(easymotion-s)
@@ -228,7 +232,7 @@ call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
 " Settings for fzf:
-let g:fzf_command_prefix = 'Fzf'
+let g:fzf_command_prefix='Fzf'
 
 command! -bang -nargs=? -complete=dir FzfHFiles call fzf#vim#files(<q-args>,
 	\ {'source': 'find . -type d -name .git -prune -o -print'}, <bang>0)
@@ -251,10 +255,10 @@ nnoremap s. :FzfCommands<CR>
 nnoremap sh :FzfHelptags<CR>
 
 " Settings for Indent-Guides:
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar']
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_default_mapping = 0
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
+let g:indent_guides_auto_colors=0
+let g:indent_guides_default_mapping=0
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
 " Settings for Limelight:
@@ -267,10 +271,10 @@ xnoremap <silent> <F6> :Limelight!!<CR>gv
 
 " Settings for NERDTree:
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
-let g:NERDTreeChDirMode = 2  " Needed for fzf to change root accordingly.
+let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
 
 " Settings for Tagbar:
-let g:tagbar_autoclose = 1
+let g:tagbar_autoclose=1
 nnoremap <leader><leader>t :TagbarToggle<CR>
 
 " Settings for Undotree:
@@ -278,9 +282,9 @@ nnoremap <leader><leader>u :UndotreeToggle<CR>
 
 " Settings for unimpaired:
 " Use ö and ä instead of [ and ].
-let g:nremap = {"[": "ö", "]": "ä"}
-let g:xremap = {"[": "ö", "]": "ä"}
-let g:oremap = {"[": "ö", "]": "ä"}
+let g:nremap={"[": "ö", "]": "ä"}
+let g:xremap={"[": "ö", "]": "ä"}
+let g:oremap={"[": "ö", "]": "ä"}
 
 " Settings for vimux:
 nnoremap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
