@@ -93,11 +93,6 @@ function! ColorschemeDetails() abort
 		highlight SpecialKey term=NONE cterm=NONE ctermfg=14 ctermbg=15
 		highlight IndentGuidesOdd ctermfg=14 ctermbg=15
 		highlight IndentGuidesEven ctermfg=14 ctermbg=7
-		highlight ALEErrorSign ctermfg=9 ctermbg=7
-		highlight ALEWarningSign ctermfg=3 ctermbg=7
-		highlight ALEInfoSign ctermfg=2 ctermbg=7
-		highlight ALEStyleErrorSign ctermfg=9 ctermbg=7
-		highlight ALEStyleWarningSign ctermfg=3 ctermbg=7
 		highlight UndesiredCharacters ctermfg=14 ctermbg=9
 		let g:airline_solarized_bg='light'
 		let g:limelight_conceal_ctermfg=14
@@ -106,11 +101,6 @@ function! ColorschemeDetails() abort
 		highlight SpecialKey term=NONE cterm=NONE ctermfg=10 ctermbg=8
 		highlight IndentGuidesOdd ctermfg=10 ctermbg=8
 		highlight IndentGuidesEven ctermfg=10 ctermbg=0
-		highlight ALEErrorSign ctermfg=9 ctermbg=0
-		highlight ALEWarningSign ctermfg=3 ctermbg=0
-		highlight ALEInfoSign ctermfg=2 ctermbg=0
-		highlight ALEStyleErrorSign ctermfg=9 ctermbg=0
-		highlight ALEStyleWarningSign ctermfg=3 ctermbg=0
 		highlight UndesiredCharacters ctermfg=10 ctermbg=9
 		let g:airline_solarized_bg='dark'
 		let g:limelight_conceal_ctermfg=10
@@ -205,17 +195,8 @@ set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
-let g:airline#extensions#ale#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
-
-" Settings for Ale
-let g:ale_sign_column_always=1
-let g:ale_sign_error='E'
-let g:ale_sign_warning='W'
-let g:ale_sign_info='I'
-let g:ale_sign_style_error='e'
-let g:ale_sign_style_warning='w'
 
 " Settings for EasyMotion
 nmap <leader>f <Plug>(easymotion-s)
@@ -268,13 +249,17 @@ let g:indent_guides_auto_colors=0
 let g:indent_guides_default_mapping=0
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
+" Settings for LanguageClient-neovim:
+let g:LanguageClient_serverCommands = {
+    \ 'ruby': ['tcp://127.0.0.1:7658'],
+	\ }
+set completefunc=LanguageClient#complete
+nnoremap <F4> :call LanguageClient_contextMenu()<CR>
+
 " Settings for Limelight:
 nnoremap <silent> <F6> :Limelight!!<CR>
 inoremap <silent> <F6> <C-o>:Limelight!!<CR>
 xnoremap <silent> <F6> :Limelight!!<CR>gv
-
-" Settings for lsp:
-
 
 " Settings for NERDTree:
 nnoremap <leader><leader>n :NERDTreeToggle<CR>

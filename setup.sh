@@ -21,6 +21,7 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/airblade/vim-gitgutter.git"
 	"https://github.com/altercation/vim-colors-solarized.git"
 	"https://github.com/Anthony25/gnome-terminal-colors-solarized.git"
+	"https://github.com/autozimu/LanguageClient-neovim.git"
 	"https://github.com/benmills/vimux.git"
 	"https://github.com/christoomey/vim-tmux-navigator.git"
 	"https://github.com/godlygeek/tabular.git"
@@ -38,8 +39,6 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/michaeljsmith/vim-indent-object.git"
 	"https://github.com/nathanaelkane/vim-indent-guides"
 	"https://github.com/powerline/fonts.git"
-	"https://github.com/prabirshrestha/async.vim.git"
-	"https://github.com/prabirshrestha/vim-lsp.git"
 	"https://github.com/scrooloose/nerdtree.git"
 	"https://github.com/terryma/vim-expand-region.git"
 	"https://github.com/tpope/vim-endwise"
@@ -52,7 +51,6 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/vim-airline/vim-airline-themes.git"
 	"https://github.com/vim-ruby/vim-ruby"
 	"https://github.com/w0113/vim-textobj-rubyblock.git"
-	"https://github.com/w0rp/ale.git"
 	)
 
 #
@@ -68,6 +66,14 @@ function custom_plugin_configuration() {
 
 	echo -n "Installing fzf... "
 	if ${VIM_PLUGIN_FOLDER}/fzf/install --all --no-zsh --no-fish &> /dev/null
+   	then
+		echo "done"
+	else
+		echo "failed"
+	fi
+
+	echo -n "Installing LanguageClient-neovim... "
+	if ${VIM_PLUGIN_FOLDER}/LanguageClient-neovim/install.sh &> /dev/null
    	then
 		echo "done"
 	else
