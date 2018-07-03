@@ -189,7 +189,7 @@ augroup filetype_settings
 	autocmd FileType python setlocal foldmethod=indent
 augroup END
 
-" Settings for airline
+" Settings for airline:
 set noshowmode
 set laststatus=2
 let g:airline_powerline_fonts=1
@@ -198,7 +198,10 @@ let g:airline_solarized_bg='dark'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tagbar#enabled=1
 
-" Settings for EasyMotion
+" Settings for deoplete:
+let g:deoplete#enable_at_startup = 1
+
+" Settings for EasyMotion:
 nmap <leader>f <Plug>(easymotion-s)
 nmap <leader>F <Plug>(easymotion-s)
 nmap <leader>t <Plug>(easymotion-bd-t)
@@ -253,8 +256,19 @@ nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 let g:LanguageClient_serverCommands = {
     \ 'ruby': ['tcp://127.0.0.1:7658'],
 	\ }
-set completefunc=LanguageClient#complete
+"augroup language_client
+"	autocmd!
+"	autocmd FileType ruby call system('bash -c "'
+"		\ . 'if which solargraph &> /dev/null '
+"		\ . '    && ! pgrep solargraph &> /dev/null; then '
+"		\ . '    solargraph socket &> /dev/null &disown; '
+"		\ . 'fi"')
+"augroup END
+"set completefunc=LanguageClient#complete
+set signcolumn=yes
 nnoremap <F4> :call LanguageClient_contextMenu()<CR>
+let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+let g:LanguageClient_loggingLevel = 'DEBUG'
 
 " Settings for Limelight:
 nnoremap <silent> <F6> :Limelight!!<CR>

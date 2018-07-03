@@ -33,23 +33,26 @@ VIM_PLUGIN_REPOS=(
 	"https://github.com/kana/vim-textobj-entire.git"
 	"https://github.com/kana/vim-textobj-line.git"
 	"https://github.com/kana/vim-textobj-user.git"
-	"https://github.com/Lokaltog/vim-easymotion"
-	"https://github.com/majutsushi/tagbar"
+	"https://github.com/Lokaltog/vim-easymotion.git"
+	"https://github.com/majutsushi/tagbar.git"
 	"https://github.com/mbbill/undotree.git"
 	"https://github.com/michaeljsmith/vim-indent-object.git"
-	"https://github.com/nathanaelkane/vim-indent-guides"
+	"https://github.com/nathanaelkane/vim-indent-guides.git"
 	"https://github.com/powerline/fonts.git"
+	"https://github.com/roxma/nvim-yarp.git"
+	"https://github.com/roxma/vim-hug-neovim-rpc.git"
 	"https://github.com/scrooloose/nerdtree.git"
+	"https://github.com/Shougo/deoplete.nvim.git"
 	"https://github.com/terryma/vim-expand-region.git"
-	"https://github.com/tpope/vim-endwise"
-	"https://github.com/tpope/vim-fugitive"
+	"https://github.com/tpope/vim-endwise.git"
+	"https://github.com/tpope/vim-fugitive.git"
 	"https://github.com/tpope/vim-pathogen.git"
-	"https://github.com/tpope/vim-rails"
+	"https://github.com/tpope/vim-rails.git"
 	"https://github.com/tpope/vim-surround.git"
 	"https://github.com/tpope/vim-unimpaired.git"
 	"https://github.com/vim-airline/vim-airline.git"
 	"https://github.com/vim-airline/vim-airline-themes.git"
-	"https://github.com/vim-ruby/vim-ruby"
+	"https://github.com/vim-ruby/vim-ruby.git"
 	"https://github.com/w0113/vim-textobj-rubyblock.git"
 	)
 
@@ -73,7 +76,8 @@ function custom_plugin_configuration() {
 	fi
 
 	echo -n "Installing LanguageClient-neovim... "
-	if ${VIM_PLUGIN_FOLDER}/LanguageClient-neovim/install.sh &> /dev/null
+
+	if $(cd ${VIM_PLUGIN_FOLDER}/LanguageClient-neovim/ && bash install.sh &> /dev/null)
    	then
 		echo "done"
 	else
