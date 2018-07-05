@@ -1,3 +1,5 @@
+" Disable Vi compatibility (only needed by vim).
+set nocompatible
 
 " Enable syntax highlighting.
 if !exists("g:syntax_on")
@@ -26,7 +28,6 @@ endif
 
 " Basic settings.
 set encoding=utf-8  " Use UTF-8 as file encoding.
-"set t_Co=256        " Set vim colorspace to 256 colors.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
@@ -69,7 +70,7 @@ set scrolloff=1
 " Change leader to space key.
 let mapleader="\<Space>"
 
-" Enable matchit plugin (only needed for vim).
+" Enable matchit plugin (only needed by vim).
 runtime macros/matchit.vim
 
 " Easy editing of the vimrc file.
@@ -131,21 +132,22 @@ nnoremap !r !!ruby<CR>
 set lcs=eol:¶,tab:‣\ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣
 nnoremap <silent> <leader><leader>l :set list!<CR>
 
-" Folding settings.
-set foldclose=all     " Close folds if you leave them in any way
-set foldcolumn=1      " Show the foldcolumn
-set nofoldenable      " Turn off folding
-set foldlevel=0       " Autofold everything by default
-set foldmethod=syntax " Fold on the syntax
-set foldopen=all      " Open folds if you touch them in any way
-set foldminlines=8    " Only close folds with more then 8 lines
-set foldnestmax=3     " Max level to which folds are closed
-" Toggle folding
-nnoremap <silent> <leader>z :set foldenable!<CR>
-" Increment local foldnestmax by 1
-nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldnestmax?<CR>
-" Decrement local foldnestmax by 1
-nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
+"" Folding settings.
+"" TODO: Check functionality
+"set foldclose=all     " Close folds if you leave them in any way
+"set foldcolumn=1      " Show the foldcolumn
+"set nofoldenable      " Turn off folding
+"set foldlevel=0       " Autofold everything by default
+"set foldmethod=syntax " Fold on the syntax
+"set foldopen=all      " Open folds if you touch them in any way
+"set foldminlines=8    " Only close folds with more then 8 lines
+"set foldnestmax=3     " Max level to which folds are closed
+"" Toggle folding
+"nnoremap <silent> <leader>z :set foldenable!<CR>
+"" Increment local foldnestmax by 1
+"nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldnestmax?<CR>
+"" Decrement local foldnestmax by 1
+"nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
 " Settings per filetype.
 augroup filetype_settings
