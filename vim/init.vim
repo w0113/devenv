@@ -2,7 +2,7 @@
 set nocompatible
 
 " Enable syntax highlighting.
-if !exists("g:syntax_on")
+if !exists('g:syntax_on')
 	syntax enable
 endif
 
@@ -19,10 +19,10 @@ if has('persistent_undo')
 	set undofile
 endif
 
-" Use true-colors when possible.
+" Use true-colors.
 if has('termguicolors')
-	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 	set termguicolors
 endif
 
@@ -164,4 +164,10 @@ endif
 
 " Temp settings.
 colorscheme evening
+
+" Load plugins, if vim-plug is present
+runtime autoload/plug.vim
+if exists('g:loaded_plug')
+	source ~/.devenv/vim/plug-config.vim
+endif
 
