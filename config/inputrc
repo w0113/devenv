@@ -7,10 +7,10 @@ $if mode=vi
 	set show-mode-in-prompt on
 	set vi-ins-mode-string INSERT>
 	set vi-cmd-mode-string NORMAL>
-	$if Bash
-		set vi-ins-mode-string \1\e[1;97;43m\2 INSERT \1\e[0m\e[33;103m\2 \1\e[0m\2
-		set vi-cmd-mode-string \1\e[1;97;106m\2 NORMAL \1\e[0m\e[96;103m\2 \1\e[0m\2
-	$endif
+	#$if Bash
+	#	set vi-ins-mode-string \1\e[1;97;43m\2 INSERT \1\e[0m\e[33;103m\2 \1\e[0m\2
+	#	set vi-cmd-mode-string \1\e[1;97;106m\2 NORMAL \1\e[0m\e[96;103m\2 \1\e[0m\2
+	#$endif
 
 	# find the last command in history which matches the beginning of the
 	# current line:
