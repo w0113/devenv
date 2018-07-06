@@ -8,219 +8,117 @@ CONFIG_FILES=(
 	"gitconfig"
 	"inputrc"
 	"tmux.conf"
-	"vimrc"
 	)
 
-# The vim configuration folder.
-VIM_FOLDER="${HOME}/.vim"
-# The vim plugin folder.
-VIM_PLUGIN_FOLDER="${VIM_FOLDER}/bundle"
-# Put each plugin git repository here. All this plugins will be installed,
-# when updating/installing.
-VIM_PLUGIN_REPOS=(
-	"https://github.com/airblade/vim-gitgutter.git"
-	"https://github.com/altercation/vim-colors-solarized.git"
-	"https://github.com/Anthony25/gnome-terminal-colors-solarized.git"
-	"https://github.com/autozimu/LanguageClient-neovim.git"
-	"https://github.com/benmills/vimux.git"
-	"https://github.com/christoomey/vim-tmux-navigator.git"
-	"https://github.com/godlygeek/tabular.git"
-	"https://github.com/gregsexton/gitv.git"
-	"https://github.com/jiangmiao/auto-pairs.git"
-	"https://github.com/junegunn/fzf.git"
-	"https://github.com/junegunn/fzf.vim.git"
-	"https://github.com/junegunn/limelight.vim.git"
-	"https://github.com/kana/vim-textobj-entire.git"
-	"https://github.com/kana/vim-textobj-line.git"
-	"https://github.com/kana/vim-textobj-user.git"
-	"https://github.com/Lokaltog/vim-easymotion.git"
-	"https://github.com/majutsushi/tagbar.git"
-	"https://github.com/mbbill/undotree.git"
-	"https://github.com/michaeljsmith/vim-indent-object.git"
-	"https://github.com/nathanaelkane/vim-indent-guides.git"
-	"https://github.com/powerline/fonts.git"
-	"https://github.com/roxma/nvim-yarp.git"
-	"https://github.com/roxma/vim-hug-neovim-rpc.git"
-	"https://github.com/scrooloose/nerdtree.git"
-	"https://github.com/Shougo/deoplete.nvim.git"
-	"https://github.com/terryma/vim-expand-region.git"
-	"https://github.com/tpope/vim-endwise.git"
-	"https://github.com/tpope/vim-fugitive.git"
-	"https://github.com/tpope/vim-pathogen.git"
-	"https://github.com/tpope/vim-rails.git"
-	"https://github.com/tpope/vim-surround.git"
-	"https://github.com/tpope/vim-unimpaired.git"
-	"https://github.com/vim-airline/vim-airline.git"
-	"https://github.com/vim-airline/vim-airline-themes.git"
-	"https://github.com/vim-ruby/vim-ruby.git"
-	"https://github.com/w0113/vim-textobj-rubyblock.git"
-	)
 
 #
-# Configure/compile installed plugins.
+# Backup a given path.
+# This methods adds the extension ".old" to the file name, or deletes it, if the
+# given path is a link.
 #
-function custom_plugin_configuration() {
-	echo -n "Configuring fonts... "
-	if ${VIM_PLUGIN_FOLDER}/fonts/install.sh &> /dev/null; then
-		echo "done"
-	else
-		echo "failed"
+# $1: A path to the file which should be backed up.
+#
+function backup() {
+	# Remove links.
+	if [ -h "$1" ]; then
+		echo -n "Removing old link '$1'... "
+		if rm -f "$1" &> /dev/null; then
+			echo "done"
+		else
+			echo "failed"
+		fi
+	# Add extension ".old" to files/folders.
+	elif [ -e "$1" ]; then
+		echo -n "Moving old data '$1' to '${1}.old'... "
+		if mv -f "$1" "$1.old" &> /dev/null; then
+			echo "done"
+		else
+			echo "failed"
+		fi
 	fi
+}
 
-	echo -n "Installing fzf... "
-	if ${VIM_PLUGIN_FOLDER}/fzf/install --all --no-zsh --no-fish &> /dev/null
-   	then
-		echo "done"
-	else
-		echo "failed"
-	fi
 
-	echo -n "Installing LanguageClient-neovim... "
-
-	if $(cd ${VIM_PLUGIN_FOLDER}/LanguageClient-neovim/ && bash install.sh &> /dev/null)
-   	then
+#
+# Create link, after creating backups of target path file/folder.
+#
+# $1: Target path
+# $2: Link path
+#
+function lnwb() {
+	# Create backup of link path.
+	backup "$2"
+	
+	# Create link.
+	echo -n "Creating link '$2' to '$1'... "
+	if ln -s "$1" "$2" &> /dev/null; then
 		echo "done"
 	else
 		echo "failed"
 	fi
 }
 
-#
-# Install all plugins from VIM_PLUGIN_REPOS, which are not already installed.
-#
-function install_new_vim_plugins() {
-	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
-		local wd="$(pwd)"
-		cd "$VIM_PLUGIN_FOLDER"
-		for p in $(not_installed_vim_plugins); do
-			echo -n "Installing new plugin '$p'... "
-			if git clone "$p" &> /dev/null; then
-				echo "done"
-			else
-				echo "failed"
-			fi
-		done
-		cd "$wd"
-	fi
-}
-
-#
-# Echo all installed vim plugin repositories.
-#
-function installed_vim_plugins() {
-	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
-		local wd="$(pwd)"
-		for d in $(ls -1 "${VIM_PLUGIN_FOLDER}"); do cd "${VIM_PLUGIN_FOLDER}/$d"; git remote -v; done | sed -e 's/\s\+/ /g' | cut -d" " -f2 | sort -u 
-		cd "$wd"
-	fi
-}
 
 #
 # Link all config files listed in CONFIG_FILES to $HOME.
 #
 function link_config_files() {
 	for c in ${CONFIG_FILES[@]}; do
-		target="${DIR}/${c}"
+		target="${DIR}/config/${c}"
 		link_name="${HOME}/.${c}"
 
-		if [ -h "$link_name" ]; then
-			echo -n "Removing old link '$link_name'... "
-			if rm -f "$link_name" &> /dev/null; then
-				echo "done"
-			else
-				echo "failed"
-			fi
-		elif [ -e "$link_name" ]; then
-			echo -n "Moving old file '$link_name' to '${link_name}.old'... "
-			if mv -f "$link_name" "$link_name.old" &> /dev/null; then
-				echo "done"
-			else
-				echo "failed"
-			fi
-		fi
-
-		echo -n "Creating link '$link_name' to '$target'... "
-		if ln -s "$target" "$link_name" &> /dev/null; then
-			echo "done"
-		else
-			echo "failed"
-		fi
+		lnwb "$target" "$link_name"
 	done
 }
 
-#
-# Echo all plugins from VIM_PLUGIN_REPOS which are not already installed.
-#
-function not_installed_vim_plugins() {
-	ip="$(installed_vim_plugins)"
-	for p in ${VIM_PLUGIN_REPOS[@]}; do
-		if [[ ! ("$ip" =~ "$p") ]]; then
-			echo "$p"
-		fi
-	done
-}
 
 #
-# Git pull all plugins and their submodules.
+# Install vim-plug plugin manager.
 #
-function update_vim_plugins() {
-	if [ -d "$VIM_PLUGIN_FOLDER" ]; then
-		local wd="$(pwd)"
-		for p in $(ls -1 "${VIM_PLUGIN_FOLDER}"); do
-			cd "${VIM_PLUGIN_FOLDER}/$p"
+function install_vim_plug() {
+	local install_path="${HOME}/.config/nvim/autoload/"
+	local install_file="${install_path}plug.vim"
+	local install_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	mkdir -p "$install_path"
+	backup "$install_file"
 
-			echo -n "Updating plugin '$p'... "
-			if git pull &> /dev/null && git submodule update --init --recursive &> /dev/null; then
-				echo "done"
-			else
-				echo "failed"
-			fi
-		done
-		cd "$wd"
+	echo -n "Installing vim-plug... "
+	if wget -O "$install_file" "$install_url" &> /dev/null; then
+		echo "done"
+	else
+		echo "failed"
 	fi
 }
 
+
 #
-# Make a fresh install.
-# Backups all old folders and configuration files and installs them new.
+# Create all links
+#
+function install_vim_files() {
+	mkdir -p "${HOME}/.config/nvim/"
+	lnwb "${DIR}/vim/init.vim" "${HOME}/.config/nvim/init.vim"
+	lnwb "${DIR}/vim/init.vim" "${HOME}/.vimrc"
+	lnwb "${HOME}/.config/nvim/" "${HOME}/.vim"
+}
+
+
+#
+# Install all files.
 #
 function install() {
-	if [ -d "$VIM_FOLDER" ]; then
-		local old="${VIM_FOLDER}.old"
-
-		if [ -d "$old" ]; then
-			echo -n "Removing old backup folder '$old'... "
-			if rm -rf "$old" &> /dev/null; then
-				echo "done"
-			else
-				echo "failed"
-			fi
-		fi
-
-		echo -n "Moving current vim folder '$VIM_FOLDER' to '$old'... "
-		if mv -f "$VIM_FOLDER" "$old" &> /dev/null; then
-			echo "done"
-		else
-			echo "failed"
-		fi
-	fi
-
-	mkdir -p "$VIM_PLUGIN_FOLDER"
-
-	install_new_vim_plugins
-	update_vim_plugins
-	custom_plugin_configuration
 	link_config_files
+	install_vim_files
+	install_vim_plug
 }
 
+
 #
-# Update plugins/configuration.
+# Update files.
 #
 function update() {
-	install_new_vim_plugins
-	update_vim_plugins
-	custom_plugin_configuration
+	install_vim_plug
 }
+
 
 #
 # Print usage information.
@@ -234,33 +132,23 @@ function usage() {
 	echo "  Options:"
 	echo "    -h  Print this help message."
 	echo "    -i  Backup the current configuration and create a new one."
-	echo "    -n  Only install new plugins."
 	echo "    -u  Update the current configuration."
 	echo ""
 	echo "  Don't forget to install those packages:"
 	echo "    exuberant-ctags silversearcher-ag"
 	echo ""
-	echo "  Execute '~/.vim/bundle/gnome-terminal-colors-solarized/set_dark.sh' to set the"
-	echo "  gnome-terminal color scheme. Also install the dircolors and make sure that"
-	echo "  those files are in the right place."
-	echo ""
 	echo "  Set your terminal to use this font (size 11):"
 	echo "    Source Code Pro for Powerline Regular"
 	echo ""
-	echo "  Use this prompt for a normal user:"
-	echo "    PS1='\[\e[1;37;103m\]\${debian_chroot:+($debian_chroot)}\u@\h  \w \[\e[0m\e[93m\]\[\e[0m\] '"
-	echo "  Use this prompt for root:"
-	echo "    PS1='\[\e[1;30;103m\]\${debian_chroot:+($debian_chroot)}\u@\h\[\e[37m\]  \w \[\e[0m\e[93m\]\[\e[0m\] '"
-	echo ""
 }
+
 
 # Store the user set options.
 opt_install=0
-opt_new=0
 opt_update=0
 
 # Parse all user arguments.
-while getopts "hinu" opt; do
+while getopts "hiu" opt; do
 	case $opt in
 		h)
 			usage
@@ -271,9 +159,6 @@ while getopts "hinu" opt; do
 			;;
 		u)
 			opt_update=1
-			;;
-		n)
-			opt_new=1
 			;;
 		*)
 			usage
@@ -287,8 +172,6 @@ if [ $opt_install -eq 1 ]; then
 	install
 elif [ $opt_update -eq 1 ]; then
 	update
-elif [ $opt_new -eq 1 ]; then
-	install_new_vim_plugins
 else
 	usage
 	exit 1
