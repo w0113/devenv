@@ -124,6 +124,12 @@ noremap <leader><Down> <C-w>J
 noremap <leader><Up> <C-w>K
 noremap <leader><Right> <C-w>L
 
+" Mappings for switching windows.
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
 " Run the current line through bash/ruby.
 nnoremap !b !!bash<CR>
 nnoremap !r !!ruby<CR>
@@ -168,6 +174,51 @@ colorscheme evening
 " Load plugins, if vim-plug is present
 runtime autoload/plug.vim
 if exists('g:loaded_plug')
-	source ~/.devenv/vim/plug-config.vim
+	"source ~/.devenv/vim/plug-config.vim
+endif
+
+" Create a nice statusline, if no airline plugin was loaded.
+if !exists('g:loaded_airline')
+	highlight User1 cterm=bold ctermbg=11 ctermfg=0  gui=bold guibg=#FCE94F guifg=#2E3436
+	highlight User2 cterm=bold ctermbg=14 ctermfg=4  gui=bold guibg=#34E2E2 guifg=#3465A4
+	highlight User3 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
+	highlight User4 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
+	highlight User5 cterm=bold ctermbg=4  ctermfg=0  gui=bold guibg=#C4A000 guifg=#2E3436
+	highlight User6 cterm=bold ctermbg=4  ctermfg=0  gui=bold guibg=#C4A000 guifg=#2E3436
+	highlight User7 cterm=bold ctermbg=13 ctermfg=0  gui=bold guibg=#AD7FA8 guifg=#2E3436
+
+	highlight User8 cterm=none ctermbg=0  ctermfg=7  gui=none guibg=#000000 guifg=#D3D7CF
+	highlight User9 cterm=none ctermbg=8  ctermfg=7  gui=none guibg=#555753 guifg=#D3D7CF
+
+	let g:sl_mode_conf = {
+		\ 'n'  : ['1', 'NORMAL'],
+		\ 'i'  : ['2', 'INSERT'],
+		\ 'R'  : ['3', 'REPLACE'],
+		\ 'c'  : ['4', 'COMMAND'],
+		\ 'v'  : ['5', 'VISUAL'],
+		\ 'V'  : ['5', 'V-LINE'],
+		\ '' : ['5', 'V-BLOCK'],
+		\ 's'  : ['6', 'SELECT'],
+		\ 'S'  : ['6', 'S-LINE'],
+		\ '' : ['6', 'S-BLOCK'],
+		\ 't'  : ['7', 'TERMINAL'],
+		\ }
+
+	function! CreateStatusline()
+		let l:sl  = ''
+		let l:sl .= '%'.get(g:sl_mode_conf,mode(),'1')[0].'*'
+		let l:sl .= ' '.get(g:sl_mode_conf,mode(),'-----')[1]
+		let l:sl .= ' %8* %f%( [%M%R%H%W]%)%q'
+		let l:sl .= '%='
+		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
+		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
+		let l:sl .= ' %'.get(g:sl_mode_conf,mode(),'1')[0].'*'
+		let l:sl .= ' %3p%% %4l/%L : %3v '
+		return l:sl
+	endfunction
+
+	set laststatus=2
+	set noshowmode
+	set statusline=%!CreateStatusline()
 endif
 
