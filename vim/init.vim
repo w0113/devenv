@@ -31,7 +31,8 @@ set encoding=utf-8  " Use UTF-8 as file encoding.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
-"set updatetime=500  " Write swap file after this many milliseconds
+set updatetime=1000 " Write swap file after this many milliseconds.
+set shortmess+=I    " Disable intro message when starting vim.
 
 " Enhance usability.
 set autoread        " Automatically read files when changed on disk.
@@ -168,13 +169,20 @@ if has('nvim')
 	set inccommand=nosplit  " Shows the effects of a command as you type.
 endif
 
-" Temp settings.
+" Use preinstalled colorscheme and adjust it to look good with gui and 256
+" colors.
 colorscheme evening
+highlight Normal ctermbg=236
+highlight CursorLine cterm=none ctermbg=239
+highlight ColorColumn ctermbg=239 guibg=grey40
+highlight LineNr ctermbg=239 guibg=grey40
+highlight CursorLineNr ctermbg=239 guibg=grey40
+highlight Visual ctermbg=242 guibg=grey50
 
 " Load plugins, if vim-plug is present
 runtime autoload/plug.vim
 if exists('g:loaded_plug')
-	"source ~/.devenv/vim/plug-config.vim
+	source ~/.devenv/vim/plug-config.vim
 endif
 
 " Create a nice statusline, if no airline plugin was loaded.
@@ -183,8 +191,8 @@ if !exists('g:loaded_airline')
 	highlight User2 cterm=bold ctermbg=14 ctermfg=4  gui=bold guibg=#34E2E2 guifg=#3465A4
 	highlight User3 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
 	highlight User4 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
-	highlight User5 cterm=bold ctermbg=4  ctermfg=0  gui=bold guibg=#C4A000 guifg=#2E3436
-	highlight User6 cterm=bold ctermbg=4  ctermfg=0  gui=bold guibg=#C4A000 guifg=#2E3436
+	highlight User5 cterm=bold ctermbg=4  ctermfg=7  gui=bold guibg=#3465A4 guifg=#D3D7CF
+	highlight User6 cterm=bold ctermbg=4  ctermfg=7  gui=bold guibg=#3465A4 guifg=#D3D7CF
 	highlight User7 cterm=bold ctermbg=13 ctermfg=0  gui=bold guibg=#AD7FA8 guifg=#2E3436
 
 	highlight User8 cterm=none ctermbg=0  ctermfg=7  gui=none guibg=#000000 guifg=#D3D7CF
@@ -206,14 +214,14 @@ if !exists('g:loaded_airline')
 
 	function! CreateStatusline()
 		let l:sl  = ''
-		let l:sl .= '%'.get(g:sl_mode_conf,mode(),'1')[0].'*'
-		let l:sl .= ' '.get(g:sl_mode_conf,mode(),'-----')[1]
-		let l:sl .= ' %8* %f%( [%M%R%H%W]%)%q'
+		let l:sl .= '%'.get(g:sl_mode_conf,mode(),['1',''])[0].'*'
+		let l:sl .= ' '.get(g:sl_mode_conf,mode(),['','-----'])[1]
+		let l:sl .= ' %8* %<%f%( [%M%R%H%W]%)'
 		let l:sl .= '%='
 		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
 		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
 		let l:sl .= ' %'.get(g:sl_mode_conf,mode(),'1')[0].'*'
-		let l:sl .= ' %3p%% %4l/%L : %3v '
+		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
 		return l:sl
 	endfunction
 
