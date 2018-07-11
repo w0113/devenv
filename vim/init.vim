@@ -212,7 +212,7 @@ if !exists('g:loaded_airline')
 		\ 't'  : ['7', 'TERMINAL'],
 		\ }
 
-	function! CreateStatusline()
+	function! ActiveStatusline() abort
 		let l:sl  = ''
 		let l:sl .= '%'.get(g:sl_mode_conf,mode(),['1',''])[0].'*'
 		let l:sl .= ' '.get(g:sl_mode_conf,mode(),['','-----'])[1]
@@ -225,8 +225,24 @@ if !exists('g:loaded_airline')
 		return l:sl
 	endfunction
 
+	function! PassiveStatusline() abort
+		let l:sl  = ''
+		let l:sl .= ' %8* %<%f%( [%M%R%H%W]%)'
+		let l:sl .= '%='
+		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
+		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
+		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
+		return l:sl
+	endfunction
+
 	set laststatus=2
 	set noshowmode
-	set statusline=%!CreateStatusline()
+	set statusline=%!ActiveStatusline()
+
+	augroup statusline
+		autocmd!
+		autocmd WinEnter * setlocal statusline=%!ActiveStatusline()
+		autocmd WinLeave * setlocal statusline=%!PassiveStatusline()
+	augroup END
 endif
 
