@@ -1,7 +1,12 @@
 
+runtime autoload/plug.vim
+if !exists('g:loaded_plug')
+	finish
+endif
+
 " All plugins
 call plug#begin('~/.config/nvim/plugged/')
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 "Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
@@ -26,14 +31,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'w0113/vim-textobj-rubyblock'
 call plug#end()
-
-" TODO: Autoload this file on changes
-"		Builtin check for not loading this file when no vim-plug is installed
 
 " Settings for airline.
 set noshowmode
