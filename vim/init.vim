@@ -19,12 +19,12 @@ if has('persistent_undo')
 	set undofile
 endif
 
-" Use true-colors.
-if has('termguicolors')
-	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-	set termguicolors
-endif
+"" Use true-colors.
+"if has('termguicolors')
+"	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+"	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+"	set termguicolors
+"endif
 
 " Basic settings.
 set encoding=utf-8  " Use UTF-8 as file encoding.
@@ -172,23 +172,27 @@ endif
 " Use preinstalled colorscheme and adjust it to look good with gui and 256
 " colors.
 colorscheme evening
-highlight Normal ctermbg=236
-highlight CursorLine cterm=none ctermbg=239
 highlight ColorColumn ctermbg=239 guibg=grey40
-highlight LineNr ctermbg=239 guibg=grey40
+highlight CursorLine cterm=none ctermbg=239
 highlight CursorLineNr ctermbg=239 guibg=grey40
+highlight LineNr ctermbg=239 guibg=grey40
+highlight Normal ctermbg=236
+highlight SignColumn ctermbg=239 guibg=grey40
 highlight Visual ctermbg=242 guibg=grey50
 
-" Load plugins, if vim-plug is present
-runtime autoload/plug.vim
-if exists('g:loaded_plug')
-	source ~/.devenv/vim/plug-config.vim
+" Load plugins, if plugin file exists.
+let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
+if filereadable(s:plug_path)
+	exe 'source ' . s:plug_path
 endif
 
 " Create a nice statusline, if no airline plugin was loaded.
 if !exists('g:loaded_airline')
+	highlight SlModeNormal cterm=bold ctermbg=228 ctermfg=234 gui=bold guibg=#ffff87 guibg=#1c1c1c
+	highlight SlModeInsert cterm=bold ctermbg=228 ctermfg=234 gui=bold guibg=#ffff87 guibg=#1c1c1c
+
 	highlight User1 cterm=bold ctermbg=11 ctermfg=0  gui=bold guibg=#FCE94F guifg=#2E3436
-	highlight User2 cterm=bold ctermbg=14 ctermfg=4  gui=bold guibg=#34E2E2 guifg=#3465A4
+	highlight User2 cterm=bold ctermbg=14 ctermfg=8  gui=bold guibg=#34E2E2 guifg=#3465A4
 	highlight User3 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
 	highlight User4 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
 	highlight User5 cterm=bold ctermbg=4  ctermfg=7  gui=bold guibg=#3465A4 guifg=#D3D7CF
@@ -198,7 +202,9 @@ if !exists('g:loaded_airline')
 	highlight User8 cterm=none ctermbg=0  ctermfg=7  gui=none guibg=#000000 guifg=#D3D7CF
 	highlight User9 cterm=none ctermbg=8  ctermfg=7  gui=none guibg=#555753 guifg=#D3D7CF
 
-	let g:sl_mode_conf = {
+	highlight StatusLineNC term=none cterm=none ctermbg=8 ctermfg=7 gui=none guibg=#555753 guifg=#D3D7CF
+
+	let s:sl_mode_conf = {
 		\ 'n'  : ['1', 'NORMAL'],
 		\ 'i'  : ['2', 'INSERT'],
 		\ 'R'  : ['3', 'REPLACE'],
@@ -213,23 +219,21 @@ if !exists('g:loaded_airline')
 		\ }
 
 	function! ActiveStatusline() abort
-		let l:sl  = ''
-		let l:sl .= '%'.get(g:sl_mode_conf,mode(),['1',''])[0].'*'
-		let l:sl .= ' '.get(g:sl_mode_conf,mode(),['','-----'])[1]
+		let l:sl  = '%'.get(s:sl_mode_conf,mode(),['1',''])[0].'*'
+		let l:sl .= ' '.get(s:sl_mode_conf,mode(),['','-----'])[1]
 		let l:sl .= ' %8* %<%f%( [%M%R%H%W]%)'
 		let l:sl .= '%='
 		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
 		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
-		let l:sl .= ' %'.get(g:sl_mode_conf,mode(),'1')[0].'*'
+		let l:sl .= ' %'.get(s:sl_mode_conf,mode(),'1')[0].'*'
 		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
 		return l:sl
 	endfunction
 
 	function! PassiveStatusline() abort
-		let l:sl  = ''
-		let l:sl .= ' %8* %<%f%( [%M%R%H%W]%)'
+		let l:sl  = ' %<%f%( [%M%R%H%W]%)'
 		let l:sl .= '%='
-		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
+		let l:sl .= ' %{(&ft!=""?&ft:"unknown")}'
 		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
 		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
 		return l:sl
