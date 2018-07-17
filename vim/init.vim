@@ -1,6 +1,12 @@
 " Disable Vi compatibility (only needed by vim).
 set nocompatible
 
+" Load plugins, if plugin file exists.
+let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
+if filereadable(s:plug_path)
+	exe 'source ' . s:plug_path
+endif
+
 " Enable syntax highlighting.
 if !exists('g:syntax_on')
 	syntax enable
@@ -19,12 +25,12 @@ if has('persistent_undo')
 	set undofile
 endif
 
-"" Use true-colors.
-"if has('termguicolors')
-"	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-"	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-"	set termguicolors
-"endif
+" Use true-colors.
+if has('termguicolors')
+	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+	set termguicolors
+endif
 
 " Basic settings.
 set encoding=utf-8  " Use UTF-8 as file encoding.
@@ -172,81 +178,72 @@ endif
 " Use preinstalled colorscheme and adjust it to look good with gui and 256
 " colors.
 colorscheme evening
-highlight ColorColumn ctermbg=239 guibg=grey40
-highlight CursorLine cterm=none ctermbg=239
-highlight CursorLineNr ctermbg=239 guibg=grey40
-highlight LineNr ctermbg=239 guibg=grey40
-highlight Normal ctermbg=236
-highlight SignColumn ctermbg=239 guibg=grey40
-highlight Visual ctermbg=242 guibg=grey50
-
-" Load plugins, if plugin file exists.
-let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
-if filereadable(s:plug_path)
-	exe 'source ' . s:plug_path
-endif
+highlight ColorColumn             ctermbg=237                      guibg=#3c3836
+highlight CursorLine   cterm=none ctermbg=237                      guibg=#3c3836
+highlight CursorLineNr cterm=bold ctermbg=237 ctermfg=214 gui=bold guibg=#3c3836 guifg=#fabd2f
+highlight LineNr       cterm=bold ctermbg=235 ctermfg=243 gui=bold guibg=#282828 guifg=#7c6f64
+highlight Normal                  ctermbg=235                      guibg=#282828
+highlight SignColumn              ctermbg=237                      guibg=#3c3836
+highlight Visual                  ctermbg=237                      guibg=#3c3836
 
 " Create a nice statusline, if no airline plugin was loaded.
-if !exists('g:loaded_airline')
-	highlight SlModeNormal cterm=bold ctermbg=228 ctermfg=234 gui=bold guibg=#ffff87 guibg=#1c1c1c
-	highlight SlModeInsert cterm=bold ctermbg=228 ctermfg=234 gui=bold guibg=#ffff87 guibg=#1c1c1c
+highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
+highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
+highlight SlModeReplace  cterm=bold ctermbg=108 ctermfg=235 gui=bold guibg=#8ec07c guifg=#282828
+highlight SlModeCommand  cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
+highlight SlModeVisual   cterm=bold ctermbg=208 ctermfg=235 gui=bold guibg=#fe8019 guifg=#282828
+highlight SlModeSelect   cterm=bold ctermbg=142 ctermfg=235 gui=bold guibg=#b8bb26 guifg=#282828
+highlight SlModeTerminal cterm=bold ctermbg=175 ctermfg=235 gui=bold guibg=#d3869b guifg=#282828
+highlight SlModeUnknown  cterm=bold ctermbg=214 ctermfg=235 gui=bold guibg=#fabd2f guifg=#282828
 
-	highlight User1 cterm=bold ctermbg=11 ctermfg=0  gui=bold guibg=#FCE94F guifg=#2E3436
-	highlight User2 cterm=bold ctermbg=14 ctermfg=8  gui=bold guibg=#34E2E2 guifg=#3465A4
-	highlight User3 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
-	highlight User4 cterm=bold ctermbg=1  ctermfg=7  gui=bold guibg=#CC0000 guifg=#EEEEEC
-	highlight User5 cterm=bold ctermbg=4  ctermfg=7  gui=bold guibg=#3465A4 guifg=#D3D7CF
-	highlight User6 cterm=bold ctermbg=4  ctermfg=7  gui=bold guibg=#3465A4 guifg=#D3D7CF
-	highlight User7 cterm=bold ctermbg=13 ctermfg=0  gui=bold guibg=#AD7FA8 guifg=#2E3436
+highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
+highlight SlFileInfo     cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
 
-	highlight User8 cterm=none ctermbg=0  ctermfg=7  gui=none guibg=#000000 guifg=#D3D7CF
-	highlight User9 cterm=none ctermbg=8  ctermfg=7  gui=none guibg=#555753 guifg=#D3D7CF
+highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
 
-	highlight StatusLineNC term=none cterm=none ctermbg=8 ctermfg=7 gui=none guibg=#555753 guifg=#D3D7CF
+let s:sl_mode_conf = {
+	\ 'n'  : ['SlModeNormal', 'NORMAL'],
+	\ 'i'  : ['SlModeInsert', 'INSERT'],
+	\ 'R'  : ['SlModeReplace', 'REPLACE'],
+	\ 'c'  : ['SlModeCommand', 'COMMAND'],
+	\ 'v'  : ['SlModeVisual', 'VISUAL'],
+	\ 'V'  : ['SlModeVisual', 'V-LINE'],
+	\ '' : ['SlModeVisual', 'V-BLOCK'],
+	\ 's'  : ['SlModeSelect', 'SELECT'],
+	\ 'S'  : ['SlModeSelect', 'S-LINE'],
+	\ '' : ['SlModeSelect', 'S-BLOCK'],
+	\ 't'  : ['SlModeTerminal', 'TERMINAL'],
+	\ }
+let s:sl_mode_unknown = ['SlModeUnknown', '-----']
 
-	let s:sl_mode_conf = {
-		\ 'n'  : ['1', 'NORMAL'],
-		\ 'i'  : ['2', 'INSERT'],
-		\ 'R'  : ['3', 'REPLACE'],
-		\ 'c'  : ['4', 'COMMAND'],
-		\ 'v'  : ['5', 'VISUAL'],
-		\ 'V'  : ['5', 'V-LINE'],
-		\ '' : ['5', 'V-BLOCK'],
-		\ 's'  : ['6', 'SELECT'],
-		\ 'S'  : ['6', 'S-LINE'],
-		\ '' : ['6', 'S-BLOCK'],
-		\ 't'  : ['7', 'TERMINAL'],
-		\ }
+function! ActiveStatusline() abort
+	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
+	let l:sl  = '%#'.l:mc[0].'# '.l:mc[1]
+	let l:sl .= (&paste && l:mc[1] ==# 'INSERT') ? ' (paste) ' : ' '
+	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
+	let l:sl .= '%='
+	let l:sl .= '%#SlFileInfo# %{(&ft!=""?&ft." ":"")}'
+	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
+	let l:sl .= '%#'.l:mc[0].'# %3p%% ☰ %4l/%L ln : %3v '
+	return l:sl
+endfunction
 
-	function! ActiveStatusline() abort
-		let l:sl  = '%'.get(s:sl_mode_conf,mode(),['1',''])[0].'*'
-		let l:sl .= ' '.get(s:sl_mode_conf,mode(),['','-----'])[1]
-		let l:sl .= ' %8* %<%f%( [%M%R%H%W]%)'
-		let l:sl .= '%='
-		let l:sl .= '%9* %{(&ft!=""?&ft:"unknown")}'
-		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
-		let l:sl .= ' %'.get(s:sl_mode_conf,mode(),'1')[0].'*'
-		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
-		return l:sl
-	endfunction
+function! PassiveStatusline() abort
+	let l:sl  = ' %<%f%( [%M%R%H%W]%)'
+	let l:sl .= '%='
+	let l:sl .= '%{(&ft!=""?&ft." ":"")}'
+	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}]  '
+	let l:sl .= '%3p%% ☰ %4l/%L ln : %3v '
+	return l:sl
+endfunction
 
-	function! PassiveStatusline() abort
-		let l:sl  = ' %<%f%( [%M%R%H%W]%)'
-		let l:sl .= '%='
-		let l:sl .= ' %{(&ft!=""?&ft:"unknown")}'
-		let l:sl .= ' %{(&fenc!=""?&fenc:&enc)}[%{&ff}]'
-		let l:sl .= ' %3p%% ☰ %4l/%L ln : %3v '
-		return l:sl
-	endfunction
+set laststatus=2
+set noshowmode
+set statusline=%!ActiveStatusline()
 
-	set laststatus=2
-	set noshowmode
-	set statusline=%!ActiveStatusline()
-
-	augroup statusline
-		autocmd!
-		autocmd WinEnter * setlocal statusline=%!ActiveStatusline()
-		autocmd WinLeave * setlocal statusline=%!PassiveStatusline()
-	augroup END
-endif
+augroup statusline
+	autocmd!
+	autocmd WinEnter * setlocal statusline=%!ActiveStatusline()
+	autocmd WinLeave * setlocal statusline=%!PassiveStatusline()
+augroup END
 
