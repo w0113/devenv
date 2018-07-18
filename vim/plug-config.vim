@@ -37,11 +37,17 @@ Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'w0113/vim-textobj-rubyblock'
 call plug#end()
 
-" Settings for airline.
-set noshowmode
-set laststatus=2
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tagbar#enabled=1
+" Settings for gruvbox.
+let g:gruvbox_italic=1
+"let g:gruvbox_contrast_dark='hard'
+set background=dark
+colorscheme gruvbox
+
+"" Settings for airline.
+"set noshowmode
+"set laststatus=2
+"let g:airline#extensions#tabline#enabled=1
+"let g:airline#extensions#tagbar#enabled=1
 
 " Settings for EasyMotion:
 nmap <leader>f <Plug>(easymotion-s)

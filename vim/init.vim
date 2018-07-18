@@ -1,12 +1,6 @@
 " Disable Vi compatibility (only needed by vim).
 set nocompatible
 
-" Load plugins, if plugin file exists.
-let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
-if filereadable(s:plug_path)
-	exe 'source ' . s:plug_path
-endif
-
 " Enable syntax highlighting.
 if !exists('g:syntax_on')
 	syntax enable
@@ -177,6 +171,7 @@ endif
 
 " Use preinstalled colorscheme and adjust it to look good with gui and 256
 " colors.
+set background=dark
 colorscheme evening
 highlight ColorColumn             ctermbg=237                      guibg=#3c3836
 highlight CursorLine   cterm=none ctermbg=237                      guibg=#3c3836
@@ -187,19 +182,22 @@ highlight SignColumn              ctermbg=237                      guibg=#3c3836
 highlight Visual                  ctermbg=237                      guibg=#3c3836
 
 " Create a nice statusline, if no airline plugin was loaded.
-highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
-highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
-highlight SlModeReplace  cterm=bold ctermbg=108 ctermfg=235 gui=bold guibg=#8ec07c guifg=#282828
-highlight SlModeCommand  cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
-highlight SlModeVisual   cterm=bold ctermbg=208 ctermfg=235 gui=bold guibg=#fe8019 guifg=#282828
-highlight SlModeSelect   cterm=bold ctermbg=142 ctermfg=235 gui=bold guibg=#b8bb26 guifg=#282828
-highlight SlModeTerminal cterm=bold ctermbg=175 ctermfg=235 gui=bold guibg=#d3869b guifg=#282828
-highlight SlModeUnknown  cterm=bold ctermbg=214 ctermfg=235 gui=bold guibg=#fabd2f guifg=#282828
+function! DefineStatuslineHighlights() abort
+	highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
+	highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
+	highlight SlModeReplace  cterm=bold ctermbg=108 ctermfg=235 gui=bold guibg=#8ec07c guifg=#282828
+	highlight SlModeCommand  cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
+	highlight SlModeVisual   cterm=bold ctermbg=208 ctermfg=235 gui=bold guibg=#fe8019 guifg=#282828
+	highlight SlModeSelect   cterm=bold ctermbg=142 ctermfg=235 gui=bold guibg=#b8bb26 guifg=#282828
+	highlight SlModeTerminal cterm=bold ctermbg=175 ctermfg=235 gui=bold guibg=#d3869b guifg=#282828
+	highlight SlModeUnknown  cterm=bold ctermbg=214 ctermfg=235 gui=bold guibg=#fabd2f guifg=#282828
 
-highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
-highlight SlFileInfo     cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
+	highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
+	highlight SlFileInfo     cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
 
-highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
+	highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
+endfunction
+call DefineStatuslineHighlights()
 
 let s:sl_mode_conf = {
 	\ 'n'  : ['SlModeNormal', 'NORMAL'],
@@ -243,7 +241,14 @@ set statusline=%!ActiveStatusline()
 
 augroup statusline
 	autocmd!
+	autocmd ColorScheme * call DefineStatuslineHighlights()
 	autocmd WinEnter * setlocal statusline=%!ActiveStatusline()
 	autocmd WinLeave * setlocal statusline=%!PassiveStatusline()
 augroup END
+
+" Load plugins, if plugin file exists.
+let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
+if filereadable(s:plug_path)
+	exe 'source ' . s:plug_path
+endif
 
