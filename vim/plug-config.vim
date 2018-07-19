@@ -1,10 +1,13 @@
 
+" Only load this file if vim-plug is loaded.
 runtime autoload/plug.vim
 if !exists('g:loaded_plug')
 	finish
 endif
 
-" All plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged/')
 "Plug 'airblade/vim-gitgutter'
 "Plug 'benmills/vimux'
@@ -31,25 +34,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'w0113/vim-textobj-rubyblock'
 call plug#end()
 
-" Settings for gruvbox.
-let g:gruvbox_italic=1
-"let g:gruvbox_contrast_dark='hard'
-set background=dark
-colorscheme gruvbox
 
-"" Settings for airline.
-"set noshowmode
-"set laststatus=2
-"let g:airline#extensions#tabline#enabled=1
-"let g:airline#extensions#tagbar#enabled=1
-
-" Settings for EasyMotion:
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" EasyMotion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <leader>f <Plug>(easymotion-s)
 nmap <leader>F <Plug>(easymotion-s)
 nmap <leader>t <Plug>(easymotion-bd-t)
@@ -64,13 +56,19 @@ nmap <leader>j <Plug>(easymotion-bd-jk)
 nmap <leader>k <Plug>(easymotion-bd-jk)
 let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
-" Settings for Expand-Region:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Expand-Region
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
-" Settings for fzf:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fzf
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:fzf_command_prefix='Fzf'
 
 command! -bang -nargs=? -complete=dir FzfHFiles call fzf#vim#files(<q-args>,
@@ -93,11 +91,47 @@ nnoremap sc :FzfCommits<CR>
 nnoremap s. :FzfCommands<CR>
 nnoremap sh :FzfHelptags<CR>
 
-" Settings for Indent-Guides:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" gruvbox
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_light='medium'
+set background=dark
+colorscheme gruvbox
+
+function! CsSwitchBackground() abort
+	let &background = (&background == 'dark' ? 'light' : 'dark')
+	echo "Changed colorscheme background to " . &background
+endfunction
+
+function! CsSwitchContrast() abort
+	" All current contrast options.
+	let l:cs = ['soft', 'medium', 'hard']
+	" Get the index of the current contrast.
+	let l:ci = index(l:cs, g:gruvbox_contrast_dark)
+	" Get the next contrast, relativ to l:ci.
+	let l:cn = l:cs[(l:ci + 1) % len(l:cs)]
+
+	" Set the new contrast and activate it by setting the colorscheme.
+	let g:gruvbox_contrast_dark = l:cn
+	let g:gruvbox_contrast_light = l:cn
+	colorscheme gruvbox
+	echo "Changed colorscheme contrast to " . l:cn
+endfunction
+
+noremap <silent> <F5> :call CsSwitchBackground()<CR>
+noremap <silent> <F6> :call CsSwitchContrast()<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indent-Guides
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indent_guides_default_mapping=0
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
-let g:indent_guides_auto_colors=0
-let g:indent_guides_default_mapping=0
+let g:indent_guides_start_level=2
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
 " Settings for LanguageClient-neovim:
@@ -118,29 +152,47 @@ nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 "let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
 "let g:LanguageClient_loggingLevel = 'DEBUG'
 
-" Settings for Limelight:
-nnoremap <silent> <F6> :Limelight!!<CR>
-inoremap <silent> <F6> <C-o>:Limelight!!<CR>
-xnoremap <silent> <F6> :Limelight!!<CR>gv
 
-" Settings for NERDTree:
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Limelight
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <F7> :Limelight!!<CR>
+inoremap <silent> <F7> <C-o>:Limelight!!<CR>
+xnoremap <silent> <F7> :Limelight!!<CR>gv
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
 let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
 
-" Settings for Tagbar:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tagbar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:tagbar_autoclose=1
 nnoremap <leader><leader>t :TagbarToggle<CR>
 
-" Settings for Undotree:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Undotree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader><leader>u :UndotreeToggle<CR>
 
-" Settings for unimpaired:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" unimpaired
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use ö and ä instead of [ and ].
 let g:nremap={"[": "ö", "]": "ä"}
 let g:xremap={"[": "ö", "]": "ä"}
 let g:oremap={"[": "ö", "]": "ä"}
 
-" Settings for vimux:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vimux
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "nnoremap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
 "nnoremap <leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
 "nnoremap <leader>rc :call VimuxPromptCommand()<CR>

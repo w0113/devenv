@@ -182,7 +182,7 @@ highlight SignColumn              ctermbg=237                      guibg=#3c3836
 highlight Visual                  ctermbg=237                      guibg=#3c3836
 
 " Create a nice statusline, if no airline plugin was loaded.
-function! DefineStatuslineHighlights() abort
+function! DefineSlHighlights() abort
 	highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
 	highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
 	highlight SlModeReplace  cterm=bold ctermbg=108 ctermfg=235 gui=bold guibg=#8ec07c guifg=#282828
@@ -193,11 +193,11 @@ function! DefineStatuslineHighlights() abort
 	highlight SlModeUnknown  cterm=bold ctermbg=214 ctermfg=235 gui=bold guibg=#fabd2f guifg=#282828
 
 	highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
-	highlight SlFileInfo     cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
+	highlight SlInfo         cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
 
 	highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
 endfunction
-call DefineStatuslineHighlights()
+call DefineSlHighlights()
 
 let s:sl_mode_conf = {
 	\ 'n'  : ['SlModeNormal', 'NORMAL'],
@@ -214,19 +214,19 @@ let s:sl_mode_conf = {
 	\ }
 let s:sl_mode_unknown = ['SlModeUnknown', '-----']
 
-function! ActiveStatusline() abort
+function! SlActive() abort
 	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
-	let l:sl  = '%#'.l:mc[0].'# '.l:mc[1]
-	let l:sl .= (&paste && l:mc[1] ==# 'INSERT') ? ' (paste) ' : ' '
+	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
+	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
 	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
-	let l:sl .= '%#SlFileInfo# %{(&ft!=""?&ft." ":"")}'
+	let l:sl .= '%#SlInfo# %{(&ft!=""?&ft." ":"")}'
 	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
-	let l:sl .= '%#'.l:mc[0].'# %3p%% ☰ %4l/%L ln : %3v '
+	let l:sl .= '%#' . l:mc[0] . '# %3p%% ☰ %4l/%L ln : %3v '
 	return l:sl
 endfunction
 
-function! PassiveStatusline() abort
+function! SlPassive() abort
 	let l:sl  = ' %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
 	let l:sl .= '%{(&ft!=""?&ft." ":"")}'
@@ -237,13 +237,13 @@ endfunction
 
 set laststatus=2
 set noshowmode
-set statusline=%!ActiveStatusline()
+set statusline=%!SlActive()
 
 augroup statusline
 	autocmd!
-	autocmd ColorScheme * call DefineStatuslineHighlights()
-	autocmd WinEnter * setlocal statusline=%!ActiveStatusline()
-	autocmd WinLeave * setlocal statusline=%!PassiveStatusline()
+	autocmd ColorScheme * call DefineSlHighlights()
+	autocmd WinEnter * setlocal statusline=%!SlActive()
+	autocmd WinLeave * setlocal statusline=%!SlPassive()
 augroup END
 
 " Load plugins, if plugin file exists.
