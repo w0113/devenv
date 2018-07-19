@@ -5,8 +5,8 @@ set editing-mode vi
 $if mode=vi
 	# show vi mode
 	set show-mode-in-prompt on
-	set vi-ins-mode-string "\1\e[1;37;42m\2 I \1\e[0m\2 "
-	set vi-cmd-mode-string "\1\e[1;90;47m\2 N \1\e[0m\2 "
+	set vi-ins-mode-string "\1\e[1;48;5;109;38;5;235m\2 I \1\e[0m\2 "
+	set vi-cmd-mode-string "\1\e[1;48;5;246;38;5;235m\2 N \1\e[0m\2 "
 
 	# find the last command in history which matches the beginning of the
 	# current line:
