@@ -1,4 +1,9 @@
 
+" Neovim only.
+if !has('nvim')
+	finish
+endif
+
 " Only load this file if vim-plug is loaded.
 runtime autoload/plug.vim
 if !exists('g:loaded_plug')
@@ -9,9 +14,7 @@ endif
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged/')
-"Plug 'airblade/vim-gitgutter'
-"Plug 'benmills/vimux'
-Plug 'christoomey/vim-tmux-navigator'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
@@ -28,6 +31,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -37,6 +41,12 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'w0113/vim-textobj-rubyblock'
 call plug#end()
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Deoplete
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -134,23 +144,17 @@ let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_start_level=2
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
-" Settings for LanguageClient-neovim:
-"let g:LanguageClient_serverCommands = {
-"    \ 'ruby': ['tcp://127.0.0.1:7658'],
-"	\ }
-"augroup language_client
-"	autocmd!
-"	autocmd FileType ruby call system('bash -c "'
-"		\ . 'if which solargraph &> /dev/null '
-"		\ . '    && ! pgrep solargraph &> /dev/null; then '
-"		\ . '    solargraph socket &> /dev/null &disown; '
-"		\ . 'fi"')
-"augroup END
-"set completefunc=LanguageClient#complete
-"set signcolumn=yes
-"nnoremap <F4> :call LanguageClient_contextMenu()<CR>
-"let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-"let g:LanguageClient_loggingLevel = 'DEBUG'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LanguageClient-neovim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:LanguageClient_serverCommands = {
+	\ 'ruby': ['solargraph', 'stdio'],
+	\ }
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,18 +192,4 @@ nnoremap <leader><leader>u :UndotreeToggle<CR>
 let g:nremap={"[": "ö", "]": "ä"}
 let g:xremap={"[": "ö", "]": "ä"}
 let g:oremap={"[": "ö", "]": "ä"}
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vimux
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"nnoremap <leader>r :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>
-"nnoremap <leader>rz :call VimuxRunCommand("clear; ./" . bufname("%"))<CR>:call VimuxZoomRunner()<CR>
-"nnoremap <leader>rc :call VimuxPromptCommand()<CR>
-"nnoremap <leader>rcz :call VimuxPromptCommand()<CR>:call VimuxZoomRunner()<CR>
-"nnoremap <leader>rl :call VimuxRunLastCommand()<CR>
-"nnoremap <leader>rlz :call VimuxRunLastCommand()<CR>:call VimuxZoomRunner()<CR>
-"nnoremap <leader>rr :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>
-"nnoremap <leader>rrz :call VimuxRunCommand("clear; find '" . getcwd() . "' -maxdepth 1 -type f -executable -exec '{}' \\\\;")<CR>:call VimuxZoomRunner()<CR>
-"nnoremap <leader>rq :call VimuxCloseRunner()<CR>
 

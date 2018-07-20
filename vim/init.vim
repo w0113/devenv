@@ -77,7 +77,6 @@ runtime macros/matchit.vim
 " Easy editing of the vimrc file.
 augroup vim_reload
 	autocmd!
-	"autocmd BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
 	autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
@@ -113,6 +112,10 @@ nnoremap <silent> Ü :m .-2<CR>==
 xnoremap <silent> Ä :m '>+1<CR>gv=gv
 xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Windows
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Mappings for resizing windows.
 noremap <Left> <C-w><
 noremap <Down> <C-w>-
@@ -120,43 +123,39 @@ noremap <Up> <C-w>+
 noremap <Right> <C-w>>
 
 " Mappings for moving windows.
-noremap <leader><Left> <C-w>H
-noremap <leader><Down> <C-w>J
-noremap <leader><Up> <C-w>K
-noremap <leader><Right> <C-w>L
+nnoremap <leader><Left>  <C-w>H
+nnoremap <leader><Down>  <C-w>J
+nnoremap <leader><Up>    <C-w>K
+nnoremap <leader><Right> <C-w>L
 
 " Mappings for switching windows.
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+inoremap <C-h> <C-\><C-o><C-w>h
+inoremap <C-j> <C-\><C-o><C-w>j
+inoremap <C-k> <C-\><C-o><C-w>k
+inoremap <C-l> <C-\><C-o><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Run the current line through bash/ruby.
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Execute line
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap !b !!bash<CR>
 nnoremap !r !!ruby<CR>
 
-" List settings.
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" List
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set lcs=eol:¶,tab:‣\ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣
 nnoremap <silent> <leader><leader>l :set list!<CR>
 
-"" Folding settings.
-"" TODO: Check functionality
-"set foldclose=all     " Close folds if you leave them in any way
-"set foldcolumn=1      " Show the foldcolumn
-"set nofoldenable      " Turn off folding
-"set foldlevel=0       " Autofold everything by default
-"set foldmethod=syntax " Fold on the syntax
-"set foldopen=all      " Open folds if you touch them in any way
-"set foldminlines=8    " Only close folds with more then 8 lines
-"set foldnestmax=3     " Max level to which folds are closed
-"" Toggle folding
-"nnoremap <silent> <leader>z :set foldenable!<CR>
-"" Increment local foldnestmax by 1
-"nnoremap <leader>zi :let &l:foldnestmax = &l:foldnestmax + 1<CR>:setlocal foldnestmax?<CR>
-"" Decrement local foldnestmax by 1
-"nnoremap <leader>zd :let &l:foldnestmax = &l:foldnestmax - 1<CR>:setlocal foldnestmax?<CR>
 
-" Settings per filetype.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Filetype.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup filetype_settings
 	autocmd!
 	autocmd FileType html,python,ruby,yaml
@@ -164,11 +163,27 @@ augroup filetype_settings
 	autocmd FileType python setlocal foldmethod=indent
 augroup END
 
-" Neovim specific settings.
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Neovim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim')
 	set inccommand=nosplit  " Shows the effects of a command as you type.
+
+	" Also enable navigation mappings in neovims terminal.
+	tnoremap <C-h> <C-\><C-n><C-w>h
+	tnoremap <C-j> <C-\><C-n><C-w>j
+	tnoremap <C-k> <C-\><C-n><C-w>k
+	tnoremap <C-l> <C-\><C-n><C-w>l
+
+	" Use double escape to leave terminal mode.
+	tnoremap <ESC><ESC> <C-\><C-n>
 endif
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colorscheme
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use preinstalled colorscheme and adjust it to look good with gui and 256
 " colors.
 set background=dark
@@ -181,7 +196,10 @@ highlight Normal                  ctermbg=235                      guibg=#282828
 highlight SignColumn              ctermbg=237                      guibg=#3c3836
 highlight Visual                  ctermbg=237                      guibg=#3c3836
 
-" Create a nice statusline, if no airline plugin was loaded.
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Statusline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! DefineSlHighlights() abort
 	highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
 	highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
@@ -246,7 +264,25 @@ augroup statusline
 	autocmd WinLeave * setlocal statusline=%!SlPassive()
 augroup END
 
-" Load plugins, if plugin file exists.
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tabline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"function! TlCreate() abort
+"	
+"	let l:tl  = ''
+"	let l:tl .= '%1T'
+"	let l:tl .= ''
+"
+"endfunction
+"
+"set showtabline=2
+"set tabline=%!TlCreate()
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
 if filereadable(s:plug_path)
 	exe 'source ' . s:plug_path
