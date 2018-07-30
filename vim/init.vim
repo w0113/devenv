@@ -176,8 +176,14 @@ if has('nvim')
 	tnoremap <C-k> <C-\><C-n><C-w>k
 	tnoremap <C-l> <C-\><C-n><C-w>l
 
-	" Use double escape to leave terminal mode.
-	tnoremap <ESC><ESC> <C-\><C-n>
+	" Also enable mappings for resizing windows.
+	tnoremap <Left> <C-w><
+	tnoremap <Down> <C-w>-
+	tnoremap <Up> <C-w>+
+	tnoremap <Right> <C-w>>
+
+	" Use leader+escape to leave terminal mode.
+	tnoremap <leader><ESC> <C-\><C-n>
 endif
 
 
@@ -263,21 +269,6 @@ augroup statusline
 	autocmd WinEnter * setlocal statusline=%!SlActive()
 	autocmd WinLeave * setlocal statusline=%!SlPassive()
 augroup END
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Tabline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"function! TlCreate() abort
-"	
-"	let l:tl  = ''
-"	let l:tl .= '%1T'
-"	let l:tl .= ''
-"
-"endfunction
-"
-"set showtabline=2
-"set tabline=%!TlCreate()
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
