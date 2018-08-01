@@ -188,6 +188,115 @@ endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Neovim send command to terminal
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+	" Where should a new terminal be positioned? Possible values:
+	" left, right, top or bottom
+	let s:send_term_split_pos = 'right'
+	" Character width/height of new terminal window.
+	let s:send_term_split_size = 84
+
+	" Name of the variable to identify the terminal buffer. Usually no need to
+	" edit this.
+	let s:send_term_id_var_name = 'is_send_term_buffer'
+
+	"
+	" Execute a shell command inside a terminal in a split window.
+	" arg cmd: The command as string which should be executed.
+	"
+	function! SendTermCmdTerminal(cmd) abort
+		if strlen(a:cmd) > 0
+			" Send the command if it is not empty.
+			call jobsend(SendTermOpenTerminal(), a:cmd . "\n")
+		else
+			" With an empty command, just open the terminal.
+			call SendTermOpenTerminal()
+		endif
+	endfunction
+
+	"
+	" Get the job ID of the shell within the terminal.
+	" Returns: The job ID of the shell running inside the terminal.
+	"
+	function! SendTermOpenTerminal() abort
+		" Find the first buffer with a running terminal and the id variable set.
+		let l:bs = filter(getbufinfo(),
+			\ 'has_key(v:val["variables"], "' . s:send_term_id_var_name . '") '
+			\ . '&& getbufvar(v:val["bufnr"], "&")["buftype"] == "terminal"')
+		" Either open a new terminal or show the current terminal and return the
+		" job ID of the shell running inside the terminal.
+		return len(l:bs) > 0 ? SendTermOpenTerminalCurrent(l:bs[0]) :
+			\ SendTermOpenTerminalNew()
+	endfunction
+
+	"
+	" Display the current terminal running a shell in a new split, if necessary.
+	" arg bufinfo: The buffer information of the terminal, as returned by
+	"   getbufinfo()
+	" Returns: The job ID of the shell running inside the terminal.
+	"
+	function! SendTermOpenTerminalCurrent(bufinfo) abort
+		" If the terminal is hidden, create a new split and show the terminal
+		" within that split.
+		if a:bufinfo['hidden']
+			" Get current  window nr, so we can jump back later.
+			let l:w = winnr()
+			call SendTermOpenSplit()
+			exe 'buffer' . a:bufinfo['bufnr']
+			" Return to previous window.
+			exe l:w . 'wincmd w'
+		endif
+		" Return job ID of the shell running inside the terminal.
+		return a:bufinfo['variables']['terminal_job_id']
+	endfunction
+
+	"
+	" Create a new split with a terminal running a shell.
+	" Returns: The job ID of the shell running inside the terminal.
+	"
+	function! SendTermOpenTerminalNew() abort
+		" Get current  window nr, so we can jump back later.
+		let l:w = winnr()
+		" Open new terminal in a new split inside a new buffer.
+		call SendTermOpenSplit()
+		enew
+		let l:jid = termopen(&shell)
+		" Set buffer local variable to identify this buffer later.
+		exe 'let b:' . s:send_term_id_var_name . ' = 1'
+		" Return to previous window.
+		exe l:w . 'wincmd w'
+		" Clear shell after startup, so we have a clean shell.
+		call jobsend(l:jid, "clear\n")
+		" Return job ID of shell running inside the terminal.
+		return l:jid
+	endfunction
+
+	"
+	" Open a split, where the position is given by s:send_term_split_pos and the
+	" size by s:send_term_split_size.
+	"
+	function! SendTermOpenSplit() abort
+		if s:send_term_split_pos ==? 'top'
+			exe 'topleft ' . s:send_term_split_size . 'split'
+		elseif s:send_term_split_pos ==? 'bottom'
+			exe 'botright ' . s:send_term_split_size . 'split'
+		elseif s:send_term_split_pos ==? 'left'
+			exe 'topleft ' . s:send_term_split_size . 'vsplit'
+		elseif s:send_term_split_pos ==? 'right'
+			exe 'botright ' . s:send_term_split_size . 'vsplit'
+		endif
+	endfunction
+
+	" Register :T as a command for SendTermCmdTerminal.
+	command! -nargs=? -complete=shellcmd T call SendTermCmdTerminal(<q-args>)
+	
+	" Define mapping to run current file in terminal.
+	nnoremap <silent> <leader>r :call SendTermCmdTerminal(expand('%:p'))<CR>
+endif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colorscheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use preinstalled colorscheme and adjust it to look good with gui and 256
