@@ -144,6 +144,13 @@ let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
 let g:indent_guides_start_level=2
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
+" Use the normal background color for indent-guide odd coloring.
+highlight! link IndentGuidesOdd Normal
+augroup indentguides
+	autocmd!
+	autocmd ColorScheme * highlight! link IndentGuidesOdd Normal
+augroup END
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LanguageClient-neovim
