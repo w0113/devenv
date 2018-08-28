@@ -193,9 +193,9 @@ endif
 if has('nvim')
 	" Where should a new terminal be positioned? Possible values:
 	" left, right, top or bottom
-	let s:send_term_split_pos = 'right'
+	let s:send_term_split_pos = 'bottom'
 	" Character width/height of new terminal window.
-	let s:send_term_split_size = 84
+	let s:send_term_split_size = 15
 
 	" Name of the variable to identify the terminal buffer. Usually no need to
 	" edit this.
@@ -206,12 +206,10 @@ if has('nvim')
 	" arg cmd: The command as string which should be executed.
 	"
 	function! SendTermCmdTerminal(cmd) abort
+		let l:jid = SendTermOpenTerminal()
 		if strlen(a:cmd) > 0
-			" Send the command if it is not empty.
-			call jobsend(SendTermOpenTerminal(), a:cmd . "\n")
-		else
-			" With an empty command, just open the terminal.
-			call SendTermOpenTerminal()
+			" Send the command if one is given.
+			call jobsend(l:jid, a:cmd . "\n")
 		endif
 	endfunction
 
@@ -264,6 +262,9 @@ if has('nvim')
 		let l:jid = termopen(&shell)
 		" Set buffer local variable to identify this buffer later.
 		exe 'let b:' . s:send_term_id_var_name . ' = 1'
+		" Go to the bottom of the terminal buffer, this is necessary that the
+		" terminal is scrolling correctly.
+		normal G
 		" Return to previous window.
 		exe l:w . 'wincmd w'
 		" Clear shell after startup, so we have a clean shell.
@@ -292,7 +293,8 @@ if has('nvim')
 	command! -nargs=? -complete=shellcmd T call SendTermCmdTerminal(<q-args>)
 	
 	" Define mapping to run current file in terminal.
-	nnoremap <silent> <leader>r :call SendTermCmdTerminal(expand('%:p'))<CR>
+	nnoremap <silent> <leader>r
+		\ :call SendTermCmdTerminal("clear\n" . expand('%:p'))<CR>
 endif
 
 
