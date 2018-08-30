@@ -47,7 +47,8 @@ call plug#end()
 " Deoplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1
-
+call deoplete#custom#option('auto_complete_delay', 10)
+call deoplete#custom#option('min_pattern_length', 0)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
@@ -141,14 +142,23 @@ noremap <silent> <F6> :call CsSwitchContrast()<CR>
 let g:indent_guides_default_mapping=0
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
-let g:indent_guides_start_level=2
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
-" Use the normal background color for indent-guide odd coloring.
-highlight! link IndentGuidesOdd Normal
+" Use the normal background color for indent-guide odd and the normal
+" foreground color for indent-guide even coloring.
+function! CsIndentGuides() abort
+	let l:bg = join(filter(split(execute('hi Normal')),
+		\ 'match(v:val, "bg=") >= 0'))
+	let l:fg = join(filter(split(execute('hi Normal')),
+		\ 'match(v:val, "fg=") >= 0'))
+	exe 'hi IndentGuidesOdd ' . l:bg . ' ' . l:fg
+	exe 'hi IndentGuidesEven ' . l:fg
+endfunction
+
+call CsIndentGuides()
 augroup indentguides
 	autocmd!
-	autocmd ColorScheme * highlight! link IndentGuidesOdd Normal
+	autocmd ColorScheme * call CsIndentGuides()
 augroup END
 
 
