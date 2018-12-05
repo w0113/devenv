@@ -73,6 +73,43 @@ function link_config_files() {
 
 
 #
+# Install solargraph and create documentation
+#
+function install_solargraph_worker() {
+	local result=0
+	local cmds=(
+		"gem install solargraph"
+		"gem install yard"
+		"yard gems"
+		)
+
+	for i in ${!cmds[*]}; do
+		if ! ${cmds[i]} &> /dev/null; then
+			result=1
+			break
+		fi
+	done
+
+	return $result
+}
+
+
+#
+# Install solargraph
+#
+function install_solargraph() {
+	if command -v gem &> /dev/null; then
+		echo -n "Installing/updating solargraph... "
+		if install_solargraph_worker; then
+			echo "done"
+		else
+			echo "failed"
+		fi
+	fi
+}
+
+
+#
 # Install vim-plug plugin manager.
 #
 function install_vim_plug() {
@@ -109,6 +146,7 @@ function install() {
 	link_config_files
 	install_vim_files
 	install_vim_plug
+	install_solargraph
 }
 
 
@@ -116,7 +154,7 @@ function install() {
 # Update files.
 #
 function update() {
-	install_vim_plug
+	install_solargraph
 }
 
 
