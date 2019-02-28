@@ -78,8 +78,8 @@ function link_config_files() {
 function install_solargraph_worker() {
 	local result=0
 	local cmds=(
-		"gem install solargraph"
-		"gem install yard"
+		"gem install -N solargraph"
+		"gem install -N yard"
 		"yard gems"
 		)
 
