@@ -91,7 +91,7 @@ nnoremap <silent> <leader><leader>d :setlocal spelllang=de_de spell!<CR>
 inoremap jj <ESC>
 
 " Switch to last buffer.
-nnoremap <silent> <leader><leader>b :bprevious<CR>
+nnoremap <silent> <leader><leader>b :b#<CR>
 
 " Toggle paste mode.
 set pastetoggle=<F9>
@@ -158,7 +158,7 @@ nnoremap <silent> <leader><leader>l :set list!<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup filetype_settings
 	autocmd!
-	autocmd FileType html,python,ruby,yaml
+	autocmd FileType html,javascript,json,python,ruby,yaml
 		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 	autocmd FileType python setlocal foldmethod=indent
 augroup END

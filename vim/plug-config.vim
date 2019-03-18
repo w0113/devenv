@@ -39,7 +39,7 @@ Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-Plug 'w0113/vim-textobj-rubyblock'
+Plug 'w0113/vim-textobj-rubyblock', {'for': 'ruby'}
 call plug#end()
 
 
