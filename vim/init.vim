@@ -42,6 +42,7 @@ set history=10000   " Remember more commands.
 set hlsearch        " Highlight all found matches.
 set ignorecase      " Do case insensitive matching.
 set incsearch       " Incremental search.
+set isfname-==      " Do not recognize '=' as part of a file name.
 set mouse=a         " Enable mouse usage (all modes).
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
