@@ -14,7 +14,6 @@ endif
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged/')
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
@@ -30,8 +29,8 @@ Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -42,13 +41,6 @@ Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'w0113/vim-textobj-rubyblock', {'for': 'ruby'}
 call plug#end()
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Deoplete
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('auto_complete_delay', 10)
-call deoplete#custom#option('min_pattern_length', 0)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
@@ -160,18 +152,6 @@ augroup indentguides
 	autocmd!
 	autocmd ColorScheme * call CsIndentGuides()
 augroup END
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" LanguageClient-neovim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:LanguageClient_serverCommands = {
-	\ 'ruby': ['solargraph', 'stdio'],
-	\ }
-
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
