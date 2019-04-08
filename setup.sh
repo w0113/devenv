@@ -12,6 +12,34 @@ CONFIG_FILES=(
 
 
 #
+# Run a command and print a message line.
+# Runs the given command and prints a status line to notify the user whether the
+# command failed or not.
+#
+# $1: The message which should be printed.
+# $2...: The command to run.
+#
+function runm() {
+	# Print the run message.
+	echo -n "${1}... "
+	shift
+	# Run the command. We can't use a local variable for the output here,
+	# because the local variable declaration resets the last return code ($?).
+	runm_cmd_out="$($@ 2>&1)"
+	local cmd_rc=$?
+
+	# Print the status.
+	if [ $cmd_rc -eq 0 ]; then
+		echo -e "\e[1;32mdone\e[0m"
+	else
+		echo -e "\e[1;31mfailed\e[0m"
+		echo "$runm_cmd_out"
+	fi
+	return $cmd_rc
+}
+
+
+#
 # Backup a given path.
 # This methods adds the extension ".old" to the file name, or deletes it, if the
 # given path is a link.
@@ -21,20 +49,10 @@ CONFIG_FILES=(
 function backup() {
 	# Remove links.
 	if [ -h "$1" ]; then
-		echo -n "Removing old link '$1'... "
-		if rm -f "$1" &> /dev/null; then
-			echo "done"
-		else
-			echo "failed"
-		fi
+		runm "Removing old link '$1'" rm -f "$1"
 	# Add extension ".old" to files/folders.
 	elif [ -e "$1" ]; then
-		echo -n "Moving old data '$1' to '${1}.old'... "
-		if mv -f "$1" "$1.old" &> /dev/null; then
-			echo "done"
-		else
-			echo "failed"
-		fi
+		runm "Moving old data '$1' to '${1}.old'" mv -f "$1" "$1.old"
 	fi
 }
 
@@ -48,14 +66,8 @@ function backup() {
 function lnwb() {
 	# Create backup of link path.
 	backup "$2"
-	
 	# Create link.
-	echo -n "Creating link '$2' to '$1'... "
-	if ln -s "$1" "$2" &> /dev/null; then
-		echo "done"
-	else
-		echo "failed"
-	fi
+	runm "Creating link '$2' to '$1'" ln -s "$1" "$2"
 }
 
 
@@ -73,6 +85,38 @@ function link_config_files() {
 
 
 #
+# Check if the python pip module for neovim is installed.
+#
+# $1: pip command
+#
+function install_pip_nvim_worker() {
+	local result=1
+	if command -v $1 &> /dev/null; then
+		if $1 list | grep -E '^neovim[[:space:]]'; then
+			if $1 install --user --upgrade neovim; then
+				local result=0
+			fi
+		else
+			if $1 install --user neovim; then
+				local result=0
+			fi
+		fi
+	fi
+	return $result
+}
+
+
+#
+# Install python pip module for neovim.
+#
+function install_pip_nvim() {
+	for c in pip pip3; do
+		runm "Installing/updating $c neovim module" install_pip_nvim_worker "$c"
+	done
+}
+
+
+#
 # Install solargraph and create documentation
 #
 function install_solargraph_worker() {
@@ -84,7 +128,7 @@ function install_solargraph_worker() {
 		)
 
 	for i in ${!cmds[*]}; do
-		if ! ${cmds[i]} &> /dev/null; then
+		if ! ${cmds[i]}; then
 			result=1
 			break
 		fi
@@ -99,12 +143,7 @@ function install_solargraph_worker() {
 #
 function install_solargraph() {
 	if command -v gem &> /dev/null; then
-		echo -n "Installing/updating solargraph... "
-		if install_solargraph_worker; then
-			echo "done"
-		else
-			echo "failed"
-		fi
+		runm "Installing/updating solargraph" install_solargraph_worker
 	fi
 }
 
@@ -119,12 +158,7 @@ function install_vim_plug() {
 	mkdir -p "$install_path"
 	backup "$install_file"
 
-	echo -n "Installing vim-plug... "
-	if wget -O "$install_file" "$install_url" &> /dev/null; then
-		echo "done"
-	else
-		echo "failed"
-	fi
+	runm "Installing vim-plug" wget -O "$install_file" "$install_url"
 }
 
 
@@ -146,6 +180,7 @@ function install() {
 	link_config_files
 	install_vim_files
 	install_vim_plug
+	install_pip_nvim
 	install_solargraph
 }
 
@@ -154,6 +189,8 @@ function install() {
 # Update files.
 #
 function update() {
+	install_vim_plug
+	install_pip_nvim
 	install_solargraph
 }
 
