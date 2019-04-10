@@ -30,6 +30,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc-solargraph', {'do': 'yarn install --frozen-lockfile'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
