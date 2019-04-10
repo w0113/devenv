@@ -203,8 +203,9 @@ function install_vim_files() {
 #
 function init_nvim() {
 	if command -v nvim &> /dev/null; then
-		runm "Initializing neovim" \
-			nvim --headless +PlugInstall "+call coc#util#build()" +qall
+		runm "Installing neovim plugins" nvim --headless +PlugInstall +qall
+		runm "Building neovim coc plugin" \
+			nvim --headless "+call coc#util#build()" +qall
 	fi
 }
 
