@@ -33,7 +33,9 @@ function runm() {
 		echo -e "\e[1;32mdone\e[0m"
 	else
 		echo -e "\e[1;31mfailed\e[0m"
+		echo "- ERROR --------------------------------"
 		echo "$runm_cmd_out"
+		echo "----------------------------------------"
 	fi
 	return $cmd_rc
 }
@@ -83,6 +85,29 @@ function link_config_files() {
 	done
 }
 
+
+#
+# Install ruby neovim gem.
+#
+function install_gem_nvim() {
+	if command -v gem &> /dev/null; then
+		runm "Installing/updating ruby neovim module" gem install neovim
+	fi
+}
+
+
+#
+# Install node neovim module.
+#
+function install_npm_nvim() {
+	if command -v npm &> /dev/null; then
+		if npm ls neovim &> /dev/null; then
+			runm "Updating node neovim module" npm update -g neovim
+		else
+			runm "Installing node neovim module" npm install -g neovim
+		fi
+	fi
+}
 
 #
 # Check if the python pip module for neovim is installed.
@@ -174,14 +199,28 @@ function install_vim_files() {
 
 
 #
+# Initialize nvim.
+#
+function init_nvim() {
+	if command -v nvim &> /dev/null; then
+		runm "Initializing neovim" \
+			nvim --headless +PlugInstall "+call coc#util#build()" +qall
+	fi
+}
+
+
+#
 # Install all files.
 #
 function install() {
 	link_config_files
 	install_vim_files
 	install_vim_plug
+	install_gem_nvim
+	install_npm_nvim
 	install_pip_nvim
 	install_solargraph
+	init_nvim
 }
 
 
@@ -190,6 +229,8 @@ function install() {
 #
 function update() {
 	install_vim_plug
+	install_gem_nvim
+	install_npm_nvim
 	install_pip_nvim
 	install_solargraph
 }
