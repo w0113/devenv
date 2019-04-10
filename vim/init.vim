@@ -46,6 +46,7 @@ set isfname-==      " Do not recognize '=' as part of a file name.
 set mouse=a         " Enable mouse usage (all modes).
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
+set signcolumn=yes  " Always show sign column.
 set smartcase       " Do smart case matching.
 set wildmenu        " Show all options when using tab-complete.
 
