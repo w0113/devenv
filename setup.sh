@@ -195,6 +195,7 @@ function install_vim_files() {
 	lnwb "${DIR}/vim/init.vim" "${HOME}/.config/nvim/init.vim"
 	lnwb "${DIR}/vim/init.vim" "${HOME}/.vimrc"
 	lnwb "${HOME}/.config/nvim/" "${HOME}/.vim"
+	lnwb "${DIR}/config/coc-settings.json" "${HOME}/.config/nvim/coc-settings.json"
 }
 
 
