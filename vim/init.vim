@@ -359,11 +359,19 @@ let s:sl_mode_conf = {
 let s:sl_mode_unknown = ['SlModeUnknown', '-----']
 
 function! SlActive() abort
+	" Get mode name and highlight.
 	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
+	" Get coc status.
+	let l:cs = coc#status()
+	if strlen(l:cs) > 0
+		let l:cs .= ' '
+	endif
+	" Build statusline
 	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
 	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
 	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
+	let l:sl .= l:cs
 	let l:sl .= '%#SlInfo# %{(&ft!=""?&ft." ":"")}'
 	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
 	let l:sl .= '%#' . l:mc[0] . '# %3p%% ☰ %4l/%L ln : %3v '
