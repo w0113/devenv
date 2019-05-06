@@ -162,7 +162,6 @@ augroup filetype_settings
 	autocmd!
 	autocmd FileType html,javascript,json,python,ruby,yaml
 		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-	autocmd FileType python setlocal foldmethod=indent
 augroup END
 
 

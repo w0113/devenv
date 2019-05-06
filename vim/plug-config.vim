@@ -99,6 +99,31 @@ call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Folding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nofoldenable
+let ruby_fold = 1
+let ruby_foldable_groups = 'def'
+
+"augroup filetype_folding
+"	autocmd!
+"	autocmd FileType python setlocal foldmethod=indent
+"augroup END
+
+function! FoldToggleAll() abort
+	if &foldlevel > 0
+		normal zM
+	else
+		normal zR
+	endif
+endfunction
+
+nnoremap <silent> <leader><leader>f zi
+nnoremap <silent> <leader>f zA
+nnoremap <silent> <leader>F :call FoldToggleAll()<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fzf
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:fzf_command_prefix='Fzf'
