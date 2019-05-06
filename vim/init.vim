@@ -364,7 +364,7 @@ function! SlActive() abort
 	" Get coc status.
 	let l:cs = coc#status()
 	if strlen(l:cs) > 0
-		let l:cs .= ' '
+		let l:cs = substitute(l:cs, '\s+', ' ', 'g') . ' '
 	endif
 	" Build statusline
 	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
