@@ -360,11 +360,16 @@ let s:sl_mode_unknown = ['SlModeUnknown', '-----']
 function! SlActive() abort
 	" Get mode name and highlight.
 	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
-	" Get coc status.
-	let l:cs = coc#status()
-	if strlen(l:cs) > 0
-		let l:cs = substitute(l:cs, '\s+', ' ', 'g') . ' '
+
+	let l:cs = ''
+	if exists('*coc#status')
+		" Get coc status.
+		let l:cs = coc#status()
+		if strlen(l:cs) > 0
+			let l:cs = substitute(l:cs, '\s+', ' ', 'g') . ' '
+		endif
 	endif
+
 	" Build statusline
 	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
 	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
