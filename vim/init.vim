@@ -160,7 +160,7 @@ nnoremap <silent> <leader><leader>l :set list!<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup filetype_settings
 	autocmd!
-	autocmd FileType html,javascript,json,python,ruby,yaml
+	autocmd FileType css,html,javascript,json,python,ruby,typescript,yaml
 		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
 augroup END
 

@@ -24,13 +24,13 @@ Plug 'junegunn/limelight.vim'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
+Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-solargraph', {'do': 'yarn install --frozen-lockfile'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'

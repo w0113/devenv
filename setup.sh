@@ -10,6 +10,16 @@ CONFIG_FILES=(
 	"tmux.conf"
 	)
 
+# All Coc.nvim plugins which should be installed.
+COC_PLUGINS=(
+	"coc-angular"
+	"coc-css"
+	"coc-html"
+	"coc-json"
+	"coc-solargraph"
+	"coc-tsserver"
+	"coc-yaml"
+	)
 
 #
 # Run a command and print a message line.
@@ -142,12 +152,11 @@ function install_pip_nvim() {
 
 
 #
-# Install solargraph and create documentation
+# Install yard and create documentation
 #
-function install_solargraph_worker() {
+function install_yard_worker() {
 	local result=0
 	local cmds=(
-		"gem install -N solargraph"
 		"gem install -N yard"
 		"yard gems"
 		)
@@ -164,11 +173,11 @@ function install_solargraph_worker() {
 
 
 #
-# Install solargraph
+# Install yard
 #
-function install_solargraph() {
+function install_yard() {
 	if command -v gem &> /dev/null; then
-		runm "Installing/updating solargraph" install_solargraph_worker
+		runm "Installing/updating yard" install_yard_worker
 	fi
 }
 
@@ -207,6 +216,8 @@ function init_nvim() {
 		runm "Installing neovim plugins" nvim --headless +PlugInstall +qall
 		runm "Building neovim coc plugin" \
 			nvim --headless "+call coc#util#build()" +qall
+		runm "Installing neovim coc plugins" \
+			nvim --headless "+CocInstall ${COC_PLUGINS[*]}" +qall
 	fi
 }
 
@@ -221,7 +232,7 @@ function install() {
 	install_gem_nvim
 	install_npm_nvim
 	install_pip_nvim
-	install_solargraph
+	install_yard
 	init_nvim
 }
 
@@ -234,7 +245,7 @@ function update() {
 	install_gem_nvim
 	install_npm_nvim
 	install_pip_nvim
-	install_solargraph
+	install_yard
 }
 
 
