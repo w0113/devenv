@@ -217,7 +217,7 @@ function init_nvim() {
 		runm "Building neovim coc plugin" \
 			nvim --headless "+call coc#util#build()" +qall
 		runm "Installing neovim coc plugins" \
-			nvim --headless "+CocInstall ${COC_PLUGINS[*]}" +qall
+			nvim --headless "+CocInstall -sync ${COC_PLUGINS[*]}" +qall
 	fi
 }
 
