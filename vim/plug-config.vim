@@ -66,8 +66,8 @@ endfunction
 nmap <F2> <Plug>(coc-rename)
 
 " Navigate diagnostics
-nmap <silent> öd <Plug>(coc-diagnostic-prev)
-nmap <silent> äd <Plug>(coc-diagnostic-next)
+nmap <silent> öö <Plug>(coc-diagnostic-prev)
+nmap <silent> ää <Plug>(coc-diagnostic-next)
 noremap <silent> <leader>d :<C-u>CocList diagnostics<CR>
 
 
