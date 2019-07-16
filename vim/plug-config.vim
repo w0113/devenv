@@ -24,13 +24,13 @@ Plug 'junegunn/limelight.vim'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
+Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-solargraph', {'do': 'yarn install --frozen-lockfile'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
@@ -96,6 +96,31 @@ xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Folding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nofoldenable
+let ruby_fold = 1
+let ruby_foldable_groups = 'def'
+
+"augroup filetype_folding
+"	autocmd!
+"	autocmd FileType python setlocal foldmethod=indent
+"augroup END
+
+function! FoldToggleAll() abort
+	if &foldlevel > 0
+		normal zM
+	else
+		normal zR
+	endif
+endfunction
+
+nnoremap <silent> <leader><leader>f zi
+nnoremap <silent> <leader>f zA
+nnoremap <silent> <leader>F :call FoldToggleAll()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

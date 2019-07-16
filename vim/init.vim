@@ -160,9 +160,8 @@ nnoremap <silent> <leader><leader>l :set list!<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup filetype_settings
 	autocmd!
-	autocmd FileType html,javascript,json,python,ruby,yaml
+	autocmd FileType css,html,javascript,json,python,ruby,typescript,yaml
 		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
-	autocmd FileType python setlocal foldmethod=indent
 augroup END
 
 
@@ -359,11 +358,24 @@ let s:sl_mode_conf = {
 let s:sl_mode_unknown = ['SlModeUnknown', '-----']
 
 function! SlActive() abort
+	" Get mode name and highlight.
 	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
+
+	let l:cs = ''
+	if exists('*coc#status')
+		" Get coc status.
+		let l:cs = coc#status()
+		if strlen(l:cs) > 0
+			let l:cs = substitute(l:cs, '\s+', ' ', 'g') . ' '
+		endif
+	endif
+
+	" Build statusline
 	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
 	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
 	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
+	let l:sl .= l:cs
 	let l:sl .= '%#SlInfo# %{(&ft!=""?&ft." ":"")}'
 	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
 	let l:sl .= '%#' . l:mc[0] . '# %3p%% ☰ %4l/%L ln : %3v '
