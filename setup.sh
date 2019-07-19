@@ -216,8 +216,9 @@ function init_nvim() {
 		runm "Installing neovim plugins" nvim --headless +PlugInstall +qall
 		runm "Building neovim coc plugin" \
 			nvim --headless "+call coc#util#build()" +qall
-		runm "Installing neovim coc plugins" \
-			nvim --headless "+CocInstall -sync ${COC_PLUGINS[*]}" +qall
+		# Running the following command with runm always leads to an error.
+		nvim --headless "+CocInstall -sync ${COC_PLUGINS[*]}" +qall &> /dev/null
+		runm "Installed neovim coc plugins" test $? -eq 0
 	fi
 }
 
