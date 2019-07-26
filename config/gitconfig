@@ -2,11 +2,15 @@
 	name = Wolfgang Holoch
 	email = wolfgang.holoch@gmail.com
 [merge]
-	tool = vimdiff
+	tool = nvimmerge
+[mergetool "nvimmerge"]
+	cmd = nvim -c \"Gvdiffsplit!\" \"$MERGED\"
 [diff]
-	tool = vimdiff
+	tool = nvimdiff
+[difftool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [core]
-	editor = vim
+	editor = nvim
 [push]
 	default = matching
 [alias]

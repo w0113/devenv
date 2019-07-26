@@ -16,10 +16,10 @@ endif
 call plug#begin('~/.config/nvim/plugged/')
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
-Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'

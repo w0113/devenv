@@ -404,6 +404,18 @@ augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Only in diff mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if &diff
+	autocmd VimEnter * echo 'Pull changes: d2o, d3o |
+		\ Put changes: dp |
+		\ Jump: [c, ]c |
+		\ Close all but this: :only |
+		\ Only selected: :Gw! |
+		\ Cancel: :cq'
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Load plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
