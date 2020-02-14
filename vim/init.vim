@@ -337,6 +337,7 @@ function! DefineSlHighlights() abort
 
 	highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
 	highlight SlInfo         cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
+	highlight SlSpecial      cterm=none ctermbg=238 ctermfg=248 gui=none guibg=#46413e guifg=#bdae93
 
 	highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
 endfunction
@@ -361,6 +362,14 @@ function! SlActive() abort
 	" Get mode name and highlight.
 	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
 
+	let l:gb = ''
+	if exists('*FugitiveStatusline')
+		let l:gb = FugitiveStatusline()
+		if strlen(l:gb) > 0
+			let l:gb = l:gb . ' '
+		endif
+	endif
+
 	let l:cs = ''
 	if exists('*coc#status')
 		" Get coc status.
@@ -370,12 +379,17 @@ function! SlActive() abort
 		endif
 	endif
 
+	let l:special = l:cs . l:gb
+	if strlen(l:special) > 0
+		let l:special = '%#SlSpecial# ' . l:special
+	endif
+
 	" Build statusline
 	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
 	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
 	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
-	let l:sl .= l:cs
+	let l:sl .= l:special
 	let l:sl .= '%#SlInfo# %{(&ft!=""?&ft." ":"")}'
 	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
 	let l:sl .= '%#' . l:mc[0] . '# %3p%% ☰ %4l/%L ln : %3v '
@@ -383,9 +397,18 @@ function! SlActive() abort
 endfunction
 
 function! SlPassive() abort
+	let l:gb = ''
+	if exists('*FugitiveStatusline')
+		let l:gb = FugitiveStatusline()
+		if strlen(l:gb) > 0
+			let l:gb = ' ' . l:gb . ' '
+		endif
+	endif
+
 	let l:sl  = ' %<%f%( [%M%R%H%W]%)'
 	let l:sl .= '%='
-	let l:sl .= '%{(&ft!=""?&ft." ":"")}'
+	let l:sl .= l:gb
+	let l:sl .= ' %{(&ft!=""?&ft." ":"")}'
 	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}]  '
 	let l:sl .= '%3p%% ☰ %4l/%L ln : %3v '
 	return l:sl
