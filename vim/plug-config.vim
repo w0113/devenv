@@ -14,6 +14,7 @@ endif
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged/')
+Plug 'aserebryakov/vim-todo-lists'
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
