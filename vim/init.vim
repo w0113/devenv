@@ -27,12 +27,14 @@ if has('termguicolors')
 endif
 
 " Basic settings.
+set cmdheight=2     " Give more space for displaying messages.
 set encoding=utf-8  " Use UTF-8 as file encoding.
 set timeout         " Enable timeouts.
 set timeoutlen=750  " Timeout for key combinations (in ms).
 set ttimeoutlen=10  " Timeout for <ESC> key (in ms).
-set updatetime=1000 " Write swap file after this many milliseconds.
+set updatetime=300  " Write swap file after this many milliseconds.
 set shortmess+=I    " Disable intro message when starting vim.
+set shortmess+=c    " Disable ins-completion-menu messages.
 
 " Enhance usability.
 set autoread        " Automatically read files when changed on disk.

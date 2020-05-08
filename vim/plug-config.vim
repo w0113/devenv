@@ -16,13 +16,12 @@ endif
 call plug#begin('~/.config/nvim/plugged/')
 Plug 'aserebryakov/vim-todo-lists'
 Plug 'easymotion/vim-easymotion'
-Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'kana/vim-textobj-entire'
+Plug 'junegunn/vim-easy-align'
+"Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
@@ -32,21 +31,25 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
-Plug 'terryma/vim-expand-region'
+"Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
+"Plug 'terryma/vim-expand-region'
+Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-Plug 'w0113/vim-textobj-rubyblock', {'for': 'ruby'}
+"Plug 'w0113/vim-textobj-rubyblock', {'for': 'ruby'}
 call plug#end()
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Coc.nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -71,6 +74,48 @@ nmap <silent> öö <Plug>(coc-diagnostic-prev)
 nmap <silent> ää <Plug>(coc-diagnostic-next)
 noremap <silent> <leader>d :<C-u>CocList diagnostics<CR>
 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Formatting selected code.
+xmap <leader>0  <Plug>(coc-format-selected)
+nmap <leader>0  <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" easy-align
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
@@ -93,35 +138,10 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Expand-Region
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-xmap v <Plug>(expand_region_expand)
-xmap <C-v> <Plug>(expand_region_shrink)
-call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
-call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Folding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nofoldenable
-let ruby_fold = 1
-let ruby_foldable_groups = 'def'
-
-"augroup filetype_folding
-"	autocmd!
-"	autocmd FileType python setlocal foldmethod=indent
-"augroup END
-
-function! FoldToggleAll() abort
-	if &foldlevel > 0
-		normal zM
-	else
-		normal zR
-	endif
-endfunction
-
-nnoremap <silent> <leader><leader>f zi
-nnoremap <silent> <leader>f zA
-nnoremap <silent> <leader>F :call FoldToggleAll()<CR>
+"xmap v <Plug>(expand_region_expand)
+"xmap <C-v> <Plug>(expand_region_shrink)
+"call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
+"call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,7 +208,7 @@ noremap <silent> <F6> :call CsSwitchContrast()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indent_guides_default_mapping=0
 let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_exclude_filetypes=['help', 'nerdtree', 'tagbar']
+let g:indent_guides_exclude_filetypes=['fzf', 'help', 'nerdtree', 'tagbar']
 nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
 
 " Use the normal background color for indent-guide odd and the normal
@@ -210,18 +230,13 @@ augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Limelight
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <F7> :Limelight!!<CR>
-inoremap <silent> <F7> <C-o>:Limelight!!<CR>
-xnoremap <silent> <F7> :Limelight!!<CR>gv
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader><leader>n :NERDTreeToggle<CR>
-let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
+"let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeDirArrows = 1
+let NERDTreeMinimalUI = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
