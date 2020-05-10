@@ -21,8 +21,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
-"Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
@@ -31,8 +29,6 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-"Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']}
-"Plug 'terryma/vim-expand-region'
 Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -40,7 +36,6 @@ Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-"Plug 'w0113/vim-textobj-rubyblock', {'for': 'ruby'}
 call plug#end()
 
 
@@ -104,6 +99,9 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Redefine <ESC><ESC> to also remove floating windows
+nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call coc#util#float_hide()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

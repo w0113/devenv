@@ -14,8 +14,10 @@ CONFIG_FILES=(
 COC_PLUGINS=(
 	"coc-angular"
 	"coc-css"
+	"coc-git"
 	"coc-html"
 	"coc-json"
+	"coc-marketplace"
 	"coc-solargraph"
 	"coc-tsserver"
 	"coc-yaml"
@@ -159,6 +161,7 @@ function install_yard_worker() {
 	local cmds=(
 		"gem install -N yard"
 		"yard gems"
+		"yard config --gem-install-yri"
 		)
 
 	for i in ${!cmds[*]}; do
@@ -265,10 +268,7 @@ function usage() {
 	echo "    -u  Update the current configuration."
 	echo ""
 	echo "  Don't forget to install those packages:"
-	echo "    exuberant-ctags silversearcher-ag"
-	echo ""
-	echo "  Set your terminal to use this font (size 11):"
-	echo "    Source Code Pro for Powerline Regular"
+	echo "    exuberant-ctags git silversearcher-ag"
 	echo ""
 }
 
