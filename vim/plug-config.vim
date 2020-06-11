@@ -28,7 +28,7 @@ Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle']}
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
