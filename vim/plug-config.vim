@@ -25,6 +25,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
+Plug 'metakirby5/codi.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -38,6 +39,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 call plug#end()
 
+"let g:codi#log = '/home/wolle/Desktop/codi.log'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Coc.nvim
@@ -101,7 +103,8 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Redefine <ESC><ESC> to also remove floating windows
-nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call coc#util#float_hide()<CR>
+nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call coc#float#close_all()<CR>
+
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -141,6 +144,11 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 "call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
 "call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fugitive & git bindings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Show history of selected lines
+vnoremap <leader>g :<c-u>exe '!git log -L' line("'<").','.line("'>").':'.expand('%')<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fzf
