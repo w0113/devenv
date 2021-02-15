@@ -26,7 +26,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
-Plug 'metakirby5/codi.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -36,11 +35,34 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 call plug#end()
 
-"let g:codi#log = '/home/wolle/Desktop/codi.log'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Common mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:jump_next()
+	if &diff
+		normal ]c
+	else
+		exec "normal \<Plug>(coc-diagnostic-next)"
+	endif
+endfunction
+
+function! s:jump_prev()
+	if &diff
+		normal [c
+	else
+		exec "normal \<Plug>(coc-diagnostic-prev)"
+	endif
+endfunction
+
+" We use öö or ää to jump to the next/previous diagnostic message or changed
+" text, depending on the context
+nnoremap <silent> öö :call <SID>jump_prev()<CR>
+nnoremap <silent> ää :call <SID>jump_next()<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Coc.nvim
@@ -68,9 +90,7 @@ endfunction
 nmap <F2> <Plug>(coc-rename)
 
 " Navigate diagnostics
-nmap <silent> öö <Plug>(coc-diagnostic-prev)
-nmap <silent> ää <Plug>(coc-diagnostic-next)
-noremap <silent> <leader>d :<C-u>CocList diagnostics<CR>
+"noremap <silent> <leader>d :<C-u>CocList diagnostics<CR>
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -107,14 +127,11 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call coc#float#close_all()<CR>
 
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " easy-align
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
@@ -138,18 +155,19 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Expand-Region
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"xmap v <Plug>(expand_region_expand)
-"xmap <C-v> <Plug>(expand_region_shrink)
-"call expand_region#custom_text_objects({'a]':1, 'ab':1, 'aB':1,})
-"call expand_region#custom_text_objects('ruby', {'ar':1, 'ir':1})
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fugitive & git bindings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show history of selected lines
-vnoremap <leader>g :<c-u>exe '!git log -L' line("'<").','.line("'>").':'.expand('%')<CR>
+vnoremap <silent> <leader>gl :<C-U>exe '!git log -L' line("'<").','.line("'>").':'.expand('%')<CR>
+" Open diffs from the fugitive index with dt in a new tab
+autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gdiffsplit!<CR>
+" Pull in changes from left side
+nnoremap <silent> <leader>df :diffget //2<CR>
+" Pull in changes from right side
+nnoremap <silent> <leader>dj :diffget //3<CR>
+" Update diff
+nnoremap <silent> <leader>du :diffupdate<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fzf
@@ -257,13 +275,4 @@ nnoremap <leader><leader>t :TagbarToggle<CR>
 " Undotree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader><leader>u :UndotreeToggle<CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" unimpaired
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use ö and ä instead of [ and ].
-let g:nremap={"[": "ö", "]": "ä"}
-let g:xremap={"[": "ö", "]": "ä"}
-let g:oremap={"[": "ö", "]": "ä"}
 
