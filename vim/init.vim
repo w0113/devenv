@@ -116,6 +116,10 @@ nnoremap <silent> Ü :m .-2<CR>==
 xnoremap <silent> Ä :m '>+1<CR>gv=gv
 xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
+" Mappings for quickfix
+nnoremap <silent> <leader>ä :cnext<CR>
+nnoremap <silent> <leader>ö :cprevious<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Windows
