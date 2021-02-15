@@ -117,8 +117,8 @@ xnoremap <silent> Ä :m '>+1<CR>gv=gv
 xnoremap <silent> Ü :m '<-2<CR>gv=gv
 
 " Mappings for quickfix
-nnoremap <silent> <leader>ä :cnext<CR>
-nnoremap <silent> <leader>ö :cprevious<CR>
+nnoremap <silent> <leader>ä :cnext \| normal zz<CR>
+nnoremap <silent> <leader>ö :cprevious \| normal zz<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

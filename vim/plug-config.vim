@@ -48,6 +48,7 @@ function! s:jump_next()
 	else
 		exec "normal \<Plug>(coc-diagnostic-next)"
 	endif
+	normal zz
 endfunction
 
 function! s:jump_prev()
@@ -56,6 +57,7 @@ function! s:jump_prev()
 	else
 		exec "normal \<Plug>(coc-diagnostic-prev)"
 	endif
+	normal zz
 endfunction
 
 " We use öö or ää to jump to the next/previous diagnostic message or changed
