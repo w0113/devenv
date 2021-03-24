@@ -168,6 +168,7 @@ augroup filetype_settings
 	autocmd!
 	autocmd FileType css,html,javascript,json,python,ruby,typescript,yaml
 		\ setlocal ts=2 sts=2 sw=2 et textwidth=120 colorcolumn=121
+	autocmd FileType todo setlocal noautoindent nosmartindent
 augroup END
 
 
