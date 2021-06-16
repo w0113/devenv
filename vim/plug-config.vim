@@ -182,16 +182,21 @@ command! -bang -nargs=? -complete=dir FzfHFiles call fzf#vim#files(<q-args>,
 command! -bang -nargs=* FzfHAg call fzf#vim#ag(<q-args>,
 	\ '--hidden --ignore .git', <bang>0)
 
+command! -bang -nargs=* FzfAgLimit call fzf#vim#ag('',
+	\ '--ignore .git --ignore "test/"',
+	\ {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 nnoremap ss :FzfFiles<CR>
 nnoremap sw :FzfHFiles<CR>
 nnoremap sg :FzfGFiles<CR>
 nnoremap sb :FzfBuffers<CR>
-nnoremap sa :FzfAg<CR>
+nnoremap sa :FzfAgLimit<CR>
+nnoremap sA :FzfAg<CR>
 nnoremap sq :FzfHAg<CR>
 nnoremap sl :FzfLines<CR>
 nnoremap so :FzfBLines<CR>
 nnoremap sm :FzfMarks<CR>
-nnoremap sh :FzfHistory:<CR>
+nnoremap sH :FzfHistory:<CR>
 nnoremap sc :FzfCommits<CR>
 nnoremap s. :FzfCommands<CR>
 nnoremap sh :FzfHelptags<CR>
