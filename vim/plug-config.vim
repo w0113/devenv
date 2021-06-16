@@ -162,7 +162,7 @@ let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 " Show history of selected lines
 vnoremap <silent> <leader>gl :<C-U>exe '!git log -L' line("'<").','.line("'>").':'.expand('%')<CR>
 " Open diffs from the fugitive index with dt in a new tab
-autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gdiffsplit!<CR>
+autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit!<CR>
 " Pull in changes from left side
 nnoremap <silent> <leader>df :diffget //2<CR>
 " Pull in changes from right side
