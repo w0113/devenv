@@ -18,6 +18,7 @@ COC_PLUGINS=(
 	"coc-html"
 	"coc-json"
 	"coc-marketplace"
+	"coc-snippets"
 	"coc-solargraph"
 	"coc-tsserver"
 	"coc-yaml"

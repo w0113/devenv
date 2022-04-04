@@ -137,10 +137,10 @@ nnoremap <leader><Up>    <C-w>K
 nnoremap <leader><Right> <C-w>L
 
 " Mappings for switching windows.
-inoremap <C-h> <C-\><C-o><C-w>h
-inoremap <C-j> <C-\><C-o><C-w>j
-inoremap <C-k> <C-\><C-o><C-w>k
-inoremap <C-l> <C-\><C-o><C-w>l
+" inoremap <C-h> <C-\><C-o><C-w>h
+" inoremap <C-j> <C-\><C-o><C-w>j
+" inoremap <C-k> <C-\><C-o><C-w>k
+" inoremap <C-l> <C-\><C-o><C-w>l
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
