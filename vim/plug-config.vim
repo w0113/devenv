@@ -22,20 +22,21 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'kana/vim-textobj-user'
 Plug 'leafgarland/typescript-vim'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
-Plug 'michaeljsmith/vim-indent-object'
 Plug 'morhetz/gruvbox'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle']}
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+Plug 'vim-test/vim-test'
 call plug#end()
 
 
@@ -130,6 +131,18 @@ nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call co
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" dispatch
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:dispatch_no_maps = 1
+
+" Resize the quickfix window.
+au FileType qf call AdjustWindowHeight(10, 25)
+function! AdjustWindowHeight(minheight, maxheight)
+	exe max([min([line("$") + 1, a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " easy-align
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -143,16 +156,10 @@ nmap ga <Plug>(EasyAlign)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <leader>f <Plug>(easymotion-s)
 nmap <leader>F <Plug>(easymotion-s)
-nmap <leader>t <Plug>(easymotion-bd-t)
-nmap <leader>T <Plug>(easymotion-bd-t)
 nmap <leader>w <Plug>(easymotion-bd-w)
-nmap <leader>b <Plug>(easymotion-bd-w)
 nmap <leader>W <Plug>(easymotion-bd-W)
-nmap <leader>B <Plug>(easymotion-bd-W)
 nmap <leader>e <Plug>(easymotion-bd-e)
 nmap <leader>E <Plug>(easymotion-bd-E)
-nmap <leader>j <Plug>(easymotion-bd-jk)
-nmap <leader>k <Plug>(easymotion-bd-jk)
 let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
 
 
@@ -236,35 +243,9 @@ noremap <silent> <F6> :call CsSwitchContrast()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Indent-Guides
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indent_guides_default_mapping=0
-let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_exclude_filetypes=['fzf', 'help', 'nerdtree', 'tagbar']
-nnoremap <silent> <leader><leader>i :IndentGuidesToggle<CR>
-
-" Use the normal background color for indent-guide odd and the normal
-" foreground color for indent-guide even coloring.
-function! CsIndentGuides() abort
-	let l:bg = join(filter(split(execute('hi Normal')),
-		\ 'match(v:val, "bg=") >= 0'))
-	let l:fg = join(filter(split(execute('hi Normal')),
-		\ 'match(v:val, "fg=") >= 0'))
-	exe 'hi IndentGuidesOdd ' . l:bg . ' ' . l:fg
-	exe 'hi IndentGuidesEven ' . l:fg
-endfunction
-
-call CsIndentGuides()
-augroup indentguides
-	autocmd!
-	autocmd ColorScheme * call CsIndentGuides()
-augroup END
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader><leader>n :NERDTreeToggle<CR>
+nnoremap <silent> <leader><leader>n :NERDTreeToggle<CR>
 "let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeDirArrows = 1
@@ -272,14 +253,28 @@ let NERDTreeMinimalUI = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Test
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let test#strategy = 'dispatch'
+
+nnoremap <silent> <leader>ta :TestSuite<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tt :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>tc :cclose<CR>
+nnoremap <silent> <leader>to :copen<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tagbar
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:tagbar_autoclose=1
-nnoremap <leader><leader>t :TagbarToggle<CR>
+nnoremap <silent> <leader><leader>t :TagbarToggle<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Undotree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader><leader>u :UndotreeToggle<CR>
+nnoremap <silent> <leader><leader>u :UndotreeToggle<CR>
 
