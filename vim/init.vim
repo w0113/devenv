@@ -1,6 +1,3 @@
-" Disable Vi compatibility (only needed by vim).
-set nocompatible
-
 " Enable syntax highlighting.
 if !exists('g:syntax_on')
 	syntax enable
@@ -37,20 +34,21 @@ set shortmess+=I    " Disable intro message when starting vim.
 set shortmess+=c    " Disable ins-completion-menu messages.
 
 " Enhance usability.
-set autoread        " Automatically read files when changed on disk.
-set autowrite       " Automatically save before commands like :next and :make.
-set hidden          " Hide buffers when they are abandoned.
-set history=10000   " Remember more commands.
-set hlsearch        " Highlight all found matches.
-set ignorecase      " Do case insensitive matching.
-set incsearch       " Incremental search.
-set isfname-==      " Do not recognize '=' as part of a file name.
-set mouse=a         " Enable mouse usage (all modes).
-set showcmd         " Show (partial) command in status line.
-set showmatch       " Show matching brackets.
-set signcolumn=yes  " Always show sign column.
-set smartcase       " Do smart case matching.
-set wildmenu        " Show all options when using tab-complete.
+set autoread            " Automatically read files when changed on disk.
+set autowrite           " Automatically save before commands like :next and :make.
+set hidden              " Hide buffers when they are abandoned.
+set history=10000       " Remember more commands.
+set hlsearch            " Highlight all found matches.
+set ignorecase          " Do case insensitive matching.
+set inccommand=nosplit  " Shows the effects of a command as you type.
+set incsearch           " Incremental search.
+set isfname-==          " Do not recognize '=' as part of a file name.
+set mouse=a             " Enable mouse usage (all modes).
+set showcmd             " Show (partial) command in status line.
+set showmatch           " Show matching brackets.
+set signcolumn=yes      " Always show sign column.
+set smartcase           " Do smart case matching.
+set wildmenu            " Show all options when using tab-complete.
 
 " Changes in insert mode.
 set backspace=indent,eol,start
@@ -74,9 +72,6 @@ set scrolloff=1
 
 " Change leader to space key.
 let mapleader="\<Space>"
-
-" Enable matchit plugin (only needed by vim).
-runtime macros/matchit.vim
 
 " Easy editing of the vimrc file.
 augroup vim_reload
@@ -137,10 +132,6 @@ nnoremap <leader><Up>    <C-w>K
 nnoremap <leader><Right> <C-w>L
 
 " Mappings for switching windows.
-" inoremap <C-h> <C-\><C-o><C-w>h
-" inoremap <C-j> <C-\><C-o><C-w>j
-" inoremap <C-k> <C-\><C-o><C-w>k
-" inoremap <C-l> <C-\><C-o><C-w>l
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -162,7 +153,7 @@ nnoremap <silent> <leader><leader>l :set list!<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Filetype.
+" Filetypes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup filetype_settings
 	autocmd!
@@ -180,276 +171,313 @@ let g:netrw_dirhistmax=0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neovim
+" Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('nvim')
-	set inccommand=nosplit  " Shows the effects of a command as you type.
+" Also enable navigation mappings in neovims terminal.
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 
-	" Also enable navigation mappings in neovims terminal.
-	tnoremap <C-h> <C-\><C-n><C-w>h
-	tnoremap <C-j> <C-\><C-n><C-w>j
-	tnoremap <C-k> <C-\><C-n><C-w>k
-	tnoremap <C-l> <C-\><C-n><C-w>l
+" Also enable mappings for resizing windows.
+tnoremap <Left> <C-w><
+tnoremap <Down> <C-w>-
+tnoremap <Up> <C-w>+
+tnoremap <Right> <C-w>>
 
-	" Also enable mappings for resizing windows.
-	tnoremap <Left> <C-w><
-	tnoremap <Down> <C-w>-
-	tnoremap <Up> <C-w>+
-	tnoremap <Right> <C-w>>
+" Use leader+escape to leave terminal mode.
+tnoremap <leader><ESC> <C-\><C-n>
 
-	" Use leader+escape to leave terminal mode.
-	tnoremap <leader><ESC> <C-\><C-n>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Only load this file if vim-plug is loaded.
+runtime autoload/plug.vim
+if !exists('g:loaded_plug')
+	finish
 endif
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neovim send command to terminal
+" Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('nvim')
-	" Where should a new terminal be positioned? Possible values:
-	" left, right, top or bottom
-	let s:send_term_split_pos = 'bottom'
-	" Character width/height of new terminal window.
-	let s:send_term_split_size = 15
+call plug#begin('~/.config/nvim/plugged/')
+Plug 'aserebryakov/vim-todo-lists'
+Plug 'easymotion/vim-easymotion'
+Plug 'gcmt/taboo.vim'
+Plug 'honza/vim-snippets'
+"Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/gv.vim'
+"Plug 'junegunn/vim-easy-align'
+"Plug 'leafgarland/typescript-vim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'majutsushi/tagbar', {'on': ['TagbarToggle']}
+Plug 'mbbill/undotree', {'on': ['UndotreeToggle']}
+Plug 'morhetz/gruvbox'
+Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle']}
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'tpope/vim-surround'
+Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+Plug 'vim-test/vim-test'
+call plug#end()
 
-	" Name of the variable to identify the terminal buffer. Usually no need to
-	" edit this.
-	let s:send_term_id_var_name = 'is_send_term_buffer'
-
-	"
-	" Execute a shell command inside a terminal in a split window.
-	" arg cmd: The command as string which should be executed.
-	"
-	function! SendTermCmdTerminal(cmd) abort
-		let l:jid = SendTermOpenTerminal()
-		if strlen(a:cmd) > 0
-			" Send the command if one is given.
-			call jobsend(l:jid, a:cmd . "\n")
-		endif
-	endfunction
-
-	"
-	" Get the job ID of the shell within the terminal.
-	" Returns: The job ID of the shell running inside the terminal.
-	"
-	function! SendTermOpenTerminal() abort
-		" Find the first buffer with a running terminal and the id variable set.
-		let l:bs = filter(getbufinfo(),
-			\ 'has_key(v:val["variables"], "' . s:send_term_id_var_name . '") '
-			\ . '&& getbufvar(v:val["bufnr"], "&")["buftype"] == "terminal"')
-		" Either open a new terminal or show the current terminal and return the
-		" job ID of the shell running inside the terminal.
-		return len(l:bs) > 0 ? SendTermOpenTerminalCurrent(l:bs[0]) :
-			\ SendTermOpenTerminalNew()
-	endfunction
-
-	"
-	" Display the current terminal running a shell in a new split, if necessary.
-	" arg bufinfo: The buffer information of the terminal, as returned by
-	"   getbufinfo()
-	" Returns: The job ID of the shell running inside the terminal.
-	"
-	function! SendTermOpenTerminalCurrent(bufinfo) abort
-		" If the terminal is hidden, create a new split and show the terminal
-		" within that split.
-		if a:bufinfo['hidden']
-			" Get current  window nr, so we can jump back later.
-			let l:w = winnr()
-			call SendTermOpenSplit()
-			exe 'buffer' . a:bufinfo['bufnr']
-			" Return to previous window.
-			exe l:w . 'wincmd w'
-		endif
-		" Return job ID of the shell running inside the terminal.
-		return a:bufinfo['variables']['terminal_job_id']
-	endfunction
-
-	"
-	" Create a new split with a terminal running a shell.
-	" Returns: The job ID of the shell running inside the terminal.
-	"
-	function! SendTermOpenTerminalNew() abort
-		" Get current  window nr, so we can jump back later.
-		let l:w = winnr()
-		" Open new terminal in a new split inside a new buffer.
-		call SendTermOpenSplit()
-		enew
-		let l:jid = termopen(&shell)
-		" Set buffer local variable to identify this buffer later.
-		exe 'let b:' . s:send_term_id_var_name . ' = 1'
-		" Go to the bottom of the terminal buffer, this is necessary that the
-		" terminal is scrolling correctly.
-		normal G
-		" Return to previous window.
-		exe l:w . 'wincmd w'
-		" Clear shell after startup, so we have a clean shell.
-		call jobsend(l:jid, "clear\n")
-		" Return job ID of shell running inside the terminal.
-		return l:jid
-	endfunction
-
-	"
-	" Open a split, where the position is given by s:send_term_split_pos and the
-	" size by s:send_term_split_size.
-	"
-	function! SendTermOpenSplit() abort
-		if s:send_term_split_pos ==? 'top'
-			exe 'topleft ' . s:send_term_split_size . 'split'
-		elseif s:send_term_split_pos ==? 'bottom'
-			exe 'botright ' . s:send_term_split_size . 'split'
-		elseif s:send_term_split_pos ==? 'left'
-			exe 'topleft ' . s:send_term_split_size . 'vsplit'
-		elseif s:send_term_split_pos ==? 'right'
-			exe 'botright ' . s:send_term_split_size . 'vsplit'
-		endif
-	endfunction
-
-	" Register :T as a command for SendTermCmdTerminal.
-	command! -nargs=? -complete=shellcmd T call SendTermCmdTerminal(<q-args>)
-	
-	" Define mapping to run current file in terminal.
-	nnoremap <silent> <leader>r
-		\ :call SendTermCmdTerminal("clear\n" . expand('%:p'))<CR>
-endif
+" https://github.com/nvim-telescope/telescope-dap.nvim
+" https://github.com/theHamsta/nvim-dap-virtual-text
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Colorscheme
+" Common mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use preinstalled colorscheme and adjust it to look good with gui and 256
-" colors.
+function! s:jump_next()
+	if &diff
+		normal ]c
+	else
+		exec "normal \<Plug>(coc-diagnostic-next)"
+	endif
+	normal zz
+endfunction
+
+function! s:jump_prev()
+	if &diff
+		normal [c
+	else
+		exec "normal \<Plug>(coc-diagnostic-prev)"
+	endif
+	normal zz
+endfunction
+
+" We use öö or ää to jump to the next/previous diagnostic message or changed
+" text, depending on the context
+nnoremap <silent> öö :call <SID>jump_prev()<CR>
+nnoremap <silent> ää :call <SID>jump_next()<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Coc.nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+	if &filetype == 'vim'
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
+endfunction
+
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
+
+" Navigate diagnostics
+"noremap <silent> <leader>d :<C-u>CocList diagnostics<CR>
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Formatting selected code.
+xmap <leader>0  <Plug>(coc-format-selected)
+nmap <leader>0  <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Redefine <ESC><ESC> to also remove floating windows
+nnoremap <silent> <ESC><ESC> :nohlsearch \| match none \| 2match none \| call coc#float#close_all()<CR>
+
+" Coc-Snippets
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" dispatch
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:dispatch_no_maps = 1
+
+" Resize the quickfix window.
+au FileType qf call AdjustWindowHeight(10, 25)
+function! AdjustWindowHeight(minheight, maxheight)
+	exe max([min([line("$") + 1, a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" easy-align
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" EasyMotion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>f <Plug>(easymotion-s)
+nmap <leader>F <Plug>(easymotion-s)
+nmap <leader>w <Plug>(easymotion-bd-w)
+nmap <leader>W <Plug>(easymotion-bd-W)
+nmap <leader>e <Plug>(easymotion-bd-e)
+nmap <leader>E <Plug>(easymotion-bd-E)
+let g:EasyMotion_keys='asdklöqwertzuiopyxcvbnm,.-fghj'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fugitive & git bindings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Show history of selected lines
+vnoremap <silent> <leader>gl :<C-U>exe '!git log -L' line("'<").','.line("'>").':'.expand('%')<CR>
+" Open diffs from the fugitive index with dt in a new tab
+autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit!<CR>
+" Pull in changes from left side
+nnoremap <silent> <leader>df :diffget //2<CR>
+" Pull in changes from right side
+nnoremap <silent> <leader>dj :diffget //3<CR>
+" Update diff
+nnoremap <silent> <leader>du :diffupdate<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fzf
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:fzf_command_prefix='Fzf'
+
+command! -bang -nargs=? -complete=dir FzfHFiles call fzf#vim#files(<q-args>,
+	\ {'source': 'find . -type d -name .git -prune -o -print'}, <bang>0)
+
+command! -bang -nargs=* FzfHAg call fzf#vim#ag(<q-args>,
+	\ '--hidden --ignore .git', <bang>0)
+
+command! -bang -nargs=* FzfAgLimit call fzf#vim#ag(<q-args>,
+	\ '--hidden --ignore .git --ignore test --ignore spec',
+	\ {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+nnoremap <silent> ss :FzfFiles<CR>
+nnoremap <silent> sw :FzfHFiles<CR>
+nnoremap <silent> sg :FzfGFiles<CR>
+nnoremap <silent> sb :FzfBuffers<CR>
+nnoremap <silent> sa :FzfAgLimit<CR>
+nnoremap <silent> sA :FzfAg<CR>
+nnoremap <silent> sq :FzfHAg<CR>
+nnoremap <silent> sl :FzfLines<CR>
+nnoremap <silent> so :FzfBLines<CR>
+nnoremap <silent> sm :FzfMarks<CR>
+nnoremap <silent> sH :FzfHistory:<CR>
+nnoremap <silent> sc :FzfCommits<CR>
+nnoremap <silent> s. :FzfCommands<CR>
+nnoremap <silent> sh :FzfHelptags<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" gruvbox
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_light='medium'
 set background=dark
-colorscheme evening
-highlight ColorColumn             ctermbg=237                      guibg=#3c3836
-highlight CursorLine   cterm=none ctermbg=237                      guibg=#3c3836
-highlight CursorLineNr cterm=bold ctermbg=237 ctermfg=214 gui=bold guibg=#3c3836 guifg=#fabd2f
-highlight LineNr       cterm=bold ctermbg=235 ctermfg=243 gui=bold guibg=#282828 guifg=#7c6f64
-highlight Normal                  ctermbg=235                      guibg=#282828
-highlight SignColumn              ctermbg=237                      guibg=#3c3836
-highlight Visual                  ctermbg=237                      guibg=#3c3836
+colorscheme gruvbox
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Statusline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! DefineSlHighlights() abort
-	highlight SlModeNormal   cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
-	highlight SlModeInsert   cterm=bold ctermbg=109 ctermfg=235 gui=bold guibg=#83a598 guifg=#282828
-	highlight SlModeReplace  cterm=bold ctermbg=108 ctermfg=235 gui=bold guibg=#8ec07c guifg=#282828
-	highlight SlModeCommand  cterm=bold ctermbg=246 ctermfg=235 gui=bold guibg=#a89984 guifg=#282828
-	highlight SlModeVisual   cterm=bold ctermbg=208 ctermfg=235 gui=bold guibg=#fe8019 guifg=#282828
-	highlight SlModeSelect   cterm=bold ctermbg=142 ctermfg=235 gui=bold guibg=#b8bb26 guifg=#282828
-	highlight SlModeTerminal cterm=bold ctermbg=175 ctermfg=235 gui=bold guibg=#d3869b guifg=#282828
-	highlight SlModeUnknown  cterm=bold ctermbg=214 ctermfg=235 gui=bold guibg=#fabd2f guifg=#282828
-
-	highlight SlFile         cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
-	highlight SlInfo         cterm=none ctermbg=237 ctermfg=248 gui=none guibg=#3c3836 guifg=#bdae93
-	highlight SlSpecial      cterm=none ctermbg=238 ctermfg=248 gui=none guibg=#46413e guifg=#bdae93
-
-	highlight StatusLineNC   cterm=none ctermbg=239 ctermfg=248 gui=none guibg=#504945 guifg=#bdae93
-endfunction
-call DefineSlHighlights()
-
-let s:sl_mode_conf = {
-	\ 'n'  : ['SlModeNormal', 'NORMAL'],
-	\ 'i'  : ['SlModeInsert', 'INSERT'],
-	\ 'R'  : ['SlModeReplace', 'REPLACE'],
-	\ 'c'  : ['SlModeCommand', 'COMMAND'],
-	\ 'v'  : ['SlModeVisual', 'VISUAL'],
-	\ 'V'  : ['SlModeVisual', 'V-LINE'],
-	\ '' : ['SlModeVisual', 'V-BLOCK'],
-	\ 's'  : ['SlModeSelect', 'SELECT'],
-	\ 'S'  : ['SlModeSelect', 'S-LINE'],
-	\ '' : ['SlModeSelect', 'S-BLOCK'],
-	\ 't'  : ['SlModeTerminal', 'TERMINAL'],
-	\ }
-let s:sl_mode_unknown = ['SlModeUnknown', '-----']
-
-function! SlActive() abort
-	" Get mode name and highlight.
-	let l:mc = get(s:sl_mode_conf, mode(), s:sl_mode_unknown)
-
-	let l:gb = ''
-	if exists('*FugitiveStatusline')
-		let l:gb = FugitiveStatusline()
-		if strlen(l:gb) > 0
-			let l:gb = l:gb . ' '
-		endif
-	endif
-
-	let l:cs = ''
-	if exists('*coc#status')
-		" Get coc status.
-		let l:cs = coc#status()
-		if strlen(l:cs) > 0
-			let l:cs = substitute(l:cs, '\s+', ' ', 'g') . ' '
-		endif
-	endif
-
-	let l:special = l:cs . l:gb
-	if strlen(l:special) > 0
-		let l:special = '%#SlSpecial# ' . l:special
-	endif
-
-	" Build statusline
-	let l:sl  = '%#' . l:mc[0] . '# ' . l:mc[1] . ' '
-	let l:sl .= (&paste) ? '%#SlInfo# PASTE ' : ''
-	let l:sl .= '%#SlFile# %<%f%( [%M%R%H%W]%)'
-	let l:sl .= '%='
-	let l:sl .= l:special
-	let l:sl .= '%#SlInfo# %{(&ft!=""?&ft." ":"")}'
-	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}] '
-	let l:sl .= '%#' . l:mc[0] . '# %3p%% ☰ %4l/%L ln : %3v '
-	return l:sl
+function! CsSwitchBackground() abort
+	let &background = (&background == 'dark' ? 'light' : 'dark')
+	echo "Changed colorscheme background to " . &background
 endfunction
 
-function! SlPassive() abort
-	let l:gb = ''
-	if exists('*FugitiveStatusline')
-		let l:gb = FugitiveStatusline()
-		if strlen(l:gb) > 0
-			let l:gb = ' ' . l:gb . ' '
-		endif
-	endif
+function! CsSwitchContrast() abort
+	" All current contrast options.
+	let l:cs = ['soft', 'medium', 'hard']
+	" Get the index of the current contrast.
+	let l:ci = index(l:cs, g:gruvbox_contrast_dark)
+	" Get the next contrast, relativ to l:ci.
+	let l:cn = l:cs[(l:ci + 1) % len(l:cs)]
 
-	let l:sl  = ' %<%f%( [%M%R%H%W]%)'
-	let l:sl .= '%='
-	let l:sl .= l:gb
-	let l:sl .= ' %{(&ft!=""?&ft." ":"")}'
-	let l:sl .= '%{(&fenc!=""?&fenc:&enc)}[%{&ff}]  '
-	let l:sl .= '%3p%% ☰ %4l/%L ln : %3v '
-	return l:sl
+	" Set the new contrast and activate it by setting the colorscheme.
+	let g:gruvbox_contrast_dark = l:cn
+	let g:gruvbox_contrast_light = l:cn
+	colorscheme gruvbox
+	echo "Changed colorscheme contrast to " . l:cn
 endfunction
 
-set laststatus=2
-set noshowmode
-set statusline=%!SlActive()
-
-augroup statusline
-	autocmd!
-	autocmd ColorScheme * call DefineSlHighlights()
-	autocmd WinEnter * setlocal statusline=%!SlActive()
-	autocmd WinLeave * setlocal statusline=%!SlPassive()
-augroup END
+noremap <silent> <F5> :call CsSwitchBackground()<CR>
+noremap <silent> <F6> :call CsSwitchContrast()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Only in diff mode
+" NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if &diff
-	autocmd VimEnter * echo 'Pull changes: d2o, d3o |
-		\ Put changes: dp |
-		\ Jump: [c, ]c |
-		\ Close all but this: :only |
-		\ Only selected: :Gw! |
-		\ Cancel: :cq'
-endif
+nnoremap <silent> <leader><leader>n :NERDTreeToggle<CR>
+"let g:NERDTreeChDirMode=2  " Needed for fzf to change root accordingly.
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeDirArrows = 1
+let NERDTreeMinimalUI = 1
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Load plugins
+" Test
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:plug_path=expand('~/.devenv/vim/plug-config.vim')
-if filereadable(s:plug_path)
-	exe 'source ' . s:plug_path
-endif
+let test#strategy = 'dispatch'
+
+nnoremap <silent> <leader>ta :TestSuite<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tt :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>tc :cclose<CR>
+nnoremap <silent> <leader>to :copen<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tagbar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:tagbar_autoclose=1
+nnoremap <silent> <leader><leader>t :TagbarToggle<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Undotree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <leader><leader>u :UndotreeToggle<CR>
 
