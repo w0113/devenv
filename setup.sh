@@ -10,20 +10,6 @@ CONFIG_FILES=(
 	"tmux.conf"
 	)
 
-# All Coc.nvim plugins which should be installed.
-COC_PLUGINS=(
-	"coc-angular"
-	"coc-css"
-	"coc-git"
-	"coc-html"
-	"coc-json"
-	"coc-marketplace"
-	"coc-snippets"
-	"coc-solargraph"
-	"coc-tsserver"
-	"coc-yaml"
-	)
-
 #
 # Run a command and print a message line.
 # Runs the given command and prints a status line to notify the user whether the
@@ -185,30 +171,13 @@ function install_yard() {
 	fi
 }
 
-
-#
-# Install vim-plug plugin manager.
-#
-function install_vim_plug() {
-	local install_path="${HOME}/.config/nvim/autoload/"
-	local install_file="${install_path}plug.vim"
-	local install_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-	mkdir -p "$install_path"
-	backup "$install_file"
-
-	runm "Installing vim-plug" wget -O "$install_file" "$install_url"
-}
-
-
 #
 # Create all links
 #
 function install_vim_files() {
 	mkdir -p "${HOME}/.config/nvim/"
-	lnwb "${DIR}/vim/init.vim" "${HOME}/.config/nvim/init.vim"
-	lnwb "${DIR}/vim/init.vim" "${HOME}/.vimrc"
-	lnwb "${HOME}/.config/nvim/" "${HOME}/.vim"
-	lnwb "${DIR}/config/coc-settings.json" "${HOME}/.config/nvim/coc-settings.json"
+	lnwb "${DIR}/nvim/init.lua" "${HOME}/.config/nvim/init.lua"
+	lnwb "${DIR}/nvim/lua" "${HOME}/.config/nvim/lua"
 }
 
 
@@ -217,12 +186,7 @@ function install_vim_files() {
 #
 function init_nvim() {
 	if command -v nvim &> /dev/null; then
-		runm "Installing neovim plugins" nvim --headless +PlugInstall +qall
-		runm "Building neovim coc plugin" \
-			nvim --headless "+call coc#util#build()" +qall
-		# Running the following command with runm always leads to an error.
-		nvim --headless "+CocInstall -sync ${COC_PLUGINS[*]}" +qall &> /dev/null
-		runm "Installed neovim coc plugins" test $? -eq 0
+		runm "Installing neovim plugins" nvim --headless +PackerInstall +qall
 	fi
 }
 
@@ -233,7 +197,6 @@ function init_nvim() {
 function install() {
 	link_config_files
 	install_vim_files
-	install_vim_plug
 	install_gem_nvim
 	install_npm_nvim
 	install_pip_nvim
