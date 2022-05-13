@@ -194,9 +194,9 @@ function install_system_files_dev_tools() {
 #
 function install_nvim_plugins() {
 	if command -v nvim &> /dev/null; then
-		runm "Installing neovim plugins" nvim --headless +PackerSync +qall
+		runm "Installing neovim plugins" nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
   else
-    echo "Command 'nvim' not found in PATH. Skip installing plugins!"
+    echo "Command 'nvim' not found in PATH. Cannot install Neovim plugins!"
 	fi
 }
 
