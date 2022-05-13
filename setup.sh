@@ -24,7 +24,7 @@ function runm() {
 	shift
 	# Run the command. We can't use a local variable for the output here,
 	# because the local variable declaration resets the last return code ($?).
-	runm_cmd_out="$($@ 2>&1)"
+	runm_cmd_out="$($* 2>&1)"
 	local cmd_rc=$?
 
 	# Print the status.
@@ -39,7 +39,6 @@ function runm() {
 	return $cmd_rc
 }
 
-
 #
 # Backup a given path.
 # This methods adds the extension ".old" to the file name, or deletes it, if the
@@ -50,13 +49,12 @@ function runm() {
 function backup() {
 	# Remove links.
 	if [ -h "$1" ]; then
-		runm "Removing old link '$1'" rm -f "$1"
+		rm -f "$1"
 	# Add extension ".old" to files/folders.
 	elif [ -e "$1" ]; then
 		runm "Moving old data '$1' to '${1}.old'" mv -f "$1" "$1.old"
 	fi
 }
-
 
 #
 # Create link, after creating backups of target path file/folder.
@@ -71,7 +69,6 @@ function lnwb() {
 	runm "Creating link '$2' to '$1'" ln -s "$1" "$2"
 }
 
-
 #
 # Link all config files listed in CONFIG_FILES to $HOME.
 #
@@ -84,138 +81,136 @@ function link_config_files() {
 	done
 }
 
-
 #
-# Install ruby neovim gem.
+# Create all links needed for nvim configuration.
 #
-function install_gem_nvim() {
-	if command -v gem &> /dev/null; then
-		runm "Installing/updating ruby neovim module" gem install neovim
-	fi
-}
-
-
-#
-# Install node neovim module.
-#
-function install_npm_nvim() {
-	if command -v npm &> /dev/null; then
-		if npm ls neovim &> /dev/null; then
-			runm "Updating node neovim module" npm update -g neovim
-		else
-			runm "Installing node neovim module" npm install -g neovim
-		fi
-	fi
-}
-
-#
-# Check if the python pip module for neovim is installed.
-#
-# $1: pip command
-#
-function install_pip_nvim_worker() {
-	local result=1
-	if command -v $1 &> /dev/null; then
-		if $1 list | grep -E '^neovim[[:space:]]'; then
-			if $1 install --user --upgrade neovim; then
-				local result=0
-			fi
-		else
-			if $1 install --user neovim; then
-				local result=0
-			fi
-		fi
-	fi
-	return $result
-}
-
-
-#
-# Install python pip module for neovim.
-#
-function install_pip_nvim() {
-	for c in pip pip3; do
-		runm "Installing/updating $c neovim module" install_pip_nvim_worker "$c"
-	done
-}
-
-
-#
-# Install yard and create documentation
-#
-function install_yard_worker() {
-	local result=0
-	local cmds=(
-		"gem install -N yard"
-		"yard gems"
-		"yard config --gem-install-yri"
-		)
-
-	for i in ${!cmds[*]}; do
-		if ! ${cmds[i]}; then
-			result=1
-			break
-		fi
-	done
-
-	return $result
-}
-
-
-#
-# Install yard
-#
-function install_yard() {
-	if command -v gem &> /dev/null; then
-		runm "Installing/updating yard" install_yard_worker
-	fi
-}
-
-#
-# Create all links
-#
-function install_vim_files() {
+function link_nvim_files() {
 	mkdir -p "${HOME}/.config/nvim/"
 	lnwb "${DIR}/nvim/init.lua" "${HOME}/.config/nvim/init.lua"
 	lnwb "${DIR}/nvim/lua" "${HOME}/.config/nvim/lua"
 }
 
+# Install terminal font.
+function install_font() {
+  runm "Installing font" install_font_download
+}
+
+# Download and install font.
+function install_font_download() {
+  local font_dir="${HOME}/.local/share/fonts"
+  local font_name_glob="*ubuntu mono*nerd*"
+  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip"
+
+  if [ $(find "$font_dir" -iname "$font_name_glob" | wc -l) -eq 0 ]; then
+    local tdir="$(mktemp -d)"
+    local font_file="${tdir}/font.zip"
+
+    wget -q -O "$font_file" "$font_url"
+    unzip "$font_file" -d "$tdir"
+    mv "${tdir}/*.ttf" "$font_dir"
+    fc-cache -f
+  fi
+}
+
+# Install nodenv.
+function install_nodenv() {
+  runm "Installing nodenv" install_nodenv_worker
+}
+
+# Download and configure nodenv.
+function install_nodenv_worker() {
+  local nodenv_dir="${HOME}/.nodenv"
+
+  if [ ! -e "$nodenv_dir" ]; then
+    git clone "https://github.com/nodenv/nodenv.git" "$nodenv_dir"
+    $(cd ~/.nodenv && src/configure && make -C src)
+
+    echo '' >> ~/.bashrc
+    echo '# nodenv' >> ~/.bashrc
+    echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(nodenv init -)"' >> ~/.bashrc
+
+    mkdir -p "${nodenv_dir}/plugins"
+    git clone "https://github.com/nodenv/node-build.git" "${nodenv_dir}/plugins/node-build"
+  fi
+}
+
+# Install rbenv.
+function install_rbenv() {
+  runm "Installing rbenv" install_rbenv_worker
+}
+
+# Download and configure rbenv.
+function install_rbenv_worker() {
+  local rbenv_dir="${HOME}/.rbenv"
+
+  if [ ! -e "$rbenv_dir" ]; then
+    git clone "https://github.com/rbenv/rbenv.git" "$rbenv_dir"
+    $(cd ~/.rbenv && src/configure && make -C src)
+
+    echo '' >> ~/.bashrc
+    echo '# rbenv' >> ~/.bashrc
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
+
+    mkdir -p "${rbenv_dir}/plugins"
+    git clone "https://github.com/rbenv/ruby-build.git" "${rbenv_dir}/plugins/ruby-build"
+  fi
+}
+
+# Install necessary system dependencies on Fedora.
+function install_system_files() {
+  echo "Please enter your password to install system dependencies"
+  if [[ ! $(sudo echo 0) ]]; then exit; fi
+
+  runm "Installing basic tools" sudo dnf -y install \
+    fd-find \
+    git \
+    ripgrep \
+    tmux
+
+  runm "Installing rbenv dependencies" sudo dnf -y install \
+    bzip2 \
+    gcc \
+    gdbm-devel \
+    libffi-devel \
+    libyaml-devel \
+    make \
+    ncurses-devel \
+    openssl-devel \
+    readline-devel \
+    zlib-devel
+
+  runm "Installing C dev tools" install_system_files_dev_tools
+}
+
+# Install the C Development Tools and Libraries group in Fedora.
+function install_system_files_dev_tools() {
+  sudo dnf -y group install "C Development Tools and Libraries"
+}
 
 #
 # Initialize nvim.
 #
-function init_nvim() {
+function install_nvim_plugins() {
 	if command -v nvim &> /dev/null; then
-		runm "Installing neovim plugins" nvim --headless +PackerInstall +qall
+		runm "Installing neovim plugins" nvim --headless +PackerSync +qall
+  else
+    echo "Command 'nvim' not found in PATH. Skip installing plugins!"
 	fi
 }
-
 
 #
 # Install all files.
 #
 function install() {
-	link_config_files
-	install_vim_files
-	install_gem_nvim
-	install_npm_nvim
-	install_pip_nvim
-	install_yard
-	init_nvim
+  if [ $option_system -eq 1 ]; then install_system_files; fi
+  if [ $option_font -eq 1 ]; then install_font; fi
+  if [ $option_rbenv -eq 1 ]; then install_rbenv; fi
+  if [ $option_nodenv -eq 1 ]; then install_nodenv; fi
+  if [ $option_config -eq 1 ]; then link_config_files; link_nvim_files; fi
+  if [ $option_plugins -eq 1 ]; then install_nvim_plugins; fi
 }
-
-
-#
-# Update files.
-#
-function update() {
-	install_vim_plug
-	install_gem_nvim
-	install_npm_nvim
-	install_pip_nvim
-	install_yard
-}
-
 
 #
 # Print usage information.
@@ -227,33 +222,67 @@ function usage() {
 	echo "  Usage: $0 [OPTIONS]"
 	echo ""
 	echo "  Options:"
-	echo "    -h  Print this help message."
-	echo "    -i  Backup the current configuration and create a new one."
-	echo "    -u  Update the current configuration."
-	echo ""
-	echo "  Don't forget to install those packages:"
-	echo "    exuberant-ctags git silversearcher-ag"
+  echo "    -a  Install all."
+  echo ""
+  echo "    -c  Install Neovim configuration."
+  echo "    -p  Install Neovim plugins."
+  echo ""
+  echo "    -f  Install terminal font."
+  echo "    -s  Install Fedora system dependencies."
+  echo ""
+  echo "    -n  Install nodenv."
+  echo "    -r  Install rbenv."
+  echo ""
+  echo "    -h  Print this help message."
 	echo ""
 }
 
+option_config=0
+option_plugins=0
+option_font=0
+option_system=0
+option_nodenv=0
+option_rbenv=0
 
-# Store the user set options.
-opt_install=0
-opt_update=0
+# Print usage when no argument was given.
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
 
 # Parse all user arguments.
-while getopts "hiu" opt; do
+while getopts "acpfsnrh" opt; do
 	case $opt in
+    a)
+      option_config=1
+      option_plugins=1
+      option_font=1
+      option_system=1
+      option_nodenv=1
+      option_rbenv=1
+      ;;
+    c)
+      option_config=1
+      ;;
+    f)
+      option_font=1
+      ;;
 		h)
 			usage
 			exit 0
 			;;
-		i)
-			opt_install=1
-			;;
-		u)
-			opt_update=1
-			;;
+    n)
+      option_nodenv=1
+      ;;
+    p)
+      option_plugins=1
+      ;;
+    r)
+      option_rbenv=1
+      ;;
+    s)
+      option_system=1
+      ;;
 		*)
 			usage
 			exit 1
@@ -262,12 +291,4 @@ while getopts "hiu" opt; do
 done
 
 # Execute...
-if [ $opt_install -eq 1 ]; then
-	install
-elif [ $opt_update -eq 1 ]; then
-	update
-else
-	usage
-	exit 1
-fi
-
+install
