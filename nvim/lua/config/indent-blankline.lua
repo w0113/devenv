@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-default_options = {silent = true}
+local default_options = {noremap = true, silent = true}
 
 require('indent_blankline').setup {
   char_highlight_list = {}

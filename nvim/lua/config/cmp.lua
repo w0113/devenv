@@ -29,7 +29,7 @@ cmp.setup {
   sources = cmp.config.sources {
     {name = 'nvim_lua'},
     {name = 'nvim_lsp'},
-    {name = 'luasnip'},
+--    {name = 'luasnip'},
     {name = 'buffer'},
     {name = 'path'},
     {name = 'spell', keyword_length = 3, max_item_count = 5}
@@ -53,12 +53,3 @@ cmp.setup.cmdline(':', {
     {name = 'cmdline'}
   })
 })
-
--- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-require('lspconfig')['solargraph'].setup {capabilities = capabilities}
-require('lspconfig')['html'].setup {capabilities = capabilities}
-require('lspconfig')['cssls'].setup {capabilities = capabilities}
-require('lspconfig')['tsserver'].setup {capabilities = capabilities}

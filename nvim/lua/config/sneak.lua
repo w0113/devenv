@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-default_options = {remap = true, silent = true}
+local default_options = {noremap = true, silent = true}
 
 vim.g['sneak#label'] = 1
 vim.g['sneak#absolute_dir'] = 1
