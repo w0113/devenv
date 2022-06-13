@@ -124,7 +124,7 @@ function install_nodenv_worker() {
 
   if [ ! -e "$nodenv_dir" ]; then
     git clone "https://github.com/nodenv/nodenv.git" "$nodenv_dir" && \
-    $(cd ~/.nodenv && src/configure && make -C src) && \
+    cd ~/.nodenv && src/configure && make -C src && cd - && \
     echo '' >> ~/.bashrc && \
     echo '# nodenv' >> ~/.bashrc && \
     echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc && \
@@ -145,6 +145,7 @@ function install_rbenv_worker() {
 
   if [ ! -e "$rbenv_dir" ]; then
     git clone "https://github.com/rbenv/rbenv.git" "$rbenv_dir" && \
+    cd "$rbenv_dir" && src/configure && make -C src && cd - && \
     echo '' >> ~/.bashrc && \
     echo '# rbenv' >> ~/.bashrc && \
     echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc && \
@@ -152,7 +153,6 @@ function install_rbenv_worker() {
     mkdir -p "${rbenv_dir}/plugins" && \
     git clone "https://github.com/rbenv/ruby-build.git" "${rbenv_dir}/plugins/ruby-build"
 
-    $(cd "$rbenv_dir" && src/configure && make -C src)
   fi
 }
 
