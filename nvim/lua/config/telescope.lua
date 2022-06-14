@@ -11,4 +11,4 @@ map('n', 'sb', ':Telescope buffers<CR>', default_options)
 map('n', 'sh', ':Telescope help_tags<CR>', default_options)
 
 map('n', 'sq', ':lua require("telescope.builtin").quickfix()<CR>', default_options)
-map('n', 'sg', ':lua require("telescope.builtin").git_files()<CR>', default_options)
+map('n', 'sc', ':lua require("telescope.builtin").git_commits()<CR>', default_options)
