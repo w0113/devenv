@@ -101,13 +101,14 @@ function install_font_download() {
   local font_name_glob="*ubuntu mono*nerd*"
   local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip"
 
-  if [ $(find "$font_dir" -iname "$font_name_glob" | wc -l) -eq 0 ]; then
+  if [ $(find "$font_dir" -iname "$font_name_glob" 2> /dev/null | wc -l) -eq 0 ]; then
     local tdir="$(mktemp -d)"
     local font_file="${tdir}/font.zip"
 
-    wget -q -O "$font_file" "$font_url"
-    unzip "$font_file" -d "$tdir"
-    mv "${tdir}/*.ttf" "$font_dir"
+    wget -q -O "$font_file" "$font_url" && \
+    unzip "$font_file" -d "$tdir" && \
+    mkdir -p "$font_dir" && \
+    mv "${tdir}"/*.ttf "$font_dir" && \
     fc-cache -f
   fi
 }
@@ -122,15 +123,13 @@ function install_nodenv_worker() {
   local nodenv_dir="${HOME}/.nodenv"
 
   if [ ! -e "$nodenv_dir" ]; then
-    git clone "https://github.com/nodenv/nodenv.git" "$nodenv_dir"
-    $(cd ~/.nodenv && src/configure && make -C src)
-
-    echo '' >> ~/.bashrc
-    echo '# nodenv' >> ~/.bashrc
-    echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(nodenv init -)"' >> ~/.bashrc
-
-    mkdir -p "${nodenv_dir}/plugins"
+    git clone "https://github.com/nodenv/nodenv.git" "$nodenv_dir" && \
+    cd ~/.nodenv && src/configure && make -C src && cd - && \
+    echo '' >> ~/.bashrc && \
+    echo '# nodenv' >> ~/.bashrc && \
+    echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc && \
+    echo 'eval "$(nodenv init -)"' >> ~/.bashrc && \
+    mkdir -p "${nodenv_dir}/plugins" && \
     git clone "https://github.com/nodenv/node-build.git" "${nodenv_dir}/plugins/node-build"
   fi
 }
@@ -145,16 +144,15 @@ function install_rbenv_worker() {
   local rbenv_dir="${HOME}/.rbenv"
 
   if [ ! -e "$rbenv_dir" ]; then
-    git clone "https://github.com/rbenv/rbenv.git" "$rbenv_dir"
-    $(cd ~/.rbenv && src/configure && make -C src)
-
-    echo '' >> ~/.bashrc
-    echo '# rbenv' >> ~/.bashrc
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
-
-    mkdir -p "${rbenv_dir}/plugins"
+    git clone "https://github.com/rbenv/rbenv.git" "$rbenv_dir" && \
+    cd "$rbenv_dir" && src/configure && make -C src && cd - && \
+    echo '' >> ~/.bashrc && \
+    echo '# rbenv' >> ~/.bashrc && \
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc && \
+    echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc && \
+    mkdir -p "${rbenv_dir}/plugins" && \
     git clone "https://github.com/rbenv/ruby-build.git" "${rbenv_dir}/plugins/ruby-build"
+
   fi
 }
 
@@ -194,10 +192,15 @@ function install_system_files_dev_tools() {
 #
 function install_nvim_plugins() {
 	if command -v nvim &> /dev/null; then
-		runm "Installing neovim plugins" nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+		runm "Installing neovim plugins" install_nvim_plugins_worker
   else
     echo "Command 'nvim' not found in PATH. Cannot install Neovim plugins!"
 	fi
+}
+
+function install_nvim_plugins_worker() {
+  nvim --headless -c "qall" # We need to start it once so Packer gets bootstraped.
+  nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 }
 
 #

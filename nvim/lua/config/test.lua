@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-default_options = {silent = true}
+local default_options = {noremap = true, silent = true}
 
 vim.g.dispatch_no_maps = 1
 vim.g['test#strategy'] = 'dispatch'

@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-default_options = {silent = true}
+local default_options = {noremap = true, silent = true}
 
 -- Remap space as leader key.
 map({'n', 'v'}, '<Space>', '<Nop>', default_options)

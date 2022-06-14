@@ -37,13 +37,17 @@ return packer.startup(function(use)
   use {'nvim-telescope/telescope.nvim', config = get_config('telescope'), requires = {{'nvim-lua/plenary.nvim'}, {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}, {'kyazdani42/nvim-web-devicons'}}}
 
   -- Tools
+  use {'folke/trouble.nvim', config = get_config('trouble'), requires = {'kyazdani42/nvim-web-devicons'}}
   use {'kyazdani42/nvim-tree.lua', config = get_config('tree'), requires = {'kyazdani42/nvim-web-devicons'}}
   use {'mbbill/undotree', config = get_config('undotree')}
   use {'simrat39/symbols-outline.nvim', config = get_config('outline')}
 
   -- General coding
-  use {'tpope/vim-endwise'}
+  use {'ray-x/lsp_signature.nvim', config = get_config('lsp-signature')}
+  use {'RRethy/nvim-treesitter-endwise', config = get_config('endwise')}
+  --use {'tpope/vim-endwise'}
   use {'tpope/vim-surround'}
+  use {'windwp/nvim-autopairs', config = get_config('autopairs')}
 
   -- Testing
   use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch'}}
@@ -55,7 +59,8 @@ return packer.startup(function(use)
   use {'hrsh7th/cmp-nvim-lsp'}
   use {'hrsh7th/cmp-nvim-lua'}
   use {'hrsh7th/cmp-path'}
-  use {'hrsh7th/nvim-cmp', config = get_config('cmp'), requires = {'neovim/nvim-lspconfig'}}
+  use {'hrsh7th/nvim-cmp', config = get_config('cmp')}
+  use {'neovim/nvim-lspconfig', config = get_config('lspconfig')}
   use {'onsails/lspkind.nvim'}
 
   -- Snippets

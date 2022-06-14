@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-default_options = {remap = true, silent = true}
+local default_options = {noremap = true, silent = true}
 
 map('n', '<leader>f', '<Plug>(easymotion-s)', default_options)
 map('n', '<leader>F', '<Plug>(easymotion-s)', default_options)
