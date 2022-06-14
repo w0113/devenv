@@ -15,5 +15,3 @@
 	default = matching
 [alias]
 	tree = log --graph --oneline --decorate --all
-[credential]
-	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
