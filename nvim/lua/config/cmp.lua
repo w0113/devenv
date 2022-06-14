@@ -30,7 +30,14 @@ cmp.setup {
     {name = 'nvim_lua'},
     {name = 'nvim_lsp'},
 --    {name = 'luasnip'},
-    {name = 'buffer'},
+    {
+      name = 'buffer',
+      option = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
+      }
+    },
     {name = 'path'},
     {name = 'spell', keyword_length = 3, max_item_count = 5}
   }
