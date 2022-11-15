@@ -13,5 +13,7 @@
 	editor = nvim
 [push]
 	default = matching
+[pull]
+	rebase = false
 [alias]
 	tree = log --graph --oneline --decorate --all
