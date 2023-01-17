@@ -31,10 +31,17 @@ return packer.startup(function(use)
   use {'nvim-lualine/lualine.nvim', config = get_config('lualine'), requires = {'kyazdani42/nvim-web-devicons'}}
 
   -- Usability
-  --use {'easymotion/vim-easymotion', config = get_config('easymotion')}
   use {'famiu/bufdelete.nvim'}
   use {'justinmk/vim-sneak', config = get_config('sneak')}
-  use {'nvim-telescope/telescope.nvim', config = get_config('telescope'), requires = {{'nvim-lua/plenary.nvim'}, {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}, {'kyazdani42/nvim-web-devicons'}}}
+  use {
+    'nvim-telescope/telescope.nvim',
+    config = get_config('telescope'),
+    requires = {
+      {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      {'kyazdani42/nvim-web-devicons'}
+    }
+  }
 
   -- Tools
   use {'folke/trouble.nvim', config = get_config('trouble'), requires = {'kyazdani42/nvim-web-devicons'}}
@@ -45,26 +52,36 @@ return packer.startup(function(use)
   -- General coding
   use {'ray-x/lsp_signature.nvim', config = get_config('lsp-signature')}
   use {'RRethy/nvim-treesitter-endwise', config = get_config('endwise')}
-  --use {'tpope/vim-endwise'}
   use {'tpope/vim-surround'}
-  use {'windwp/nvim-autopairs', config = get_config('autopairs')}
+  --use {'windwp/nvim-autopairs', config = get_config('autopairs')}
 
   -- Testing
   use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch'}}
 
-  -- Completion
-  use {'f3fora/cmp-spell'}
-  use {'hrsh7th/cmp-buffer'}
-  use {'hrsh7th/cmp-cmdline'}
-  use {'hrsh7th/cmp-nvim-lsp'}
-  use {'hrsh7th/cmp-nvim-lua'}
-  use {'hrsh7th/cmp-path'}
-  use {'hrsh7th/nvim-cmp', config = get_config('cmp')}
-  use {'neovim/nvim-lspconfig', config = get_config('lspconfig')}
-  use {'onsails/lspkind.nvim'}
+  -- LSP
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    config = get_config('lsp-zero'),
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
 
-  -- Snippets
-  use {'L3MON4D3/LuaSnip', config = get_config('luasnip'), requires = {'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets'}}
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      -- Snippet Collection (Optional)
+      {'rafamadriz/friendly-snippets'},
+    }
+  }
 
   -- Git
   use {'tpope/vim-fugitive', config = get_config('fugitive')}

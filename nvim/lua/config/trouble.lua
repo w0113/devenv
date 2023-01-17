@@ -8,4 +8,3 @@ map("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", default_options
 map("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", default_options)
 map("n", "<leader>xl", "<cmd>Trouble loclist<cr>", default_options)
 map("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", default_options)
-map("n", "gR", "<cmd>Trouble lsp_references<cr>", default_options)
