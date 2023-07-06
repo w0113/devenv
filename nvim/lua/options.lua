@@ -51,3 +51,8 @@ o.listchars = {eol = '¶', tab = '‣ ', space = '·', trail = '·', extends = '
 
 -- Don't write history files with netrw.
 vim.g.netrw_dirhistmax = 0
+
+-- This seems to be a bug, that we need to disable and enable filetype detection so that it properly works.
+vim.api.nvim_command('filetype off')
+vim.api.nvim_command('filetype plugin indent off')
+vim.api.nvim_command('filetype plugin indent on')

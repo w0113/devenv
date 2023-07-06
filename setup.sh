@@ -98,19 +98,15 @@ function install_font() {
 # Download and install font.
 function install_font_download() {
   local font_dir="${HOME}/.local/share/fonts"
-  local font_name_glob="*ubuntu mono*nerd*"
-  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip"
+  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/UbuntuMono.zip"
+  local tdir="$(mktemp -d)"
+  local font_file="${tdir}/font.zip"
 
-  if [ $(find "$font_dir" -iname "$font_name_glob" 2> /dev/null | wc -l) -eq 0 ]; then
-    local tdir="$(mktemp -d)"
-    local font_file="${tdir}/font.zip"
-
-    wget -q -O "$font_file" "$font_url" && \
-    unzip "$font_file" -d "$tdir" && \
-    mkdir -p "$font_dir" && \
-    mv "${tdir}"/*.ttf "$font_dir" && \
-    fc-cache -f
-  fi
+  wget -q -O "$font_file" "$font_url" && \
+  unzip "$font_file" -d "$tdir" && \
+  mkdir -p "$font_dir" && \
+  mv -f "${tdir}"/*.ttf "$font_dir" && \
+  fc-cache -f
 }
 
 # Install nodenv.
@@ -225,7 +221,7 @@ function usage() {
 	echo "  Usage: $0 [OPTIONS]"
 	echo ""
 	echo "  Options:"
-  echo "    -a  Install all."
+  echo "    -a  Install all, except fonts."
   echo ""
   echo "    -c  Install Neovim configuration."
   echo "    -p  Install Neovim plugins."
@@ -259,7 +255,7 @@ while getopts "acpfsnrh" opt; do
     a)
       option_config=1
       option_plugins=1
-      option_font=1
+      option_font=0
       option_system=1
       option_nodenv=1
       option_rbenv=1

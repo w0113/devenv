@@ -58,28 +58,32 @@ return packer.startup(function(use)
   -- Testing
   use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch'}}
 
-  -- LSP
+  -- Coding completion
+  use {'zbirenbaum/copilot.lua', cmd = 'Copilot', event = 'InsertEnter', config = get_config('copilot')}
+  use {"zbirenbaum/copilot-cmp", after = {"copilot.lua"}, config = get_config('copilot-cmp')}
   use {
     'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
     config = get_config('lsp-zero'),
     requires = {
       -- LSP Support
       {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
+      {
+        'williamboman/mason.nvim',
+        run = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end
+      },
       {'williamboman/mason-lspconfig.nvim'},
 
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
+      -- Autocompletion and snippets
       {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'saadparwaiz1/cmp_luasnip'},
       {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
-
-      -- Snippets
+      {'hrsh7th/cmp-path'},
+      {'hrsh7th/nvim-cmp'},
       {'L3MON4D3/LuaSnip'},
-      -- Snippet Collection (Optional)
       {'rafamadriz/friendly-snippets'},
+      {'saadparwaiz1/cmp_luasnip'},
     }
   }
 
@@ -94,7 +98,7 @@ return packer.startup(function(use)
 
   -- Other
   use {'aserebryakov/vim-todo-lists'}
- 
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
