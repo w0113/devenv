@@ -1,5 +1,3 @@
-local o = vim.opt
-
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -29,5 +27,3 @@ require('lualine').setup {
   tabline = {},
   extensions = {}
 }
-
-o.laststatus = 3
