@@ -1,5 +1,5 @@
 -- Returns the require for use in `config` parameter of packer's use and expects the name of the config file
-function get_config(name)
+local function get_config(name)
 	return string.format('require("config/%s")', name)
 end
 
@@ -32,7 +32,7 @@ return packer.startup(function(use)
 
   -- Usability
   use {'famiu/bufdelete.nvim'}
-  use {'justinmk/vim-sneak', config = get_config('sneak')}
+  use {'phaazon/hop.nvim', branch = 'v2', config = get_config('hop')}
   use {
     'nvim-telescope/telescope.nvim',
     config = get_config('telescope'),
