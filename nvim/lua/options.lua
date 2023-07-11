@@ -36,7 +36,6 @@ o.expandtab = true
 -- Visual aids.
 o.colorcolumn = '+1'
 o.cursorline = true
-o.laststatus = 3
 o.number = true
 o.relativenumber = true
 o.scrolloff = 1
