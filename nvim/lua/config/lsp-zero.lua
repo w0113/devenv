@@ -7,6 +7,7 @@ require('mason-lspconfig').setup {
     'bashls',
     'cssls',
     'html',
+    'lua_ls',
     'solargraph',
     'tsserver',
     'yamlls'
@@ -14,13 +15,17 @@ require('mason-lspconfig').setup {
 }
 
 local lsp = require('lsp-zero').preset({})
+local lsp_config = require('lspconfig')
 
-lsp.on_attach(function(client, bufnr)
+lsp.on_attach(function(_, bufnr)
   lsp.default_keymaps({buffer = bufnr})
 end)
 
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+-- Manually configure LSP servers:
+lsp_config.lua_ls.setup(lsp.nvim_lua_ls())
+if vim.fn.executable('dart') == 1 then
+  lsp_config.dartls.setup({})
+end
 
 lsp.setup()
 
@@ -38,8 +43,9 @@ cmp.setup({
     {name = 'luasnip', keyword_length = 2},
   },
   mapping = {
-    -- ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-    -- ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
     ['<CR>'] = cmp.mapping.confirm({
       -- documentation says this is important. I don't know why.
       behavior = cmp.ConfirmBehavior.Replace,

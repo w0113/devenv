@@ -96,6 +96,9 @@ return packer.startup(function(use)
   use {'vim-ruby/vim-ruby', ft = {'ruby'}}
   use {'tpope/vim-bundler'}
 
+  -- Flutter
+  use {'thosakwe/vim-flutter', disable = vim.fn.executable('flutter') ~= 1}
+
   -- Other
   use {'aserebryakov/vim-todo-lists'}
 
