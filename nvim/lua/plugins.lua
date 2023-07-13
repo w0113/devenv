@@ -53,7 +53,6 @@ return packer.startup(function(use)
   use {'ray-x/lsp_signature.nvim', config = get_config('lsp-signature')}
   use {'RRethy/nvim-treesitter-endwise', config = get_config('endwise')}
   use {'tpope/vim-surround'}
-  --use {'windwp/nvim-autopairs', config = get_config('autopairs')}
 
   -- Testing
   use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch'}}
@@ -68,12 +67,7 @@ return packer.startup(function(use)
     requires = {
       -- LSP Support
       {'neovim/nvim-lspconfig'},
-      {
-        'williamboman/mason.nvim',
-        run = function()
-          pcall(vim.cmd, 'MasonUpdate')
-        end
-      },
+      {'williamboman/mason.nvim', run = ":MasonUpdate"},
       {'williamboman/mason-lspconfig.nvim'},
 
       -- Autocompletion and snippets
@@ -90,11 +84,6 @@ return packer.startup(function(use)
   -- Git
   use {'tpope/vim-fugitive', config = get_config('fugitive')}
   use {'junegunn/gv.vim', cmd = {'GV'}}
-
-  -- Ruby
-  use {'tpope/vim-rails', ft = {'ruby'}}
-  use {'vim-ruby/vim-ruby', ft = {'ruby'}}
-  use {'tpope/vim-bundler'}
 
   -- Flutter
   use {'thosakwe/vim-flutter', config = get_config('flutter'), disable = vim.fn.executable('flutter') ~= 1}
