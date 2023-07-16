@@ -12,3 +12,6 @@ map('n', 'sh', ':Telescope help_tags<CR>', default_options)
 
 map('n', 'sq', ':lua require("telescope.builtin").quickfix()<CR>', default_options)
 map('n', 'sc', ':lua require("telescope.builtin").git_commits()<CR>', default_options)
+map('n', 'sf', ':lua require("telescope.builtin").lsp_document_symbols()<CR>', default_options)
+map('n', 'sF', ':lua require("telescope.builtin").lsp_workspace_symbols()<CR>', default_options)
+map('n', 'sd', ':lua require("telescope.builtin").diagnostics()<CR>', default_options)
