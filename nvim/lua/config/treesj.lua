@@ -5,4 +5,4 @@ require('treesj').setup {
   use_default_keymaps = false,
 }
 
-map('n', '<leader>m', ':TSJToggle', default_options)
+map('n', '<leader>v', ':TSJToggle<CR>', default_options)
