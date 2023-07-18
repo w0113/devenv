@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-local default_options = {noremap = true, silent = false}
+local default_options = {noremap = true, silent = true}
 
 require('hop').setup {
   keys = 'asdklöqwertzuiopyxcvbnm,.fghj'

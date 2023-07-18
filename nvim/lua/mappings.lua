@@ -26,10 +26,10 @@ map({'n', 'x'}, '<leader>m', '`', default_options)
 map('n', '<ESC><ESC>', '<ESC>:nohlsearch <bar> match none <bar> 2match none<CR>', default_options)
 
 -- Move current or selected lines up and down.
-map('n', 'Ä', ':m .+1<CR>==', default_options)
-map('n', 'Ü', ':m .-2<CR>==', default_options)
-map('x', 'Ä', ":m '>+1<CR>gv=gv", default_options)
-map('x', 'Ü', ":m '<-2<CR>gv=gv", default_options)
+map('n', '<A-j>', ':m .+1<CR>==', default_options)
+map('n', '<A-k>', ':m .-2<CR>==', default_options)
+map('x', '<A-j>', ":m '>+1<CR>gv=gv", default_options)
+map('x', '<A-k>', ":m '<-2<CR>gv=gv", default_options)
 
 -- Mappings for quickfix
 map('n', '<leader>j', ':cnext <bar> normal zz<CR>', default_options)
