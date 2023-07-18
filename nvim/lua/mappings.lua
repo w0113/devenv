@@ -5,13 +5,15 @@ local default_options = {noremap = true, silent = true}
 map({'n', 'v'}, '<Space>', '<Nop>', default_options)
 vim.g.mapleader = ' '
 
+-- Use ö and ä as alternative [ and ] keys.
+map('n', 'ö', '[', default_options)
+map('n', 'ä', ']', default_options)
+
 -- Spell checking
 vim.g.spelllang = 'en_us'
+vim.o.spell = true
 map('n', '<leader><leader>s', ':set spelllang=en_us spell!<CR>', default_options)
 map('n', '<leader><leader>d', ':set spelllang=de_de spell!<CR>', default_options)
-
--- Use jj as alternative for escape.
-map('i', 'jj', '<ESC>', default_options)
 
 -- Paste over currently selected text without yanking it
 map("v", "p", '"_dP', default_options)
