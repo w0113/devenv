@@ -60,7 +60,7 @@ return packer.startup(function(use)
   use {'tpope/vim-surround'}
 
   -- Testing
-  use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch'}}
+  use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch', 'tpope/vim-rails'}}
 
   -- Coding completion
   use {'zbirenbaum/copilot.lua', cmd = 'Copilot', event = 'InsertEnter', config = get_config('copilot')}
