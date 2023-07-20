@@ -62,6 +62,23 @@ map('n', '!r', '!!ruby<CR>', default_options)
 -- Toggle listchars
 map('n', '<leader><leader>l', ':set list!<CR>', default_options)
 
+-- Toggle quickfix window
+map('n', '<leader><leader>q',
+  function()
+    local qf_exists = false
+    for _, win in pairs(vim.fn.getwininfo()) do
+      if win['quickfix'] == 1 then
+        qf_exists = true
+      end
+    end
+    if qf_exists then
+      vim.cmd 'cclose'
+    else
+      vim.cmd 'copen'
+    end
+  end,
+  default_options)
+
 -- Also enable navigation mappings in neovims terminal.
 map('t', '<C-h>', '<C-\\><C-n><C-w>h', default_options)
 map('t', '<C-j>', '<C-\\><C-n><C-w>j', default_options)
