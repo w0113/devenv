@@ -1,5 +1,5 @@
--- Learn the keybindings, see :help lsp-zero-keybindings
--- Learn to configure LSP servers, see :help lsp-zero-api-showcase
+local map = vim.keymap.set
+local default_options = {noremap = true, silent = true}
 
 require('mason').setup {}
 require('mason-lspconfig').setup {
@@ -53,3 +53,11 @@ cmp.setup({
     }),
   }
 })
+
+map('n', '<leader><leader>e',
+  function()
+    local config = vim.diagnostic.config()
+    config['virtual_text'] = not config['virtual_text']
+    vim.diagnostic.config(config)
+  end,
+  default_options)

@@ -11,7 +11,6 @@ map('n', 'ä', ']', default_options)
 
 -- Spell checking
 vim.g.spelllang = 'en_us'
-vim.o.spell = true
 map('n', '<leader><leader>s', ':set spelllang=en_us spell!<CR>', default_options)
 map('n', '<leader><leader>d', ':set spelllang=de_de spell!<CR>', default_options)
 
