@@ -4,6 +4,7 @@ local default_options = {noremap = true, silent = true}
 require('telescope').setup()
 require('telescope').load_extension('fzf')
 
+map('n', 'st', ':Telescope<CR>', default_options)
 map('n', 'ss', ':Telescope find_files<CR>', default_options)
 map('n', 'sa', ':lua require("telescope.builtin").grep_string {only_sort_text = true, search = ""}<CR>', default_options)
 map('n', 'sA', ':Telescope live_grep<CR>', default_options)
