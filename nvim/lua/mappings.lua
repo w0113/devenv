@@ -14,7 +14,11 @@ vim.g.spelllang = 'en_us'
 map('n', '<leader><leader>s', ':set spelllang=en_us spell!<CR>', default_options)
 map('n', '<leader><leader>d', ':set spelllang=de_de spell!<CR>', default_options)
 
--- Paste over currently selected text without yanking it
+-- Yank directly to system clipboard.
+map({'n', 'v'}, '<leader>y', '"+y', default_options)
+map('n', '<leader>yy', '"+yy', default_options)
+
+-- Paste over currently selected text without yanking it.
 map("v", "p", '"_dP', default_options)
 
 -- Switch to last buffer.
