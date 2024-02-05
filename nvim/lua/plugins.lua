@@ -33,6 +33,7 @@ return packer.startup(function(use)
   use {'RRethy/vim-illuminate'}
 
   -- Usability
+  use {'ibhagwan/smartyank.nvim', config = get_config('smartyank')}
   use {'kevinhwang91/nvim-bqf', ft = 'qf'}
   use {'phaazon/hop.nvim', branch = 'v2', config = get_config('hop')}
   use {
