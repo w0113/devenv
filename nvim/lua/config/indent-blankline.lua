@@ -1,32 +1,4 @@
-local map = vim.keymap.set
-local default_options = {noremap = true, silent = true}
+-- Set scope color.
+vim.api.nvim_set_hl(0, 'IblScope', {fg = '#5E81AC'})
 
-require('indent_blankline').setup {
-  char_highlight_list = {}
-}
-
--- Add mapping to toggle colorful lines.
-vim.cmd 'highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine'
-vim.cmd 'highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine'
-vim.cmd 'highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine'
-vim.cmd 'highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine'
-vim.cmd 'highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine'
-vim.cmd 'highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine'
-
-map('n', '<leader><leader>i',
-  function()
-    if next(vim.g.indent_blankline_char_highlight_list) == nil then
-      vim.g.indent_blankline_char_highlight_list = {
-        'IndentBlanklineIndent1',
-        'IndentBlanklineIndent2',
-        'IndentBlanklineIndent3',
-        'IndentBlanklineIndent4',
-        'IndentBlanklineIndent5',
-        'IndentBlanklineIndent6'
-      }
-    else
-      vim.g.indent_blankline_char_highlight_list = {}
-    end
-    vim.cmd 'IndentBlanklineRefresh!'
-  end,
-  default_options)
+require('ibl').setup({scope = {show_start = false}})
