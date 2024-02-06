@@ -5,12 +5,7 @@ require('mason').setup {}
 require('mason-lspconfig').setup {
   ensure_installed = {
     'bashls',
-    'cssls',
-    'html',
-    'lua_ls',
-    'solargraph',
-    'tsserver',
-    'yamlls'
+    'lua_ls'
   }
 }
 
@@ -37,7 +32,6 @@ require('luasnip.loaders.from_vscode').lazy_load()
 cmp.setup({
   sources = {
     {name = 'path'},
-    {name = 'copilot'},
     {name = 'nvim_lsp'},
     {name = 'buffer', keyword_length = 3},
     {name = 'luasnip', keyword_length = 2},
