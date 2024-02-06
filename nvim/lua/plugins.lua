@@ -64,6 +64,7 @@ return packer.startup(function(use)
   use {'vim-test/vim-test', config = get_config('test'), requires = {'tpope/vim-dispatch', 'tpope/vim-rails'}}
 
   -- Coding completion
+  use {'github/copilot.vim'}
   use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',
