@@ -1,5 +1,7 @@
 -- Vim autocommands/autogroups
-require("autocmd")
+require("autocmds")
+-- User commands
+require("commands")
 -- Vim mappings
 require("mappings")
 -- All non plugin related options
