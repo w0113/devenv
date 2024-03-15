@@ -48,7 +48,6 @@ return packer.startup(function(use)
   }
   use {'tpope/vim-repeat'}
   use {'Wansmer/treesj', config = get_config('treesj'), requires = {'nvim-treesitter'}}
-  use {'https://git.sr.ht/~marcc/BufferBrowser', config = get_config('buffer-browser')}
 
   -- Tools
   use {'folke/trouble.nvim', config = get_config('trouble'), requires = {'kyazdani42/nvim-web-devicons'}}
