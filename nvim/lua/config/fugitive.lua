@@ -2,15 +2,18 @@ local map = vim.keymap.set
 local default_options = {buffer = true, noremap = true, silent = true}
 
 -- Mappings for fugitive buffers.
+local fugitive = vim.api.nvim_create_augroup('fugitive', {clear = true})
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'fugitive',
   callback = function()
     -- Open file under cursor in diff mode in separate tab
     map('n', 'dt', ':Gtabedit <Plug><cfile><Bar>Gvdiffsplit!<CR>', default_options)
-  end
+  end,
+  group = fugitive
 })
 
 -- Mappings for diff buffers.
+local fugitive_diff = vim.api.nvim_create_augroup('fugitive_diff', {clear = true})
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     if vim.o.diff then
@@ -25,5 +28,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
       -- Update diff
       map('n', '<leader>u', ':diffupdate<CR>', default_options)
     end
-  end
+  end,
+  group = fugitive_diff
 })
