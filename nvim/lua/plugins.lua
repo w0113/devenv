@@ -47,7 +47,6 @@ return packer.startup(function(use)
     }
   }
   use {'tpope/vim-repeat'}
-  use {'Wansmer/treesj', config = get_config('treesj'), requires = {'nvim-treesitter'}}
 
   -- Tools
   use {'folke/trouble.nvim', config = get_config('trouble'), requires = {'kyazdani42/nvim-web-devicons'}}
