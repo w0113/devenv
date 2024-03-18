@@ -26,7 +26,6 @@ return packer.startup(function(use)
 
   -- Visual
   use {'EdenEast/nightfox.nvim', config = get_config('colorscheme')}
-  use {'lewis6991/gitsigns.nvim', config = get_config('gitsigns')}
   use {'lukas-reineke/indent-blankline.nvim', config = get_config('indent-blankline')}
   use {'NvChad/nvim-colorizer.lua', config = get_config('nvim-colorizer')}
   use {'nvim-lualine/lualine.nvim', config = get_config('lualine'), requires = {'kyazdani42/nvim-web-devicons'}}
@@ -53,6 +52,12 @@ return packer.startup(function(use)
   use {'kyazdani42/nvim-tree.lua', config = get_config('tree'), requires = {'kyazdani42/nvim-web-devicons'}}
   use {'mbbill/undotree', config = get_config('undotree')}
   use {'simrat39/symbols-outline.nvim', config = get_config('outline')}
+  use {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    config = get_config('harpoon'),
+    requires = {'nvim-lua/plenary.nvim'}
+  }
 
   -- General coding
   use {'ray-x/lsp_signature.nvim', config = get_config('lsp-signature')}
@@ -86,8 +91,9 @@ return packer.startup(function(use)
   }
 
   -- Git
-  use {'tpope/vim-fugitive', config = get_config('fugitive')}
   use {'junegunn/gv.vim', cmd = {'GV'}}
+  use {'lewis6991/gitsigns.nvim', config = get_config('gitsigns')}
+  use {'tpope/vim-fugitive', config = get_config('fugitive')}
 
   -- Flutter
   use {'thosakwe/vim-flutter', config = get_config('flutter'), disable = vim.fn.executable('flutter') ~= 1}
