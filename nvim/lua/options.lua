@@ -18,15 +18,17 @@ o.undodir = fn.stdpath('data') .. '/undodir'
 
 -- Enhance usability.
 o.completeopt = {'menu', 'menuone', 'noselect'}
-o.ignorecase = true   -- Do case insensitive matching.
-o.isfname:remove('=') -- Do not recognize '=' as part of a file name.
-o.mouse = 'a'         -- Enable mouse usage (all modes).
-o.showmatch = true    -- Show matching brackets.
-o.signcolumn = 'yes'  -- Always show sign column.
-o.smartcase = true    -- Do smart case matching.
-o.textwidth = 120     -- Maximum width of text before wrapping.
+o.ignorecase = true    -- Do case insensitive matching.
+o.inccommand = 'split' -- Also show off-screen substitute effects in a preview window.
+o.isfname:remove('=')  -- Do not recognize '=' as part of a file name.
+o.mouse = 'a'          -- Enable mouse usage (all modes).
+o.showmatch = true     -- Show matching brackets.
+o.signcolumn = 'yes'   -- Always show sign column.
+o.smartcase = true     -- Do smart case matching.
+o.textwidth = 120      -- Maximum width of text before wrapping.
 
 -- Indentation and tab options.
+o.breakindent = true
 o.smartindent = true
 o.tabstop = 2
 o.softtabstop = 2
@@ -38,7 +40,7 @@ o.colorcolumn = '+1'
 o.cursorline = true
 o.number = true
 o.relativenumber = true
-o.scrolloff = 1
+o.scrolloff = 5
 o.showmode = false
 
 -- Folding.
@@ -48,6 +50,10 @@ o.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- Listchars
 o.listchars = {eol = '¶', tab = '‣ ', space = '·', trail = '·', extends = '»', precedes = '«', nbsp = '␣'}
+
+-- Splits
+o.splitright = true
+o.splitbelow = true
 
 -- Don't write history files with netrw.
 vim.g.netrw_dirhistmax = 0
