@@ -53,7 +53,7 @@ o.listchars = {eol = '¶', tab = '‣ ', space = '·', trail = '·', extends = '
 
 -- Splits
 o.splitright = true
-o.splitbelow = true
+o.splitbelow = false
 
 -- Don't write history files with netrw.
 vim.g.netrw_dirhistmax = 0
