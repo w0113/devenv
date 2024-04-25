@@ -7,6 +7,11 @@ return {
 
   -- Tweak options of LazyVim default plugins
   {
+    "folke/tokyonight.nvim",
+    opts = { dim_inactive = true },
+  },
+
+  {
     "lukas-reineke/indent-blankline.nvim",
     opts = { scope = { enabled = true, show_start = false, show_end = false } },
   },
