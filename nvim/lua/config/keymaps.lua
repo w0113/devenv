@@ -7,8 +7,8 @@ local unmap = vim.keymap.del
 -- Rebind ö and ä to [] and {}
 map("n", "ö", "[")
 map("n", "ä", "]")
-map("n", "<S-ö>", "{")
-map("n", "<S-ä>", "}")
+map("n", "Ö", "{")
+map("n", "Ä", "}")
 
 -- Restore behavior of H and L
 unmap("n", "<S-h>")
