@@ -107,11 +107,12 @@ function install_font_download() {
 		unzip "$font_file" -d "$tdir" &&
 		mkdir -p "$font_dir" &&
 		mv -f "${tdir}"/*.ttf "$font_dir" &&
+		rm -r "$tdir" &&
 		fc-cache -f
 }
 
 #
-# Install necessary system dependencies on Fedora.
+# Install necessary system dependencies.
 #
 function install_system_dependencies() {
 	echo "Please enter your password to install system dependencies"
@@ -127,11 +128,10 @@ function install_system_dependencies() {
 }
 
 #
-# Install system dependencies using the dnf package manager.
+# Install system dependencies using the apt package manager.
 #
-function install_system_dependencies_dnf() {
-	sudo dnf -y install alacritty fd-find git ripgrep tmux
-	sudo dnf -y group install "C Development Tools and Libraries"
+function install_system_dependencies_apt() {
+	sudo apt-get -y install alacritty build-essential fd-find git ripgrep tmux
 }
 
 #
