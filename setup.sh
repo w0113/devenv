@@ -6,9 +6,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # All config files which should be linked into $HOME.
 CONFIG_FILES=(
 	"gitconfig"
-	"inputrc"
 	"tmux.conf"
-	)
+)
 
 #
 # Run a command and print a message line.
@@ -85,130 +84,74 @@ function link_config_files() {
 # Create all links needed for nvim configuration.
 #
 function link_nvim_files() {
-	mkdir -p "${HOME}/.config/nvim/"
-	lnwb "${DIR}/nvim/init.lua" "${HOME}/.config/nvim/init.lua"
-	lnwb "${DIR}/nvim/lua" "${HOME}/.config/nvim/lua"
+	lnwb "${DIR}/nvim" "${HOME}/.config/nvim"
 }
 
+#
 # Install terminal font.
+#
 function install_font() {
-  runm "Installing font" install_font_download
+	runm "Installing font" install_font_download
 }
 
+#
 # Download and install font.
+#
 function install_font_download() {
-  local font_dir="${HOME}/.local/share/fonts"
-  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/UbuntuMono.zip"
-  local tdir="$(mktemp -d)"
-  local font_file="${tdir}/font.zip"
+	local font_dir="${HOME}/.local/share/fonts"
+	local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.zip"
+	local tdir="$(mktemp -d)"
+	local font_file="${tdir}/font.zip"
 
-  wget -q -O "$font_file" "$font_url" && \
-  unzip "$font_file" -d "$tdir" && \
-  mkdir -p "$font_dir" && \
-  mv -f "${tdir}"/*.ttf "$font_dir" && \
-  fc-cache -f
+	wget -q -O "$font_file" "$font_url" &&
+		unzip "$font_file" -d "$tdir" &&
+		mkdir -p "$font_dir" &&
+		mv -f "${tdir}"/*.ttf "$font_dir" &&
+		fc-cache -f
 }
 
-# Install nodenv.
-function install_nodenv() {
-  runm "Installing nodenv" install_nodenv_worker
-}
-
-# Download and configure nodenv.
-function install_nodenv_worker() {
-  local nodenv_dir="${HOME}/.nodenv"
-
-  if [ ! -e "$nodenv_dir" ]; then
-    git clone "https://github.com/nodenv/nodenv.git" "$nodenv_dir" && \
-    cd ~/.nodenv && src/configure && make -C src && cd - && \
-    echo '' >> ~/.bashrc && \
-    echo '# nodenv' >> ~/.bashrc && \
-    echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc && \
-    echo 'eval "$(nodenv init -)"' >> ~/.bashrc && \
-    mkdir -p "${nodenv_dir}/plugins" && \
-    git clone "https://github.com/nodenv/node-build.git" "${nodenv_dir}/plugins/node-build"
-  fi
-}
-
-# Install rbenv.
-function install_rbenv() {
-  runm "Installing rbenv" install_rbenv_worker
-}
-
-# Download and configure rbenv.
-function install_rbenv_worker() {
-  local rbenv_dir="${HOME}/.rbenv"
-
-  if [ ! -e "$rbenv_dir" ]; then
-    git clone "https://github.com/rbenv/rbenv.git" "$rbenv_dir" && \
-    cd "$rbenv_dir" && src/configure && make -C src && cd - && \
-    echo '' >> ~/.bashrc && \
-    echo '# rbenv' >> ~/.bashrc && \
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc && \
-    echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc && \
-    mkdir -p "${rbenv_dir}/plugins" && \
-    git clone "https://github.com/rbenv/ruby-build.git" "${rbenv_dir}/plugins/ruby-build"
-
-  fi
-}
-
+#
 # Install necessary system dependencies on Fedora.
-function install_system_files() {
-  echo "Please enter your password to install system dependencies"
-  if [[ ! $(sudo echo 0) ]]; then exit; fi
-
-  runm "Installing basic tools" sudo dnf -y install \
-    fd-find \
-    git \
-    ripgrep \
-    tmux
-
-  runm "Installing rbenv dependencies" sudo dnf -y install \
-    bzip2 \
-    gcc \
-    gdbm-devel \
-    libffi-devel \
-    libyaml-devel \
-    make \
-    ncurses-devel \
-    openssl-devel \
-    readline-devel \
-    zlib-devel
-
-  runm "Installing C dev tools" install_system_files_dev_tools
-}
-
-# Install the C Development Tools and Libraries group in Fedora.
-function install_system_files_dev_tools() {
-  sudo dnf -y group install "C Development Tools and Libraries"
-}
-
 #
-# Initialize nvim.
-#
-function install_nvim_plugins() {
-	if command -v nvim &> /dev/null; then
-		runm "Installing neovim plugins" install_nvim_plugins_worker
-  else
-    echo "Command 'nvim' not found in PATH. Cannot install Neovim plugins!"
+function install_system_dependencies() {
+	echo "Please enter your password to install system dependencies"
+	if [[ ! $(sudo echo 0) ]]; then exit; fi
+
+	if command -v dnf &>/dev/null; then
+		runm "Installing system dependencies with dnf" install_system_dependencies_dnf
+	elif command -v apt &>/dev/null; then
+		runm "Installing system dependencies with apt" install_system_dependencies_apt
+	else
+		echo -e "\e[1;31mERROR: No supported package manager was found!\e[0m"
 	fi
 }
 
-function install_nvim_plugins_worker() {
-  nvim --headless -c "qall" # We need to start it once so Packer gets bootstraped.
-  nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+#
+# Install system dependencies using the dnf package manager.
+#
+function install_system_dependencies_dnf() {
+	sudo dnf -y install alacritty fd-find git ripgrep tmux
+	sudo dnf -y group install "C Development Tools and Libraries"
 }
 
 #
-# Install all files.
+# Install system dependencies using the dnf package manager.
+#
+function install_system_dependencies_dnf() {
+	sudo dnf -y install alacritty fd-find git ripgrep tmux
+	sudo dnf -y group install "C Development Tools and Libraries"
+}
+
+#
+# Run installation.
 #
 function install() {
-  if [ $option_system -eq 1 ]; then install_system_files; fi
-  if [ $option_font -eq 1 ]; then install_font; fi
-  if [ $option_rbenv -eq 1 ]; then install_rbenv; fi
-  if [ $option_nodenv -eq 1 ]; then install_nodenv; fi
-  if [ $option_config -eq 1 ]; then link_config_files; link_nvim_files; fi
-  if [ $option_plugins -eq 1 ]; then install_nvim_plugins; fi
+	if [ $option_system -eq 1 ]; then install_system_files; fi
+	if [ $option_font -eq 1 ]; then install_font; fi
+	if [ $option_config -eq 1 ]; then
+		link_config_files
+		link_nvim_files
+	fi
 }
 
 #
@@ -221,71 +164,43 @@ function usage() {
 	echo "  Usage: $0 [OPTIONS]"
 	echo ""
 	echo "  Options:"
-  echo "    -a  Install all, except fonts."
-  echo ""
-  echo "    -c  Install Neovim configuration."
-  echo "    -p  Install Neovim plugins."
-  echo ""
-  echo "    -f  Install terminal font."
-  echo "    -s  Install Fedora system dependencies."
-  echo ""
-  echo "    -n  Install nodenv."
-  echo "    -r  Install rbenv."
-  echo ""
-  echo "    -h  Print this help message."
+	echo "    -c  Install Neovim configuration."
+	echo "    -f  Install terminal font."
+	echo "    -s  Install system dependencies."
+	echo "    -h  Print this help message."
 	echo ""
 }
 
 option_config=0
-option_plugins=0
 option_font=0
 option_system=0
-option_nodenv=0
-option_rbenv=0
 
 # Print usage when no argument was given.
 if [ $# -eq 0 ]; then
-  usage
-  exit 1
+	usage
+	exit 1
 fi
 
 # Parse all user arguments.
 while getopts "acpfsnrh" opt; do
 	case $opt in
-    a)
-      option_config=1
-      option_plugins=1
-      option_font=0
-      option_system=1
-      option_nodenv=1
-      option_rbenv=1
-      ;;
-    c)
-      option_config=1
-      ;;
-    f)
-      option_font=1
-      ;;
-		h)
-			usage
-			exit 0
-			;;
-    n)
-      option_nodenv=1
-      ;;
-    p)
-      option_plugins=1
-      ;;
-    r)
-      option_rbenv=1
-      ;;
-    s)
-      option_system=1
-      ;;
-		*)
-			usage
-			exit 1
-			;;
+	c)
+		option_config=1
+		;;
+	f)
+		option_font=1
+		;;
+	h)
+		usage
+		exit 0
+		;;
+	s)
+		option_system=1
+		;;
+	*)
+		usage
+		exit 1
+		;;
 	esac
 done
 
