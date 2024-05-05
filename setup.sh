@@ -10,6 +10,15 @@ CONFIG_FILES=(
 )
 
 #
+# Request the user to enter his/her sudo password so sudo can be used inside this script.
+#
+function request_sudo() {
+	if [[ ! $(sudo -v -p "[sudo] Please enter password for %u to install all requirements: ") ]]; then
+		exit 1
+	fi
+}
+
+#
 # Run a command and print a message line.
 # Runs the given command and prints a status line to notify the user whether the
 # command failed or not.
@@ -98,8 +107,8 @@ function install_font() {
 # Download and install font.
 #
 function install_font_download() {
-	local font_dir="${HOME}/.local/share/fonts"
 	local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.zip"
+	local font_dir="${HOME}/.local/share/fonts"
 	local tdir="$(mktemp -d)"
 	local font_file="${tdir}/font.zip"
 
@@ -112,11 +121,38 @@ function install_font_download() {
 }
 
 #
+# Install nvim.
+#
+function install_nvim() {
+	runm "Installing nvim" install_nvim_download
+}
+
+#
+# Download and install nvim.
+#
+function install_nvim_download() {
+	request_sudo
+
+	local nvim_url="https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage"
+	local nvim_dir="/opt/nvim"
+	local nvim_path="${nvim_dir}/nvim.appimage"
+	local tpath="/tmp/nvim.appimage"
+	local lpath="/usr/local/bin/nvim"
+
+	wget -q -O "/tmp/nvim.appimage" "$nvim_url" &&
+		sudo mkdir -p "$nvim_dir" &&
+		sudo mv -f "$tpath" "$nvim_path" &&
+		sudo chown root:root "$nvim_path" &&
+		sudo chmod 0755 "$nvim_path" &&
+		if [ -e "$lpath" ]; then sudo rm "$lpath"; fi &&
+		sudo ln -s "$nvim_path" "$lpath"
+}
+
+#
 # Install necessary system dependencies.
 #
 function install_system_dependencies() {
-	echo "Please enter your password to install system dependencies"
-	if [[ ! $(sudo echo 0) ]]; then exit; fi
+	request_sudo
 
 	if command -v dnf &>/dev/null; then
 		runm "Installing system dependencies with dnf" install_system_dependencies_dnf
@@ -131,15 +167,15 @@ function install_system_dependencies() {
 # Install system dependencies using the apt package manager.
 #
 function install_system_dependencies_apt() {
-	sudo apt-get -y install alacritty build-essential fd-find git ripgrep tmux
+	sudo apt-get -y install alacritty build-essential curl fd-find git ripgrep tar tmux
 }
 
 #
 # Install system dependencies using the dnf package manager.
 #
 function install_system_dependencies_dnf() {
-	sudo dnf -y install alacritty fd-find git ripgrep tmux
-	sudo dnf -y group install "C Development Tools and Libraries"
+	sudo dnf -y install alacritty curl fd-find git ripgrep tar tmux &&
+		sudo dnf -y group install "C Development Tools and Libraries"
 }
 
 #
@@ -148,6 +184,7 @@ function install_system_dependencies_dnf() {
 function install() {
 	if [ $option_system -eq 1 ]; then install_system_files; fi
 	if [ $option_font -eq 1 ]; then install_font; fi
+	if [ $option_nvim -eq 1 ]; then install_nvim; fi
 	if [ $option_config -eq 1 ]; then
 		link_config_files
 		link_nvim_files
@@ -166,6 +203,7 @@ function usage() {
 	echo "  Options:"
 	echo "    -c  Install Neovim configuration."
 	echo "    -f  Install terminal font."
+	echo "    -n  Install Neovim."
 	echo "    -s  Install system dependencies."
 	echo "    -h  Print this help message."
 	echo ""
@@ -173,6 +211,7 @@ function usage() {
 
 option_config=0
 option_font=0
+option_nvim=0
 option_system=0
 
 # Print usage when no argument was given.
@@ -193,6 +232,9 @@ while getopts "acpfsnrh" opt; do
 	h)
 		usage
 		exit 0
+		;;
+	n)
+		option_nvim=1
 		;;
 	s)
 		option_system=1
