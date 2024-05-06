@@ -167,14 +167,14 @@ function install_system_dependencies() {
 # Install system dependencies using the apt package manager.
 #
 function install_system_dependencies_apt() {
-	sudo apt-get -y install alacritty build-essential curl fd-find git ripgrep tar tmux
+	sudo apt-get -y install build-essential curl fd-find git ripgrep tar tmux
 }
 
 #
 # Install system dependencies using the dnf package manager.
 #
 function install_system_dependencies_dnf() {
-	sudo dnf -y install alacritty curl fd-find git ripgrep tar tmux &&
+	sudo dnf -y install curl fd-find git ripgrep tar tmux &&
 		sudo dnf -y group install "C Development Tools and Libraries"
 }
 
