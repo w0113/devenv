@@ -13,7 +13,7 @@ CONFIG_FILES=(
 # Request the user to enter his/her sudo password so sudo can be used inside this script.
 #
 function request_sudo() {
-	if [[ ! $(sudo -v -p "[sudo] Please enter password for %u to install all requirements: ") ]]; then
+	if ! sudo -v -p "[sudo] Please enter password for %u to install all requirements: "; then
 		exit 1
 	fi
 }
@@ -156,7 +156,7 @@ function install_system_dependencies() {
 
 	if command -v dnf &>/dev/null; then
 		runm "Installing system dependencies with dnf" install_system_dependencies_dnf
-	elif command -v apt &>/dev/null; then
+	elif command -v apt-get &>/dev/null; then
 		runm "Installing system dependencies with apt" install_system_dependencies_apt
 	else
 		echo -e "\e[1;31mERROR: No supported package manager was found!\e[0m"
@@ -182,7 +182,7 @@ function install_system_dependencies_dnf() {
 # Run installation.
 #
 function install() {
-	if [ $option_system -eq 1 ]; then install_system_files; fi
+	if [ $option_system -eq 1 ]; then install_system_dependencies; fi
 	if [ $option_font -eq 1 ]; then install_font; fi
 	if [ $option_nvim -eq 1 ]; then install_nvim; fi
 	if [ $option_config -eq 1 ]; then
