@@ -1,6 +1,3 @@
-[user]
-	name = Wolfgang Holoch
-	email = wolfgang.holoch@gmail.com
 [merge]
 	tool = nvimmerge
 [mergetool "nvimmerge"]
@@ -17,3 +14,5 @@
 	rebase = false
 [alias]
 	tree = log --graph --oneline --decorate --all
+[include]
+  path = ~/.gitconfig.local
