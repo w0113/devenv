@@ -3,17 +3,11 @@
 # Get the directory this script is located in.
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# All config files which should be linked into $HOME.
-CONFIG_FILES=(
-	"gitconfig"
-	"tmux.conf"
-)
-
 #
 # Request the user to enter his/her sudo password so sudo can be used inside this script.
 #
 function request_sudo() {
-	if ! sudo -v -p "[sudo] Please enter password for %u to install all requirements: "; then
+	if ! sudo -v -p "[sudo] Please enter password for %u to install: "; then
 		exit 1
 	fi
 }
@@ -78,15 +72,13 @@ function lnwb() {
 }
 
 #
-# Link all config files listed in CONFIG_FILES to $HOME.
+# Link gitconfig and tmux.conf
 #
 function link_config_files() {
-	for c in ${CONFIG_FILES[@]}; do
-		target="${DIR}/config/${c}"
-		link_name="${HOME}/.${c}"
+	lnwb "${DIR}/config/gitconfig" "${HOME}/.gitconfig"
 
-		lnwb "$target" "$link_name"
-	done
+	mkdir -p "${HOME}/.config/tmux"
+	lnwb "${DIR}/config/tmux.conf" "${HOME}/.config/tmux/tmux.conf"
 }
 
 #
@@ -124,6 +116,8 @@ function install_font_download() {
 # Install nvim.
 #
 function install_nvim() {
+	request_sudo
+
 	runm "Installing nvim" install_nvim_download
 }
 
@@ -131,8 +125,6 @@ function install_nvim() {
 # Download and install nvim.
 #
 function install_nvim_download() {
-	request_sudo
-
 	local nvim_url="https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage"
 	local nvim_dir="/opt/nvim"
 	local nvim_path="${nvim_dir}/nvim.appimage"
@@ -146,6 +138,38 @@ function install_nvim_download() {
 		sudo chmod 0755 "$nvim_path" &&
 		if [ -e "$lpath" ]; then sudo rm "$lpath"; fi &&
 		sudo ln -s "$nvim_path" "$lpath"
+}
+
+#
+# Install alacritty
+#
+function install_alacritty() {
+	request_sudo
+
+	if command -v dnf &>/dev/null; then
+		runm "Installing alacritty with dnf" install_alacritty_dnf
+	elif command -v apt-get &>/dev/null; then
+		runm "Installing alacritty with apt" install_alacritty_apt
+	else
+		echo -e "\e[1;31mERROR: No supported package manager was found!\e[0m"
+	fi
+
+	mkdir -p "${HOME}/.config/alacritty"
+	lnwb "${DIR}/config/alacritty.toml" "${HOME}/.config/alacritty/alacritty.toml"
+}
+
+#
+# Install system dependencies using the apt package manager.
+#
+function install_alacritty_apt() {
+	sudo apt-get -y install alacritty
+}
+
+#
+# Install system dependencies using the dnf package manager.
+#
+function install_alacritty_dnf() {
+	sudo dnf -y install alacritty
 }
 
 #
@@ -184,6 +208,7 @@ function install_system_dependencies_dnf() {
 function install() {
 	if [ $option_system -eq 1 ]; then install_system_dependencies; fi
 	if [ $option_font -eq 1 ]; then install_font; fi
+	if [ $option_alacritty -eq 1 ]; then install_alacritty; fi
 	if [ $option_nvim -eq 1 ]; then install_nvim; fi
 	if [ $option_config -eq 1 ]; then
 		link_config_files
@@ -201,6 +226,7 @@ function usage() {
 	echo "  Usage: $0 [OPTIONS]"
 	echo ""
 	echo "  Options:"
+	echo "    -a  Install Alacritty"
 	echo "    -c  Install Neovim configuration."
 	echo "    -f  Install terminal font."
 	echo "    -n  Install Neovim."
@@ -209,6 +235,7 @@ function usage() {
 	echo ""
 }
 
+option_alacritty=0
 option_config=0
 option_font=0
 option_nvim=0
@@ -223,6 +250,9 @@ fi
 # Parse all user arguments.
 while getopts "acpfsnrh" opt; do
 	case $opt in
+	a)
+		option_alacritty=1
+		;;
 	c)
 		option_config=1
 		;;
