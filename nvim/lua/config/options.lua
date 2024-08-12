@@ -4,3 +4,6 @@
 
 vim.o.textwidth = 120
 vim.o.colorcolumn = "+1"
+
+vim.o.sidescroll = 1
+vim.o.sidescrolloff = 1
