@@ -13,3 +13,6 @@ map("n", "Ä", "}")
 -- Restore behavior of H and L
 unmap("n", "<S-h>")
 unmap("n", "<S-l>")
+
+-- Define mappings listed with which-key
+LazyVim.toggle.map("<leader>uW", LazyVim.toggle("list", { name = "Display Whitespaces" }))
