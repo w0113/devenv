@@ -15,4 +15,4 @@ unmap("n", "<S-h>")
 unmap("n", "<S-l>")
 
 -- Define mappings listed with which-key
-LazyVim.toggle.map("<leader>uW", LazyVim.toggle("list", { name = "Display Whitespaces" }))
+Snacks.toggle.option("list", { name = "Display Whitespaces" }):map("<leader>uW")
