@@ -78,11 +78,6 @@ return {
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
-    opts = { scope = { enabled = true, show_start = false, show_end = false } },
-  },
-
-  {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function(_, opts)
