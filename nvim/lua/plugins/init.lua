@@ -3,9 +3,13 @@ return {
   { "akinsho/bufferline.nvim", enabled = false },
   { "folke/flash.nvim", enabled = false },
   { "mini.indentscope", enabled = false },
-  { "nvimdev/dashboard-nvim", enabled = false },
 
   -- Tweak options of LazyVim default plugins
+  {
+    "folke/snacks.nvim",
+    opts = { dashboard = { enabled = false } },
+  },
+
   {
     "folke/tokyonight.nvim",
     opts = { dim_inactive = true },

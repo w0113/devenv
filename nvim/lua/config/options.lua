@@ -10,3 +10,6 @@ vim.o.sidescrolloff = 1
 
 vim.o.list = false
 vim.o.listchars = "eol:¶,tab:‣ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣"
+
+-- Disable all animations
+vim.g.snacks_animate = false
