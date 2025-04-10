@@ -1,13 +1,16 @@
 return {
   -- Disable some default plugins
   { "akinsho/bufferline.nvim", enabled = false },
-  { "folke/flash.nvim", enabled = false },
-  { "mini.indentscope", enabled = false },
+  { "folke/flash.nvim",        enabled = false },
+  { "mini.indentscope",        enabled = false },
 
   -- Tweak options of LazyVim default plugins
   {
     "folke/snacks.nvim",
-    opts = { dashboard = { enabled = false } },
+    opts = {
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
+    },
   },
 
   {
