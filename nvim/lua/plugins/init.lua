@@ -1,8 +1,8 @@
 return {
   -- Disable some default plugins
   { "akinsho/bufferline.nvim", enabled = false },
-  { "folke/flash.nvim",        enabled = false },
-  { "mini.indentscope",        enabled = false },
+  { "folke/flash.nvim", enabled = false },
+  { "mini.indentscope", enabled = false },
 
   -- Tweak options of LazyVim default plugins
   {
@@ -27,6 +27,15 @@ return {
             preselect = false,
           },
         },
+      },
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "isort", "black" },
       },
     },
   },
