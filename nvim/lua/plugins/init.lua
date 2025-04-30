@@ -6,6 +6,22 @@ return {
 
   -- Tweak options of LazyVim default plugins
   {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    -- Only enable this plugin when the USE_COPILOT environment variable is set.
+    enabled = function()
+      return os.getenv("USE_COPILOT")
+    end,
+    keys = {
+      {
+        "<leader>ae",
+        "<cmd>CopilotChatExplain<cr>",
+        desc = "Explain (CopilotChat)",
+        mode = { "n", "v" },
+      },
+    },
+  },
+
+  {
     "folke/snacks.nvim",
     opts = {
       dashboard = { enabled = false },
