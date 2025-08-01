@@ -99,7 +99,7 @@ function install_font() {
 # Download and install font.
 #
 function install_font_download() {
-  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.zip"
+  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/UbuntuMono.zip"
   local font_dir="${HOME}/.local/share/fonts"
   local tdir="$(mktemp -d)"
   local font_file="${tdir}/font.zip"
@@ -125,7 +125,7 @@ function install_nvim() {
 # Download and install nvim.
 #
 function install_nvim_download() {
-  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.10.2/nvim.appimage"
+  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage"
   local nvim_dir="/opt/nvim"
   local nvim_path="${nvim_dir}/nvim.appimage"
   local tpath="/tmp/nvim.appimage"
@@ -199,7 +199,7 @@ function install_system_dependencies_apt() {
 #
 function install_system_dependencies_dnf() {
   sudo dnf -y install curl fd-find git ripgrep tar tmux &&
-    sudo dnf -y group install "C Development Tools and Libraries"
+    sudo dnf -y group install c-development
 }
 
 #
