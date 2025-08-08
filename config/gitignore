@@ -1,0 +1,7 @@
+# Vim / Neovim specific files
+*~
+*.swp
+*.swo
+
+# Tool specific files
+CLAUDE.md

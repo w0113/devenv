@@ -76,6 +76,7 @@ function lnwb() {
 #
 function link_config_files() {
   lnwb "${DIR}/config/gitconfig" "${HOME}/.gitconfig"
+  lnwb "${DIR}/config/gitignore" "${HOME}/.gitignore"
 
   mkdir -p "${HOME}/.config/tmux"
   lnwb "${DIR}/config/tmux.conf" "${HOME}/.config/tmux/tmux.conf"

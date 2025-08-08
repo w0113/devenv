@@ -7,12 +7,18 @@
 [difftool "nvimdiff"]
 	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [core]
+  autocrlf = input
 	editor = nvim
+	excludesFile = ~/.gitignore
 [push]
-	default = matching
+	default = current
 [pull]
 	rebase = false
 [alias]
 	tree = log --graph --oneline --decorate --all
 [include]
   path = ~/.gitconfig.local
+[branch]
+  autosetuprebase = always
+[color]
+  ui = auto
