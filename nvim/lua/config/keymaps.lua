@@ -14,5 +14,8 @@ unmap("n", "<leader><tab>]")
 map("n", "<leader><tab>n", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>p", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- Mappings for file operations
+map("n", "<leader>fp", "<cmd>let @\" = expand('%:p')<cr>", { desc = "Yank Path of Current File" })
+
 -- Define mappings listed with which-key
 Snacks.toggle.option("list", { name = "Display Whitespaces" }):map("<leader>uW")
