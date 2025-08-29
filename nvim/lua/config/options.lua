@@ -13,5 +13,6 @@ vim.o.list = false
 vim.o.listchars = "eol:¶,tab:‣ ,space:·,trail:·,extends:»,precedes:«,nbsp:␣"
 
 -- LazyVim settings
-vim.g.snacks_animate = false
 vim.g.lazyvim_picker = "telescope"
+vim.g.root_spec = { "cwd" } -- Disables logic to find project root, always uses the current directory
+vim.g.snacks_animate = false
