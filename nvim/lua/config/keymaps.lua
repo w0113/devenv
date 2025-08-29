@@ -17,5 +17,14 @@ map("n", "<leader><tab>p", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 -- Mappings for file operations
 map("n", "<leader>fp", "<cmd>let @\" = expand('%:p')<cr>", { desc = "Yank Path of Current File" })
 
+-- Navigation mappings
+map("n", "ö", "", { desc = "+prev" })
+map("n", "öl", "<cmd>lprevious<cr>", { desc = "Previous Location List Item" })
+map("n", "öq", "<cmd>cprevious<cr>", { desc = "Previous Trouble/Quickfix Item" })
+
+map("n", "ä", "", { desc = "+next" })
+map("n", "äl", "<cmd>lnext<cr>", { desc = "Next Location List Item" })
+map("n", "äq", "<cmd>cnext<cr>", { desc = "Next Trouble/Quickfix Item" })
+
 -- Define mappings listed with which-key
 Snacks.toggle.option("list", { name = "Display Whitespaces" }):map("<leader>uW")
