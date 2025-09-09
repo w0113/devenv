@@ -4,5 +4,6 @@
 *.swo
 
 # Tool specific files
-CLAUDE.md
+.claude/
 ai_docs/
+CLAUDE.md
