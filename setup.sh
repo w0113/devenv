@@ -126,7 +126,7 @@ function install_nvim() {
 # Download and install nvim.
 #
 function install_nvim_download() {
-  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage"
+  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage"
   local nvim_dir="/opt/nvim"
   local nvim_path="${nvim_dir}/nvim.appimage"
   local tpath="/tmp/nvim.appimage"
