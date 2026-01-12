@@ -54,10 +54,19 @@ return {
   { "skywind3000/asyncrun.vim" },
   { "teatek/gdscript-extended-lsp.nvim", opts = { view_type = "floating" } },
   {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        gdscript = {},
+      },
+    },
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         "gdscript",
+        "gdshader",
       })
     end,
   },
