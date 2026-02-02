@@ -8,6 +8,9 @@
 --   --server {project}/server.pipe --remote-send "<C-\><C-N>:e {file}<CR>:call cursor({line}+1,{col})<CR>"
 --
 -- Then make sure that nvim is running and was started with a CWD inside the Godot project, before starting Godot.
+--
+-- When you want to use DAP for debugging, also make sure to enable "Debug with External Editor", see:
+-- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#godot-gdscript
 
 if not os.getenv("NVIM_USE_GODOT") then
   return {}
@@ -76,6 +79,25 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "gdtoolkit",
       })
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    opts = function()
+      local dap = require("dap")
+      dap.adapters.godot = {
+        type = "server",
+        host = "127.0.0.1",
+        port = 6006,
+      }
+      dap.configurations.gdscript = {
+        {
+          type = "godot",
+          request = "launch",
+          name = "Launch scene",
+          project = "${workspaceFolder}",
+        },
+      }
     end,
   },
 }
