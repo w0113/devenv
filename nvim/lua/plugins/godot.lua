@@ -56,31 +56,39 @@ return {
   { "habamax/vim-godot" },
   { "skywind3000/asyncrun.vim" },
   { "teatek/gdscript-extended-lsp.nvim", opts = { view_type = "floating" } },
+
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        gdscript = {},
-      },
-    },
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
+    "folke/snacks.nvim",
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
-        "gdscript",
-        "gdshader",
+      return vim.tbl_deep_extend("force", opts or {}, {
+        picker = {
+          sources = {
+            files = {
+              exclude = {
+                "*.blend*",
+                "*.glb",
+                "*.import",
+                "*.tscn",
+                "*.uid",
+              },
+            },
+          },
+        },
       })
     end,
   },
+
   {
     "mason-org/mason.nvim",
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
-        "gdtoolkit",
+      return vim.tbl_deep_extend("force", opts or {}, {
+        ensure_installed = {
+          "gdtoolkit",
+        },
       })
     end,
   },
+
   {
     "mfussenegger/nvim-dap",
     opts = function()
@@ -98,6 +106,43 @@ return {
           project = "${workspaceFolder}",
         },
       }
+    end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        gdscript = {},
+      },
+    },
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts or {}, {
+        ensure_installed = {
+          "gdscript",
+          "gdshader",
+        },
+      })
+    end,
+  },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts or {}, {
+        filesystem = {
+          filtered_items = {
+            hide_by_pattern = {
+              "*.import",
+              "*.uid",
+            },
+          },
+        },
+      })
     end,
   },
 }
