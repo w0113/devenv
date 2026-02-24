@@ -126,7 +126,7 @@ function install_nvim() {
 # Download and install nvim.
 #
 function install_nvim_download() {
-  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage"
+  local nvim_url="https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-x86_64.appimage"
   local nvim_dir="/opt/nvim"
   local nvim_path="${nvim_dir}/nvim.appimage"
   local tpath="/tmp/nvim.appimage"
@@ -199,7 +199,7 @@ function install_system_dependencies_apt() {
 # Install system dependencies using the dnf package manager.
 #
 function install_system_dependencies_dnf() {
-  sudo dnf -y install curl fd-find git ripgrep tar tmux &&
+  sudo dnf -y install curl fd-find fzf git ripgrep tar tmux tree-sitter-cli &&
     sudo dnf -y group install c-development
 }
 
