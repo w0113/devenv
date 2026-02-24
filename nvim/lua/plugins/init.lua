@@ -8,7 +8,6 @@ return {
     "folke/snacks.nvim",
     opts = {
       dashboard = { enabled = false },
-      explorer = { enabled = false },
     },
   },
 
@@ -51,6 +50,26 @@ return {
         { "filename", path = 1 },
       }
     end,
+  },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      {
+        "s1n7ax/nvim-window-picker",
+        name = "window-picker",
+        event = "VeryLazy",
+        version = "2.*",
+        opts = { hint = "floating-big-letter" },
+      },
+    },
+    opts = {
+      filesystem = {
+        filtered_items = {
+          hide_by_pattern = {},
+        },
+      },
+    },
   },
 
   {
