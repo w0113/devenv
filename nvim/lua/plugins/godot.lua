@@ -72,6 +72,15 @@ return {
                 "*.uid",
               },
             },
+            grep = {
+              exclude = {
+                "*.blend*",
+                "*.glb",
+                "*.import",
+                "*.tscn",
+                "*.uid",
+              },
+            },
           },
         },
       })
