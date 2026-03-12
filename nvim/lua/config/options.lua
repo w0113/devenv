@@ -3,6 +3,8 @@
 -- Add any additional options here
 
 -- Neovim settings
+vim.g.maplocalleader = ","
+
 vim.o.textwidth = 120
 vim.o.colorcolumn = "+1"
 
